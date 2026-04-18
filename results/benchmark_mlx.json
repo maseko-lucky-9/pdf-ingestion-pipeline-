@@ -1,0 +1,38 @@
+{
+  "cpu": [
+    {
+      "backend": "cpu",
+      "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/mixed_content.pdf",
+      "time_s": 131.88527383399196,
+      "pages": 1,
+      "peak_memory_mb": 30.738585472106934,
+      "pages_per_second": 0.0075823476793833
+    },
+    {
+      "backend": "cpu",
+      "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/formula_heavy.pdf",
+      "time_s": 2.8244589169917163,
+      "pages": 1,
+      "peak_memory_mb": 18.356532096862793,
+      "pages_per_second": 0.3540501134514936
+    },
+    {
+      "backend": "cpu",
+      "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/multi_page_table.pdf",
+      "time_s": 6.350822082982631,
+      "pages": 3,
+      "peak_memory_mb": 27.537853240966797,
+      "pages_per_second": 0.47237978970292066
+    },
+    {
+      "backend": "cpu",
+      "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/single_page_table.pdf",
+      "time_s": 2.972810000006575,
+      "pages": 1,
+      "peak_memory_mb": 20.020751953125,
+      "pages_per_second": 0.33638207621670685
+    }
+  ],
+  "mlx": "not_available",
+  "speedup": "not_measured"
+}

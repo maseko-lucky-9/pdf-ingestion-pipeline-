@@ -1,0 +1,17 @@
+Hardware:
+
+    Hardware Overview:
+
+      Model Name: MacBook Pro
+      Model Identifier: Mac17,9
+      Model Number: MGDR4ZE/A
+      Chip: Apple M5 Pro
+      Total Number of Cores: 15 (5 Super and 10 Performance)
+      Memory: 24 GB
+      System Firmware Version: 18000.101.7
+      OS Loader Version: 18000.101.7
+      Serial Number (system): LNK0GHF61J
+      Hardware UUID: F124D8DF-B90C-5456-B994-E5E5B7C35C68
+      Provisioning UDID: 00006050-001328A80251401C
+      Activation Lock Status: Enabled
+

@@ -1,0 +1,23 @@
+{
+  "fixed_512": {
+    "num_chunks": 86,
+    "avg_tokens": 511.9767441860465,
+    "min_tokens": 510,
+    "max_tokens": 512,
+    "std_tokens": 0.21440801063471832
+  },
+  "fixed_900": {
+    "num_chunks": 49,
+    "avg_tokens": 898.5714285714286,
+    "min_tokens": 830,
+    "max_tokens": 900,
+    "std_tokens": 9.89743318610787
+  },
+  "adaptive": {
+    "num_chunks": 50,
+    "avg_tokens": 879.74,
+    "min_tokens": 879,
+    "max_tokens": 881,
+    "std_tokens": 0.5936328831862332
+  }
+}

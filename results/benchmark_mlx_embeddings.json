@@ -1,0 +1,34 @@
+{
+  "benchmark": "native_mlx_embedding_throughput",
+  "num_chunks": 500,
+  "results": [
+    {
+      "model": "mlx-community/bge-small-en-v1.5-bf16",
+      "batch_size": 16,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 1972.4514256966052,
+      "peak_python_mb": 0.5418329238891602,
+      "total_time_s": 0.25349166701198556
+    },
+    {
+      "model": "mlx-community/bge-small-en-v1.5-bf16",
+      "batch_size": 32,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 2306.5926769813,
+      "peak_python_mb": 1.0431947708129883,
+      "total_time_s": 0.2167699589917902
+    },
+    {
+      "model": "mlx-community/bge-small-en-v1.5-bf16",
+      "batch_size": 64,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 2467.7029018356648,
+      "peak_python_mb": 2.092890739440918,
+      "total_time_s": 0.20261758400010876
+    },
+    {
+      "model": "mlx-community/nomic-embed-text-v1.5-4bit",
+      "error": "Model not found for path or HF repo: mlx-community/nomic-embed-text-v1.5-4bit.\nPlease make sure you specified the local path or Hugging Face repo id correctly.\nIf you are trying to access a private or gated Hugging Face repo, make sure you are authenticated:\nhttps://huggingface.co/docs/huggingface_hub/en/guides/cli#huggingface-cli-login"
+    }
+  ]
+}

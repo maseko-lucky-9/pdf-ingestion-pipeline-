@@ -1,0 +1,74 @@
+{
+  "results": [
+    {
+      "device": "cpu",
+      "file": "formula_heavy.pdf",
+      "time_s": 2.921156374999555,
+      "pages": 1,
+      "pages_per_second": 0.34233018422375705,
+      "peak_python_mb": 13.520278930664062
+    },
+    {
+      "device": "cpu",
+      "file": "mixed_content.pdf",
+      "time_s": 2.7940639999869745,
+      "pages": 1,
+      "pages_per_second": 0.35790160855465797,
+      "peak_python_mb": 21.230857849121094
+    },
+    {
+      "device": "cpu",
+      "file": "multi_page_table.pdf",
+      "time_s": 6.354215708008269,
+      "pages": 3,
+      "pages_per_second": 0.47212750366958367,
+      "peak_python_mb": 26.96127986907959
+    },
+    {
+      "device": "cpu",
+      "file": "single_page_table.pdf",
+      "time_s": 2.8481474589789286,
+      "pages": 1,
+      "pages_per_second": 0.35110541655680416,
+      "peak_python_mb": 20.997185707092285
+    },
+    {
+      "device": "mps",
+      "file": "formula_heavy.pdf",
+      "time_s": 2.8792087089968845,
+      "pages": 1,
+      "pages_per_second": 0.34731764907324125,
+      "peak_python_mb": 7.131617546081543
+    },
+    {
+      "device": "mps",
+      "file": "mixed_content.pdf",
+      "time_s": 2.916570374974981,
+      "pages": 1,
+      "pages_per_second": 0.34286846241746466,
+      "peak_python_mb": 21.079768180847168
+    },
+    {
+      "device": "mps",
+      "file": "multi_page_table.pdf",
+      "time_s": 6.022919540992007,
+      "pages": 3,
+      "pages_per_second": 0.49809730639467986,
+      "peak_python_mb": 26.96225070953369
+    },
+    {
+      "device": "mps",
+      "file": "single_page_table.pdf",
+      "time_s": 3.1293762499990407,
+      "pages": 1,
+      "pages_per_second": 0.3195524986809453,
+      "peak_python_mb": 20.854738235473633
+    }
+  ],
+  "speedups": {
+    "formula_heavy.pdf": 1.014569164740157,
+    "mixed_content.pdf": 0.9579964275715249,
+    "multi_page_table.pdf": 1.055005909469894,
+    "single_page_table.pdf": 0.9101326371285018
+  }
+}

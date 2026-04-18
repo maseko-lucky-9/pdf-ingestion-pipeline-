@@ -1,0 +1,32 @@
+[
+  {
+    "query_id": "q1_photosynthesis",
+    "query": "How do plants convert sunlight into chemical energy?",
+    "relevant_indices": [0, 1, 2, 3, 4],
+    "topic": "photosynthesis"
+  },
+  {
+    "query_id": "q2_neural_networks",
+    "query": "What are the components of a neural network and how does backpropagation work?",
+    "relevant_indices": [5, 6, 7, 8, 9],
+    "topic": "neural_networks"
+  },
+  {
+    "query_id": "q3_options_pricing",
+    "query": "How are financial options priced using stochastic models?",
+    "relevant_indices": [10, 11, 12, 13, 14],
+    "topic": "options_pricing"
+  },
+  {
+    "query_id": "q4_climate_change",
+    "query": "What are the primary drivers of greenhouse gas accumulation in the atmosphere?",
+    "relevant_indices": [15, 16, 17, 18, 19],
+    "topic": "climate_change"
+  },
+  {
+    "query_id": "q5_immune_system",
+    "query": "How does the adaptive immune system recognize and respond to pathogens?",
+    "relevant_indices": [20, 21, 22, 23, 24],
+    "topic": "immune_system"
+  }
+]

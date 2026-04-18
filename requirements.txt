@@ -1,0 +1,12 @@
+docling==2.15.0
+pypdfium2>=0.0.0
+pymupdf>=1.24.0
+ollama>=0.1.0
+tiktoken>=0.5.0
+psutil>=5.9.0
+reportlab>=4.0.0
+fpdf2>=2.7.0
+tqdm>=4.66.0
+numpy>=1.24.0
+faiss-cpu>=1.7.0
+scikit-learn>=1.3.0

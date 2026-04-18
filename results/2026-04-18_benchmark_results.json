@@ -1,0 +1,289 @@
+{
+  "compiled_at": "2026-04-18T19:50:48.081476",
+  "hardware": {
+    "spec": "Hardware:\n\n    Hardware Overview:\n\n      Model Name: MacBook Pro\n      Model Identifier: Mac17,9\n      Model Number: MGDR4ZE/A\n      Chip: Apple M5 Pro\n      Total Number of Cores: 15 (5 Super and 10 Performance)\n      Memory: 24 GB\n      System Firmware Version: 18000.101.7\n      OS Loader Version: 18000.101.7\n      Serial Number (system): LNK0GHF61J\n      Hardware UUID: F124D8DF-B90C-5456-B994-E5E5B7C35C68\n      Provisioning UDID: 00006050-001328A80251401C\n      Activation Lock Status: Enabled",
+    "git_commit": ""
+  },
+  "benchmarks": {
+    "embeddings": {
+      "benchmark": "embedding_throughput",
+      "num_chunks": 500,
+      "results": [
+        {
+          "model": "nomic-embed-text",
+          "batch_size": 16,
+          "total_chunks": 500,
+          "throughput_emb_per_sec": 17.32464704040126,
+          "peak_memory_mb": 5.175585746765137,
+          "total_time_s": 28.860616833000677
+        },
+        {
+          "model": "nomic-embed-text",
+          "batch_size": 32,
+          "total_chunks": 500,
+          "throughput_emb_per_sec": 17.536411033301356,
+          "peak_memory_mb": 7.225933074951172,
+          "total_time_s": 28.512105416011764
+        },
+        {
+          "model": "nomic-embed-text",
+          "batch_size": 64,
+          "total_chunks": 500,
+          "throughput_emb_per_sec": 17.607608355367447,
+          "peak_memory_mb": 10.874923706054688,
+          "total_time_s": 28.396815166983288
+        },
+        {
+          "model": "embeddinggemma",
+          "batch_size": 16,
+          "total_chunks": 500,
+          "throughput_emb_per_sec": 15.568093994672076,
+          "peak_memory_mb": 6.625600814819336,
+          "total_time_s": 32.11696949999896
+        },
+        {
+          "model": "embeddinggemma",
+          "batch_size": 32,
+          "total_chunks": 500,
+          "throughput_emb_per_sec": 16.011286847457217,
+          "peak_memory_mb": 9.1880464553833,
+          "total_time_s": 31.227970915992046
+        },
+        {
+          "model": "embeddinggemma",
+          "batch_size": 64,
+          "total_chunks": 500,
+          "throughput_emb_per_sec": 16.279814786675075,
+          "peak_memory_mb": 9.896263122558594,
+          "total_time_s": 30.712880124978255
+        },
+        {
+          "model": "bge-m3",
+          "batch_size": 16,
+          "total_chunks": 500,
+          "throughput_emb_per_sec": 5.000315130260135,
+          "peak_memory_mb": 5.981606483459473,
+          "total_time_s": 99.9936977920006
+        },
+        {
+          "model": "bge-m3",
+          "batch_size": 32,
+          "total_chunks": 500,
+          "throughput_emb_per_sec": 5.0515327206472165,
+          "peak_memory_mb": 8.912596702575684,
+          "total_time_s": 98.97985970799346
+        },
+        {
+          "model": "bge-m3",
+          "batch_size": 64,
+          "total_chunks": 500,
+          "throughput_emb_per_sec": 5.079463110332652,
+          "peak_memory_mb": 13.489704132080078,
+          "total_time_s": 98.43560020800214
+        }
+      ],
+      "status": "complete"
+    },
+    "mlx": {
+      "cpu": [
+        {
+          "backend": "cpu",
+          "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/mixed_content.pdf",
+          "time_s": 131.88527383399196,
+          "pages": 1,
+          "peak_memory_mb": 30.738585472106934,
+          "pages_per_second": 0.0075823476793833
+        },
+        {
+          "backend": "cpu",
+          "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/formula_heavy.pdf",
+          "time_s": 2.8244589169917163,
+          "pages": 1,
+          "peak_memory_mb": 18.356532096862793,
+          "pages_per_second": 0.3540501134514936
+        },
+        {
+          "backend": "cpu",
+          "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/multi_page_table.pdf",
+          "time_s": 6.350822082982631,
+          "pages": 3,
+          "peak_memory_mb": 27.537853240966797,
+          "pages_per_second": 0.47237978970292066
+        },
+        {
+          "backend": "cpu",
+          "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/single_page_table.pdf",
+          "time_s": 2.972810000006575,
+          "pages": 1,
+          "peak_memory_mb": 20.020751953125,
+          "pages_per_second": 0.33638207621670685
+        }
+      ],
+      "mlx": "not_available",
+      "speedup": "not_measured",
+      "status": "complete"
+    },
+    "tables": {
+      "single_page_table": {
+        "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/single_page_table.pdf",
+        "extraction_time_s": 3.8300368750060443,
+        "peak_memory_mb": 29.998096466064453,
+        "tables_found": 1,
+        "tables": [
+          {
+            "index": 0,
+            "num_rows": 11,
+            "num_cols": 4,
+            "pages": [
+              1
+            ],
+            "is_multi_page": false,
+            "quality": {
+              "has_header_row": true,
+              "has_separator_row": true,
+              "row_count": 12,
+              "is_complete": true,
+              "preview": "|   ID | Name    | Value   | Category   |\n|------|---------|---------|------------|\n|    1 | Item 1  | $754    | A          |\n|    2 | Item 2  | $125    | C          |\n|    3 | Item 3  | $381    | A  ..."
+            }
+          }
+        ]
+      },
+      "multi_page_table": {
+        "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/multi_page_table.pdf",
+        "extraction_time_s": 6.329482166998787,
+        "peak_memory_mb": 26.724395751953125,
+        "tables_found": 3,
+        "tables": [
+          {
+            "index": 0,
+            "num_rows": 32,
+            "num_cols": 6,
+            "pages": [
+              1
+            ],
+            "is_multi_page": false,
+            "quality": {
+              "has_header_row": true,
+              "has_separator_row": true,
+              "row_count": 33,
+              "is_complete": true,
+              "preview": "|   ID | Name    | Value   | Category   | Status   | Notes   |\n|------|---------|---------|------------|----------|---------|\n|    1 | Item 1  | $3911   | A          | Pending  | Note 1  |\n|    2 | It..."
+            }
+          },
+          {
+            "index": 1,
+            "num_rows": 34,
+            "num_cols": 6,
+            "pages": [
+              2
+            ],
+            "is_multi_page": false,
+            "quality": {
+              "has_header_row": true,
+              "has_separator_row": true,
+              "row_count": 35,
+              "is_complete": true,
+              "preview": "|   32 | Item 32   | $2366   | D   | Active   | Note 32   |\n|------|-----------|---------|-----|----------|-----------|\n|   33 | Item 33   | $871    | A   | Active   | Note 33   |\n|   34 | Item 34   |..."
+            }
+          },
+          {
+            "index": 2,
+            "num_rows": 34,
+            "num_cols": 6,
+            "pages": [
+              3
+            ],
+            "is_multi_page": false,
+            "quality": {
+              "has_header_row": true,
+              "has_separator_row": true,
+              "row_count": 35,
+              "is_complete": true,
+              "preview": "|   67 | Item 67   | $1645   | A   | Pending   | Note 67   |\n|------|-----------|---------|-----|-----------|-----------|\n|   68 | Item 68   | $7162   | C   | Inactive  | Note 68   |\n|   69 | Item 69 ..."
+            }
+          }
+        ]
+      },
+      "status": "complete"
+    },
+    "quantization": {
+      "model": "nomic-embed-text",
+      "num_chunks": 200,
+      "per_query": [
+        {
+          "precision_5": 0.2,
+          "recall_5": 0.2,
+          "precision_10": 0.1,
+          "recall_10": 0.2,
+          "precision_20": 0.05,
+          "recall_20": 0.2,
+          "mrr": 0.3333333333333333,
+          "query_id": "query_1"
+        },
+        {
+          "precision_5": 0.0,
+          "recall_5": 0.0,
+          "precision_10": 0.0,
+          "recall_10": 0.0,
+          "precision_20": 0.0,
+          "recall_20": 0.0,
+          "mrr": 0.0,
+          "query_id": "query_2"
+        },
+        {
+          "precision_5": 0.2,
+          "recall_5": 0.2,
+          "precision_10": 0.2,
+          "recall_10": 0.4,
+          "precision_20": 0.15,
+          "recall_20": 0.6,
+          "mrr": 0.2,
+          "query_id": "query_3"
+        }
+      ],
+      "aggregate": {
+        "precision_5_avg": 0.13333333333333333,
+        "recall_10_avg": 0.20000000000000004,
+        "mrr_avg": 0.17777777777777778
+      },
+      "status": "complete"
+    },
+    "chunking": {
+      "fixed_512": {
+        "num_chunks": 86,
+        "avg_tokens": 511.9767441860465,
+        "min_tokens": 510,
+        "max_tokens": 512,
+        "std_tokens": 0.21440801063471832
+      },
+      "fixed_900": {
+        "num_chunks": 49,
+        "avg_tokens": 898.5714285714286,
+        "min_tokens": 830,
+        "max_tokens": 900,
+        "std_tokens": 9.89743318610787
+      },
+      "adaptive": {
+        "num_chunks": 50,
+        "avg_tokens": 879.74,
+        "min_tokens": 879,
+        "max_tokens": 881,
+        "std_tokens": 0.5936328831862332
+      },
+      "status": "complete"
+    },
+    "pipeline": {
+      "pdf_path": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/mixed_content.pdf",
+      "num_pages": 1,
+      "num_chunks": 6,
+      "extraction_time_s": 5.944947374984622,
+      "embedding_time_s": 0.11434654198819771,
+      "indexing_time_s": 8.420800440944731e-05,
+      "query_latency_p50_s": 0.010719834011979401,
+      "query_latency_max_s": 0.012726749991998076,
+      "peak_memory_mb": 30.377448081970215,
+      "total_time_s": 6.167573081969749,
+      "status": "complete"
+    }
+  }
+}

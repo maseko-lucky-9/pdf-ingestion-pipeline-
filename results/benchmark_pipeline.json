@@ -1,0 +1,12 @@
+{
+  "pdf_path": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/mixed_content.pdf",
+  "num_pages": 1,
+  "num_chunks": 6,
+  "extraction_time_s": 5.944947374984622,
+  "embedding_time_s": 0.11434654198819771,
+  "indexing_time_s": 8.420800440944731e-05,
+  "query_latency_p50_s": 0.010719834011979401,
+  "query_latency_max_s": 0.012726749991998076,
+  "peak_memory_mb": 30.377448081970215,
+  "total_time_s": 6.167573081969749
+}

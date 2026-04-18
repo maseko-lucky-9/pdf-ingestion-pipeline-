@@ -1,0 +1,78 @@
+{
+  "benchmark": "embedding_throughput",
+  "num_chunks": 500,
+  "results": [
+    {
+      "model": "nomic-embed-text",
+      "batch_size": 16,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 17.32464704040126,
+      "peak_memory_mb": 5.175585746765137,
+      "total_time_s": 28.860616833000677
+    },
+    {
+      "model": "nomic-embed-text",
+      "batch_size": 32,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 17.536411033301356,
+      "peak_memory_mb": 7.225933074951172,
+      "total_time_s": 28.512105416011764
+    },
+    {
+      "model": "nomic-embed-text",
+      "batch_size": 64,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 17.607608355367447,
+      "peak_memory_mb": 10.874923706054688,
+      "total_time_s": 28.396815166983288
+    },
+    {
+      "model": "embeddinggemma",
+      "batch_size": 16,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 15.568093994672076,
+      "peak_memory_mb": 6.625600814819336,
+      "total_time_s": 32.11696949999896
+    },
+    {
+      "model": "embeddinggemma",
+      "batch_size": 32,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 16.011286847457217,
+      "peak_memory_mb": 9.1880464553833,
+      "total_time_s": 31.227970915992046
+    },
+    {
+      "model": "embeddinggemma",
+      "batch_size": 64,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 16.279814786675075,
+      "peak_memory_mb": 9.896263122558594,
+      "total_time_s": 30.712880124978255
+    },
+    {
+      "model": "bge-m3",
+      "batch_size": 16,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 5.000315130260135,
+      "peak_memory_mb": 5.981606483459473,
+      "total_time_s": 99.9936977920006
+    },
+    {
+      "model": "bge-m3",
+      "batch_size": 32,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 5.0515327206472165,
+      "peak_memory_mb": 8.912596702575684,
+      "total_time_s": 98.97985970799346
+    },
+    {
+      "model": "bge-m3",
+      "batch_size": 64,
+      "total_chunks": 500,
+      "throughput_emb_per_sec": 5.079463110332652,
+      "peak_memory_mb": 13.489704132080078,
+      "total_time_s": 98.43560020800214
+    }
+  ]
+}

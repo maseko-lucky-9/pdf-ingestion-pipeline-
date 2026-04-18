@@ -1,0 +1,40 @@
+[
+  {
+    "file": "single_page_table.pdf",
+    "raw_count": 1,
+    "logical_count": 1,
+    "logical": [
+      {
+        "num_rows": 11,
+        "num_cols": 4,
+        "pages": [
+          1
+        ],
+        "source_table_indices": [
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "file": "multi_page_table.pdf",
+    "raw_count": 3,
+    "logical_count": 1,
+    "logical": [
+      {
+        "num_rows": 100,
+        "num_cols": 6,
+        "pages": [
+          1,
+          2,
+          3
+        ],
+        "source_table_indices": [
+          0,
+          1,
+          2
+        ]
+      }
+    ]
+  }
+]

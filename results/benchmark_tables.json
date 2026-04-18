@@ -1,0 +1,82 @@
+{
+  "single_page_table": {
+    "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/single_page_table.pdf",
+    "extraction_time_s": 3.8300368750060443,
+    "peak_memory_mb": 29.998096466064453,
+    "tables_found": 1,
+    "tables": [
+      {
+        "index": 0,
+        "num_rows": 11,
+        "num_cols": 4,
+        "pages": [
+          1
+        ],
+        "is_multi_page": false,
+        "quality": {
+          "has_header_row": true,
+          "has_separator_row": true,
+          "row_count": 12,
+          "is_complete": true,
+          "preview": "|   ID | Name    | Value   | Category   |\n|------|---------|---------|------------|\n|    1 | Item 1  | $754    | A          |\n|    2 | Item 2  | $125    | C          |\n|    3 | Item 3  | $381    | A  ..."
+        }
+      }
+    ]
+  },
+  "multi_page_table": {
+    "file": "/Users/ltmas/Repo/pdf-ingestion-pipeline/data/sample_pdfs/multi_page_table.pdf",
+    "extraction_time_s": 6.329482166998787,
+    "peak_memory_mb": 26.724395751953125,
+    "tables_found": 3,
+    "tables": [
+      {
+        "index": 0,
+        "num_rows": 32,
+        "num_cols": 6,
+        "pages": [
+          1
+        ],
+        "is_multi_page": false,
+        "quality": {
+          "has_header_row": true,
+          "has_separator_row": true,
+          "row_count": 33,
+          "is_complete": true,
+          "preview": "|   ID | Name    | Value   | Category   | Status   | Notes   |\n|------|---------|---------|------------|----------|---------|\n|    1 | Item 1  | $3911   | A          | Pending  | Note 1  |\n|    2 | It..."
+        }
+      },
+      {
+        "index": 1,
+        "num_rows": 34,
+        "num_cols": 6,
+        "pages": [
+          2
+        ],
+        "is_multi_page": false,
+        "quality": {
+          "has_header_row": true,
+          "has_separator_row": true,
+          "row_count": 35,
+          "is_complete": true,
+          "preview": "|   32 | Item 32   | $2366   | D   | Active   | Note 32   |\n|------|-----------|---------|-----|----------|-----------|\n|   33 | Item 33   | $871    | A   | Active   | Note 33   |\n|   34 | Item 34   |..."
+        }
+      },
+      {
+        "index": 2,
+        "num_rows": 34,
+        "num_cols": 6,
+        "pages": [
+          3
+        ],
+        "is_multi_page": false,
+        "quality": {
+          "has_header_row": true,
+          "has_separator_row": true,
+          "row_count": 35,
+          "is_complete": true,
+          "preview": "|   67 | Item 67   | $1645   | A   | Pending   | Note 67   |\n|------|-----------|---------|-----|-----------|-----------|\n|   68 | Item 68   | $7162   | C   | Inactive  | Note 68   |\n|   69 | Item 69 ..."
+        }
+      }
+    ]
+  }
+}
