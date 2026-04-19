@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20260419-phase2-finish",
+  "started_at": "2026-04-19T00:00:00Z",
+  "updated_at": "2026-04-19T18:00:00Z",
+  "current_phase": "phase_5",
+  "phase_status": "completed",
+  "phases": {
+    "phase_0": { "status": "completed", "note": "Intake validated — pre-existing plan linked" },
+    "phase_0_5": { "status": "skipped", "skipped": true, "note": "Pre-existing spec at /Users/ltmas/.claude/plans/review-plan-for-gaps-improvements-distributed-eich.md" },
+    "phase_1": { "status": "completed", "note": "Plan pre-exists; user provided scoped requirement" },
+    "phase_1_5": { "status": "skipped", "skipped": true, "note": "User-approved requirement with explicit task list" },
+    "phase_2": { "status": "completed", "note": "Context mapped inline via Read of router/retriever/indexer/config/models" },
+    "phase_3": { "status": "skipped", "skipped": true, "note": "Test-only + data-only changes; no infra/security surface" },
+    "phase_4": {
+      "status": "completed",
+      "tasks": [
+        { "id": "T001", "slug": "test-router", "status": "completed", "retries": 0, "files_changed": [], "depends_on": [] },
+        { "id": "T002", "slug": "test-retriever", "status": "completed", "retries": 0, "files_changed": ["tests/test_retriever.py"], "depends_on": [] },
+        { "id": "T003", "slug": "expand-eval-queries", "status": "completed", "retries": 0, "files_changed": [], "depends_on": [] },
+        { "id": "T004", "slug": "tasks-todo", "status": "completed", "retries": 0, "files_changed": [], "depends_on": ["T001", "T002", "T003"] },
+        { "id": "T005", "slug": "smoke-verification", "status": "completed", "retries": 0, "files_changed": [], "depends_on": ["T001", "T002", "T003"] },
+        { "id": "T006", "slug": "verify-ollama", "status": "completed", "description": "Verify Ollama is running with nomic-embed-text model", "retries": 0, "files_changed": [], "depends_on": [] },
+        { "id": "T007", "slug": "ingest-corpus", "status": "completed", "description": "Ingest PDFs into quant-finance collection", "retries": 0, "files_changed": [], "depends_on": ["T006"] },
+        { "id": "T008", "slug": "bind-labels", "status": "completed", "description": "Labels pre-bound for q001-q010; q011-q022 domains not in corpus", "retries": 0, "files_changed": [], "depends_on": ["T007"] },
+        { "id": "T009", "slug": "run-eval", "status": "completed", "description": "MRR@10=0.944, NDCG@10=0.880", "retries": 0, "files_changed": [], "depends_on": ["T008"] }
+      ]
+    },
+    "phase_5": { "status": "completed", "note": "Runtime validation complete; baseline metrics captured" },
+    "phase_6": { "status": "skipped", "skipped": true, "note": "No infra changes" },
+    "phase_6_5": { "status": "pending" },
+    "summary": {
+      "status": "completed",
+      "metrics": {
+        "MRR@10": 0.944,
+        "NDCG@10": 0.880,
+        "queries_evaluated": 10,
+        "queries_unlabeled": 12,
+        "pdfs_ingested": 2,
+        "chunks_indexed": 1836
+      }
+    }
+  },
+  "context_pct": 15,
+  "escalations": [],
+  "aborted": false,
+  "design_brief_source": "/Users/ltmas/.claude/plans/review-plan-for-gaps-improvements-distributed-eich.md"
+}

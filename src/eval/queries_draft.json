@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q001",
+    "query": "What is the RSI indicator and how is it calculated?",
+    "expected_source": "TSaM RSI relative strength",
+    "relevant_docids": []
+  },
+  {
+    "id": "q002",
+    "query": "How does exponential moving average differ from simple moving average?",
+    "expected_source": "TSaM exponential moving average",
+    "relevant_docids": []
+  },
+  {
+    "id": "q003",
+    "query": "What is mean reversion and how is it used in pairs trading?",
+    "expected_source": "Chan quantitative trading mean reversion pairs",
+    "relevant_docids": []
+  },
+  {
+    "id": "q004",
+    "query": "Explain the Sharpe ratio and its limitations as a performance metric.",
+    "expected_source": "Chan quantitative trading Sharpe ratio performance",
+    "relevant_docids": []
+  },
+  {
+    "id": "q005",
+    "query": "What is the Kalman filter and how is it applied to spread trading?",
+    "expected_source": "Chan quantitative trading Kalman filter",
+    "relevant_docids": []
+  },
+  {
+    "id": "q006",
+    "query": "Describe the MACD indicator and how trading signals are generated from it.",
+    "expected_source": "TSaM MACD moving average convergence divergence",
+    "relevant_docids": []
+  },
+  {
+    "id": "q007",
+    "query": "What is cointegration and why does it matter for statistical arbitrage?",
+    "expected_source": "Chan quantitative trading cointegration",
+    "relevant_docids": []
+  },
+  {
+    "id": "q008",
+    "query": "How do Bollinger Bands work and what do they signal?",
+    "expected_source": "TSaM Bollinger bands volatility",
+    "relevant_docids": []
+  },
+  {
+    "id": "q009",
+    "query": "What is the information ratio and how does it differ from the Sharpe ratio?",
+    "expected_source": "Chan quantitative trading information ratio",
+    "relevant_docids": []
+  },
+  {
+    "id": "q010",
+    "query": "Explain the concept of drawdown and how it is used to measure risk.",
+    "expected_source": "Chan quantitative trading drawdown risk",
+    "relevant_docids": []
+  }
+]

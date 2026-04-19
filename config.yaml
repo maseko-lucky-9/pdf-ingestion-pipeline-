@@ -1,0 +1,24 @@
+paths:
+  collections_root: ./collections
+  cache_dir: ./.cache
+
+ollama:
+  host: http://localhost:11434
+  embed_model: nomic-embed-text
+  embed_dim: 768
+  batch_size: 64
+
+chunker:
+  max_tokens: 900
+  overlap_pct: 0.15
+
+rerank:
+  enabled: false  # ms-marco reranker hurts on quant-finance domain; re-enable with domain-tuned model
+  model: cross-encoder/ms-marco-MiniLM-L-6-v2
+  device: auto  # auto | mps | cuda | cpu
+
+retrieval:
+  bm25_k: 50
+  vector_k: 50
+  rrf_k: 60
+  final_k: 10

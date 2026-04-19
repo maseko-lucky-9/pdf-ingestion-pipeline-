@@ -1,0 +1,56 @@
+[
+  {
+    "id": "q001",
+    "query": "What is the RSI indicator and how is it calculated?",
+    "expected_source": "TSaM RSI relative strength",
+    "relevant_docids": ["2b5ae26fde3f", "a714ae741ca8", "87ee21bc96e9"]
+  },
+  {
+    "id": "q002",
+    "query": "How does exponential moving average differ from simple moving average?",
+    "expected_source": "TSaM exponential moving average",
+    "relevant_docids": ["55af5c6fd54f", "88c7b479d5e7", "ef3893848aac"]
+  },
+  {
+    "id": "q003",
+    "query": "What is mean reversion and how is it used in pairs trading?",
+    "expected_source": "Chan quantitative trading mean reversion pairs",
+    "relevant_docids": ["90d4765d49e1", "ef92795037c2", "38d83e75858c"]
+  },
+  {
+    "id": "q004",
+    "query": "Explain the Sharpe ratio and its limitations as a performance metric.",
+    "expected_source": "Chan quantitative trading Sharpe ratio performance",
+    "relevant_docids": ["0ed901aa2d46", "e065242fcec2", "d75b8a8a8971"]
+  },
+  {
+    "id": "q006",
+    "query": "Describe the MACD indicator and how trading signals are generated from it.",
+    "expected_source": "TSaM MACD moving average convergence divergence",
+    "relevant_docids": ["a6500422962e", "e651e14881e8", "33b4a181bdc1"]
+  },
+  {
+    "id": "q007",
+    "query": "What is cointegration and why does it matter for statistical arbitrage?",
+    "expected_source": "Chan quantitative trading cointegration",
+    "relevant_docids": ["8f1a53b38535", "eedf6ee4eb50", "d0bc6d11c358"]
+  },
+  {
+    "id": "q008",
+    "query": "How do Bollinger Bands work and what do they signal?",
+    "expected_source": "TSaM Bollinger bands volatility",
+    "relevant_docids": ["7dfceb65645b", "d39a2bc7aa22"]
+  },
+  {
+    "id": "q009",
+    "query": "What is the information ratio and how does it differ from the Sharpe ratio?",
+    "expected_source": "Chan quantitative trading information ratio",
+    "relevant_docids": ["0ed901aa2d46", "e065242fcec2", "98ebaf9c0c3e"]
+  },
+  {
+    "id": "q010",
+    "query": "Explain the concept of drawdown and how it is used to measure risk.",
+    "expected_source": "Chan quantitative trading drawdown risk",
+    "relevant_docids": ["bf5b355d725a", "ebaab5687ed5", "40187a87432a", "dd4493d50c55"]
+  }
+]

@@ -1,0 +1,149 @@
+[
+  {
+    "id": "q001",
+    "query": "What is the RSI indicator and how is it calculated?",
+    "domain": "technical-analysis",
+    "expected_source": "TSaM RSI relative strength",
+    "relevant_docids": ["2b5ae26fde3f", "a714ae741ca8", "87ee21bc96e9"]
+  },
+  {
+    "id": "q002",
+    "query": "How does exponential moving average differ from simple moving average?",
+    "domain": "technical-analysis",
+    "expected_source": "TSaM exponential moving average",
+    "relevant_docids": ["55af5c6fd54f", "88c7b479d5e7", "ef3893848aac"]
+  },
+  {
+    "id": "q003",
+    "query": "What is mean reversion and how is it used in pairs trading?",
+    "domain": "algorithmic",
+    "expected_source": "Chan quantitative trading mean reversion pairs",
+    "relevant_docids": ["90d4765d49e1", "ef92795037c2", "38d83e75858c"]
+  },
+  {
+    "id": "q004",
+    "query": "Explain the Sharpe ratio and its limitations as a performance metric.",
+    "domain": "algorithmic",
+    "expected_source": "Chan quantitative trading Sharpe ratio performance",
+    "relevant_docids": ["0ed901aa2d46", "e065242fcec2", "d75b8a8a8971"]
+  },
+  {
+    "id": "q006",
+    "query": "Describe the MACD indicator and how trading signals are generated from it.",
+    "domain": "technical-analysis",
+    "expected_source": "TSaM MACD moving average convergence divergence",
+    "relevant_docids": ["a6500422962e", "e651e14881e8", "33b4a181bdc1"]
+  },
+  {
+    "id": "q007",
+    "query": "What is cointegration and why does it matter for statistical arbitrage?",
+    "domain": "algorithmic",
+    "expected_source": "Chan quantitative trading cointegration",
+    "relevant_docids": ["8f1a53b38535", "eedf6ee4eb50", "d0bc6d11c358"]
+  },
+  {
+    "id": "q008",
+    "query": "How do Bollinger Bands work and what do they signal?",
+    "domain": "technical-analysis",
+    "expected_source": "TSaM Bollinger bands volatility",
+    "relevant_docids": ["7dfceb65645b", "d39a2bc7aa22"]
+  },
+  {
+    "id": "q009",
+    "query": "What is the information ratio and how does it differ from the Sharpe ratio?",
+    "domain": "algorithmic",
+    "expected_source": "Chan quantitative trading information ratio",
+    "relevant_docids": ["0ed901aa2d46", "e065242fcec2", "98ebaf9c0c3e"]
+  },
+  {
+    "id": "q010",
+    "query": "Explain the concept of drawdown and how it is used to measure risk.",
+    "domain": "algorithmic",
+    "expected_source": "Chan quantitative trading drawdown risk",
+    "relevant_docids": ["bf5b355d725a", "ebaab5687ed5", "40187a87432a", "dd4493d50c55"]
+  },
+  {
+    "id": "q011",
+    "query": "How does the carry trade work in the foreign exchange market and what are its risks?",
+    "domain": "forex",
+    "expected_source": "forex carry trade interest rate differential",
+    "relevant_docids": []
+  },
+  {
+    "id": "q012",
+    "query": "What is a pip and how is position size determined by lot conventions in forex?",
+    "domain": "forex",
+    "expected_source": "forex pip lot position sizing",
+    "relevant_docids": []
+  },
+  {
+    "id": "q013",
+    "query": "How do central bank interest rate decisions move currency pairs?",
+    "domain": "forex",
+    "expected_source": "forex central bank policy rate impact",
+    "relevant_docids": []
+  },
+  {
+    "id": "q014",
+    "query": "Explain currency correlation and how EUR/USD and GBP/USD tend to co-move.",
+    "domain": "forex",
+    "expected_source": "forex currency correlation major pairs",
+    "relevant_docids": []
+  },
+  {
+    "id": "q015",
+    "query": "What feature engineering techniques are commonly used for ML-based price prediction models?",
+    "domain": "ml-finance",
+    "expected_source": "ML finance feature engineering time series",
+    "relevant_docids": []
+  },
+  {
+    "id": "q016",
+    "query": "How are LSTM networks applied to predict financial time series?",
+    "domain": "ml-finance",
+    "expected_source": "LSTM deep learning financial forecasting",
+    "relevant_docids": []
+  },
+  {
+    "id": "q017",
+    "query": "Describe walk-forward validation and why it matters for ML trading models.",
+    "domain": "ml-finance",
+    "expected_source": "ML finance walk forward validation backtest",
+    "relevant_docids": []
+  },
+  {
+    "id": "q018",
+    "query": "What is market regime detection and how is it modeled with machine learning?",
+    "domain": "ml-finance",
+    "expected_source": "ML finance regime detection hidden markov",
+    "relevant_docids": []
+  },
+  {
+    "id": "q019",
+    "query": "How does loss aversion bias affect a trader's exit decisions?",
+    "domain": "psychology",
+    "expected_source": "trading psychology loss aversion cognitive bias",
+    "relevant_docids": []
+  },
+  {
+    "id": "q020",
+    "query": "What is FOMO in trading and what techniques help manage it?",
+    "domain": "psychology",
+    "expected_source": "trading psychology fear missing out emotion",
+    "relevant_docids": []
+  },
+  {
+    "id": "q021",
+    "query": "Why do experienced traders keep a trading journal and what should it contain?",
+    "domain": "psychology",
+    "expected_source": "trading psychology journal discipline review",
+    "relevant_docids": []
+  },
+  {
+    "id": "q022",
+    "query": "How should a trader calibrate personal risk tolerance around drawdown?",
+    "domain": "psychology",
+    "expected_source": "trading psychology risk tolerance drawdown discipline",
+    "relevant_docids": []
+  }
+]
