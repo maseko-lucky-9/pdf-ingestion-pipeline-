@@ -13,7 +13,7 @@ chunker:
   overlap_pct: 0.15
 
 rerank:
-  enabled: false  # ms-marco reranker hurts on quant-finance domain; re-enable with domain-tuned model
+  enabled: true  # Re-enabled 2026-05-17 against slice-2 relabelled eval set; ms-marco-MiniLM-L-6-v2 promotes top-10 hits into top-5. Prior "hurts on quant-finance" comment was against stale labels.
   model: cross-encoder/ms-marco-MiniLM-L-6-v2
   device: auto  # auto | mps | cuda | cpu
 

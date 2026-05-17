@@ -9,11 +9,14 @@ Boot with:
 """
 
 import os
+import sqlite3
 import time
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from src.answer import AnsweredQuery, synthesize_answer
 from src.api.schemas import HealthResponse, QueryRequest, QueryResponse
@@ -135,3 +138,69 @@ def query(req: QueryRequest) -> QueryResponse:
         latency_ms=answered.latency_ms,
         request_id=request_id,
     )
+
+
+def _resolve_pdf_for_docid(collection: str, docid: str) -> tuple[Path, int]:
+    """Return (absolute_pdf_path, page_start) for the given chunk docid.
+
+    Raises HTTPException 404 if the collection, chunk, or source PDF is
+    missing. Resolves the PDF path under the configured ``data/`` tree —
+    relative paths in the meta table are resolved against the project root.
+    """
+    db_path = _collection_db(collection)
+    if not db_path.exists():
+        raise HTTPException(404, f"Collection {collection!r} not found.")
+
+    con = sqlite3.connect(str(db_path))
+    try:
+        cur = con.execute(
+            "SELECT source_pdf, page_start FROM meta WHERE docid = ?",
+            (docid,),
+        )
+        row = cur.fetchone()
+    finally:
+        con.close()
+
+    if row is None:
+        raise HTTPException(404, f"docid {docid!r} not found in {collection!r}.")
+
+    source_rel, page_start = row[0], int(row[1])
+
+    candidate = Path(source_rel)
+    if not candidate.is_absolute():
+        candidate = Path.cwd() / candidate
+    if not candidate.exists():
+        raise HTTPException(404, f"Source PDF missing on disk: {source_rel!r}")
+
+    return candidate, page_start
+
+
+@app.get("/document/{collection}/{docid}")
+def document(collection: str, docid: str) -> FileResponse:
+    """Serve the source PDF for a cited chunk.
+
+    The browser opens the result inline so callers can append ``#page=N`` to
+    jump to the cited page. Page resolution happens client-side; the server's
+    job is just to deliver the right file.
+    """
+    pdf_path, _page = _resolve_pdf_for_docid(collection, docid)
+    return FileResponse(
+        pdf_path,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'inline; filename="{pdf_path.name}"'},
+    )
+
+
+@app.get("/document/{collection}/{docid}/page")
+def document_page(collection: str, docid: str) -> dict:
+    """Return the cited page number for a chunk so the UI knows where to jump."""
+    _pdf_path, page_start = _resolve_pdf_for_docid(collection, docid)
+    return {"page": page_start}
+
+
+# Mount the static UI LAST so it does not shadow `/health`, `/query`, or
+# `/document/*`. FastAPI dispatches more-specific routes first regardless,
+# but ordering keeps the intent obvious.
+_STATIC_DIR = Path(__file__).parent / "static"
+if _STATIC_DIR.exists():
+    app.mount("/", StaticFiles(directory=str(_STATIC_DIR), html=True), name="static")

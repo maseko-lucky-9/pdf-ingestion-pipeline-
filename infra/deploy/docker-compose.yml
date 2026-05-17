@@ -1,0 +1,58 @@
+# Single-host compose stack for the Prudentia RAG demo.
+#
+# Topology:
+#   api       -> FastAPI + answer-layer (no public port; reached via cloudflared)
+#   ollama    -> embedding daemon for nomic-embed-text
+#   cloudflared -> outbound tunnel; no inbound ports on the host
+#
+# The host (Hetzner CX22) exposes NOTHING to the public internet. nmap against
+# the public IP should show zero open TCP ports. All traffic enters via the
+# Cloudflare Access -> Tunnel path.
+#
+# Secrets: .env is read from this directory. Never commit the real .env.
+
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: infra/deploy/Dockerfile
+    image: prudentia-rag:latest
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      COLLECTIONS_DIR: /data/collections
+      # Same-origin UI: tighten CORS_ORIGINS to the Access hostname.
+      CORS_ORIGINS: "https://rag.prudentiadigital.co.za"
+      LOG_FORMAT: json
+      LOG_LEVEL: info
+      # Point the answer layer at the Ollama container for any local-LLM
+      # follow-up (slice 3 ADR-006-revisit); leave unset to use Anthropic.
+      OLLAMA_HOST: "http://ollama:11434"
+    volumes:
+      - rag-collections:/data/collections
+      - rag-logs:/app/logs
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama:0.5.4
+    restart: unless-stopped
+    environment:
+      OLLAMA_KEEP_ALIVE: "24h"
+    volumes:
+      - ollama-models:/root/.ollama
+
+  cloudflared:
+    image: cloudflare/cloudflared:2024.10.0
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    env_file: ./.env  # provides TUNNEL_TOKEN
+    depends_on:
+      - api
+
+volumes:
+  rag-collections:
+  rag-logs:
+  ollama-models:

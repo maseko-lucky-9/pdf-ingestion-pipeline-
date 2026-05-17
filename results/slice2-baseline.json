@@ -1,0 +1,206 @@
+{
+  "collection": "quant-finance",
+  "labels_path": "src/eval/queries_bound.json",
+  "timestamp": "2026-05-17T12:39:37.844062+00:00",
+  "n_queries": 8,
+  "avg_recall@5": 0.8749999999999999,
+  "avg_mrr@10": 0.9375,
+  "avg_ndcg@10": 0.9253853056219055,
+  "per_query": [
+    {
+      "id": "q001",
+      "query": "What is the RSI indicator and how is it calculated?",
+      "relevant_docids": [
+        "a2610bb376c4",
+        "60432dbb0d8e"
+      ],
+      "ranked_docids": [
+        "c0e9a7ccef5a",
+        "60432dbb0d8e",
+        "0bd48bc41423",
+        "a2610bb376c4",
+        "0404ca5d626c",
+        "17b9729a78a4",
+        "85fedd75a92f",
+        "24286e63797e",
+        "89cdbb6aab13",
+        "7e00ea689e46"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 0.5,
+      "ndcg@10": 0.6509209298071326
+    },
+    {
+      "id": "q002",
+      "query": "How does exponential moving average differ from simple moving average?",
+      "relevant_docids": [
+        "5536323c02d1",
+        "467f7f0b5d6b",
+        "bc2e4d5cdd63"
+      ],
+      "ranked_docids": [
+        "bc2e4d5cdd63",
+        "5536323c02d1",
+        "0feb02e6806f",
+        "467f7f0b5d6b",
+        "64219b3ea932",
+        "80c8cfbd4d90",
+        "b6afb4e25b28",
+        "70125c81dbc9",
+        "ef19466b03c7",
+        "6dd9b51aee8e"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.9674679834891693
+    },
+    {
+      "id": "q003",
+      "query": "What is mean reversion and how is it used in pairs trading?",
+      "relevant_docids": [
+        "90d4765d49e1",
+        "ef92795037c2"
+      ],
+      "ranked_docids": [
+        "90d4765d49e1",
+        "ef92795037c2",
+        "b3cee0e60431",
+        "319e763a8e4f",
+        "0df151db1892",
+        "ecc9b4af7c4f",
+        "60b85e97aac1",
+        "c2190dc3d264",
+        "15092336df66",
+        "0df5a29b6550"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "id": "q004",
+      "query": "Explain the Sharpe ratio and its limitations as a performance metric.",
+      "relevant_docids": [
+        "acf8b71ddce6",
+        "d1f6712b174f",
+        "eefa4e2410fe",
+        "038b9778768a",
+        "f0fc1a88b6cd"
+      ],
+      "ranked_docids": [
+        "eefa4e2410fe",
+        "acf8b71ddce6",
+        "038b9778768a",
+        "f0fc1a88b6cd",
+        "1f1b3bc6a8a1",
+        "4b3a12465527",
+        "d1f6712b174f",
+        "d3ba71286389",
+        "d4167d3a97ce",
+        "7693bbdf53ba"
+      ],
+      "recall@5": 0.8,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.9818483242455303
+    },
+    {
+      "id": "q006",
+      "query": "Describe the MACD indicator and how trading signals are generated from it.",
+      "relevant_docids": [
+        "9d68d29e894b",
+        "1b6004383a64"
+      ],
+      "ranked_docids": [
+        "1b6004383a64",
+        "9d68d29e894b",
+        "cdeaedfdf997",
+        "bd66387487c4",
+        "cd712998781f",
+        "f173b4d92a8c",
+        "cc911df4528b",
+        "ac0e8f767e87",
+        "b99648eec8d7",
+        "40965ea062bb"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "id": "q007",
+      "query": "What is cointegration and why does it matter for statistical arbitrage?",
+      "relevant_docids": [
+        "fc7b891a6de1",
+        "eedf6ee4eb50",
+        "8f1a53b38535",
+        "d4c40e2a2fca",
+        "0d621ebe175e"
+      ],
+      "ranked_docids": [
+        "0d621ebe175e",
+        "d4c40e2a2fca",
+        "d5370c9c6998",
+        "fc7b891a6de1",
+        "7b3b6ee13996",
+        "eedf6ee4eb50",
+        "8f1a53b38535",
+        "630974910a78",
+        "0a078c058806",
+        "60b85e97aac1"
+      ],
+      "recall@5": 0.6,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.9330795243082165
+    },
+    {
+      "id": "q008",
+      "query": "How do Bollinger Bands work and what do they signal?",
+      "relevant_docids": [
+        "23aa0a7875f5",
+        "77dfc516e3b4",
+        "fe1e6cb85785"
+      ],
+      "ranked_docids": [
+        "23aa0a7875f5",
+        "77dfc516e3b4",
+        "b99648eec8d7",
+        "0fa3939425e6",
+        "fe1e6cb85785",
+        "0df151db1892",
+        "fcb5f40df9be",
+        "e5d5a0063a7b",
+        "8aac92bfc81c",
+        "31a14d5a1cef"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.9469024295259745
+    },
+    {
+      "id": "q010",
+      "query": "Explain the concept of drawdown and how it is used to measure risk.",
+      "relevant_docids": [
+        "306e87714d7c",
+        "a7d285c7a576",
+        "83ca77bea78e",
+        "90e284d269f4",
+        "0bfde0e9fd7c"
+      ],
+      "ranked_docids": [
+        "306e87714d7c",
+        "a7d285c7a576",
+        "0bfde0e9fd7c",
+        "c5b1ff64672a",
+        "6963e8379327",
+        "f4cff78e2da8",
+        "f1e80680cb01",
+        "392c65c9c0a8",
+        "90e284d269f4",
+        "83ca77bea78e"
+      ],
+      "recall@5": 0.6,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.9228632535992205
+    }
+  ]
+}
