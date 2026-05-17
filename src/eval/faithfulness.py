@@ -30,7 +30,8 @@ import anthropic
 
 from src.answer import _REFUSAL_TEXT, Citation
 
-_DEFAULT_JUDGE_MODEL = "claude-3-5-haiku-latest"
+# Pinned to a dated alias; see ADR-006 + src/answer.py for rationale.
+_DEFAULT_JUDGE_MODEL = "claude-3-5-haiku-20241022"
 _MAX_TOKENS = 1024
 
 _JUDGE_SYSTEM = """\

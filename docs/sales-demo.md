@@ -12,10 +12,21 @@ Run [`docs/pre-demo-checklist.md`](pre-demo-checklist.md). T-60 / T-15 / T-5 seq
 
 Quick verify (subset of the checklist):
 ```bash
+# 1. Import + test smoke
 .venv/bin/python -c "from src.answer import synthesize_answer; print('imports OK')"
 .venv/bin/python -m pytest tests/test_answer.py tests/test_api_server.py -q
-ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY uvicorn src.api.server:app --port 8000 &
-sleep 2 && curl -s http://localhost:8000/health | jq
+
+# 2. Source the real .env (which exports ANTHROPIC_API_KEY) and boot the API
+set -a; source .env; set +a
+.venv/bin/uvicorn src.api.server:app --port 8000 &
+UVICORN_PID=$!
+
+# 3. Wait until /health is actually up, then probe it
+until curl -fs http://localhost:8000/health > /dev/null; do sleep 0.5; done
+curl -s http://localhost:8000/health | jq
+
+# 4. Tear down when done
+kill "$UVICORN_PID"
 ```
 
 ---

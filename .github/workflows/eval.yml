@@ -1,0 +1,98 @@
+# Retrieval-eval regression gate. Manual-dispatch for now: the workflow needs
+# a pre-built `quant-finance` collection that is gitignored (size). Slice 4
+# will wire collection-artifact upload + scheduled runs.
+#
+# Slice 3 backlog item #13 — second half. Gating logic:
+#   * recall@5 must not drop by more than 5% vs results/slice2-baseline.json
+#   * mrr@10 must not drop by more than 5%
+#   * Faithfulness disabled in CI (cost). Re-enable when budget allows.
+
+name: eval
+
+on:
+  workflow_dispatch:
+    inputs:
+      collection:
+        description: "Collection name to evaluate against (must be present in collections/)"
+        required: true
+        default: "quant-finance"
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    name: retrieval eval (recall@5 vs baseline)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      # Prerequisite: the workflow expects a pre-built collection at
+      # collections/${{ inputs.collection }}/. Slice 4 follow-up will fetch
+      # this from a release artifact or an S3-style storage; for now the
+      # workflow fails fast with a useful message.
+      - name: Check collection presence
+        env:
+          COLLECTION: ${{ inputs.collection }}
+        run: |
+          if [ ! -f "collections/$COLLECTION/index.db" ]; then
+            echo "::error::Collection collections/$COLLECTION/index.db not found."
+            echo "Pre-build the collection locally and upload as a workflow artifact,"
+            echo "OR wire collection-fetch as a slice 4 follow-up."
+            exit 2
+          fi
+
+      - name: Run retrieval eval
+        env:
+          COLLECTION: ${{ inputs.collection }}
+        run: |
+          python -m src.eval.run_eval \
+            --collection "$COLLECTION" \
+            --labels src/eval/queries_bound.json \
+            --output results/ci-eval.json
+
+      - name: Regression gate (recall@5 + mrr@10 within 5% of baseline)
+        run: |
+          python <<'PY'
+          import json, sys, pathlib
+          base = json.loads(pathlib.Path("results/slice2-baseline.json").read_text())
+          cur  = json.loads(pathlib.Path("results/ci-eval.json").read_text())
+          drift_pct = lambda b, c: (b - c) / b * 100 if b > 0 else 0
+          recall_drop = drift_pct(base["avg_recall@5"], cur["avg_recall@5"])
+          mrr_drop    = drift_pct(base["avg_mrr@10"],   cur["avg_mrr@10"])
+          print(f"recall@5  baseline={base['avg_recall@5']:.3f} current={cur['avg_recall@5']:.3f} drop={recall_drop:+.2f}%")
+          print(f"mrr@10    baseline={base['avg_mrr@10']:.3f}   current={cur['avg_mrr@10']:.3f}   drop={mrr_drop:+.2f}%")
+          failed = []
+          if recall_drop > 5.0:
+              failed.append(f"recall@5 dropped {recall_drop:.2f}% > 5% gate")
+          if mrr_drop > 5.0:
+              failed.append(f"mrr@10 dropped {mrr_drop:.2f}% > 5% gate")
+          if failed:
+              for msg in failed:
+                  print(f"::error::{msg}")
+              sys.exit(1)
+          print("eval gate PASS")
+          PY
+
+      - name: Upload eval JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-eval
+          path: results/ci-eval.json

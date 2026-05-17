@@ -1,0 +1,54 @@
+# Unit + integration test suite on every push / PR.
+# Slice 3 backlog item #13 — first half: ship pytest CI; the live-eval workflow
+# (next file) needs a pre-built collection and is manual-dispatch for now.
+
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pytest:
+    name: pytest (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Run pytest
+        env:
+          # Tests must not touch real Anthropic; if anything tries, fail loudly.
+          ANTHROPIC_API_KEY: ""
+        run: pytest -q --no-header
+
+      - name: Report test count
+        if: always()
+        run: pytest --collect-only -q --no-header | tail -1

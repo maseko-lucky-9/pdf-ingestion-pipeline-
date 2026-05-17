@@ -1,19 +1,34 @@
 {
   "collection": "quant-finance",
   "labels_path": "src/eval/queries_bound.json",
-  "timestamp": "2026-05-17T12:39:37.844062+00:00",
-  "n_queries": 8,
-  "avg_recall@5": 0.8749999999999999,
+  "timestamp": "2026-05-17T13:52:22.634682+00:00",
+  "n_queries": 9,
+  "avg_recall@5": 0.8937499999999999,
   "avg_mrr@10": 0.9375,
-  "avg_ndcg@10": 0.9253853056219055,
+  "avg_ndcg@10": 0.5763829078822208,
   "per_query": [
     {
       "id": "q001",
       "query": "What is the RSI indicator and how is it calculated?",
-      "relevant_docids": [
-        "a2610bb376c4",
-        "60432dbb0d8e"
+      "relevant_pages": [
+        {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            1022,
+            1023
+          ]
+        },
+        {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            171,
+            171
+          ]
+        }
       ],
+      "n_labels": 2,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 7,
       "ranked_docids": [
         "c0e9a7ccef5a",
         "60432dbb0d8e",
@@ -28,16 +43,37 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 0.5,
-      "ndcg@10": 0.6509209298071326
+      "ndcg@10": 0.2918104499436024
     },
     {
       "id": "q002",
       "query": "How does exponential moving average differ from simple moving average?",
-      "relevant_docids": [
-        "5536323c02d1",
-        "467f7f0b5d6b",
-        "bc2e4d5cdd63"
+      "relevant_pages": [
+        {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            1014,
+            1018
+          ]
+        },
+        {
+          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+          "pages": [
+            157,
+            192
+          ]
+        },
+        {
+          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+          "pages": [
+            157,
+            190
+          ]
+        }
       ],
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 41,
       "ranked_docids": [
         "bc2e4d5cdd63",
         "5536323c02d1",
@@ -52,15 +88,30 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.9674679834891693
+      "ndcg@10": 0.6745711375739728
     },
     {
       "id": "q003",
       "query": "What is mean reversion and how is it used in pairs trading?",
-      "relevant_docids": [
-        "90d4765d49e1",
-        "ef92795037c2"
+      "relevant_pages": [
+        {
+          "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+          "pages": [
+            150,
+            169
+          ]
+        },
+        {
+          "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+          "pages": [
+            182,
+            186
+          ]
+        }
       ],
+      "n_labels": 2,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 19,
       "ranked_docids": [
         "90d4765d49e1",
         "ef92795037c2",
@@ -75,18 +126,51 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 1.0
+      "ndcg@10": 0.43231813227099475
     },
     {
       "id": "q004",
       "query": "Explain the Sharpe ratio and its limitations as a performance metric.",
-      "relevant_docids": [
-        "acf8b71ddce6",
-        "d1f6712b174f",
-        "eefa4e2410fe",
-        "038b9778768a",
-        "f0fc1a88b6cd"
+      "relevant_pages": [
+        {
+          "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+          "pages": [
+            36,
+            40
+          ]
+        },
+        {
+          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+          "pages": [
+            217,
+            223
+          ]
+        },
+        {
+          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+          "pages": [
+            181,
+            207
+          ]
+        },
+        {
+          "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+          "pages": [
+            147,
+            147
+          ]
+        },
+        {
+          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+          "pages": [
+            254,
+            261
+          ]
+        }
       ],
+      "n_labels": 5,
+      "n_labels_hit_at_5": 4,
+      "resolved_docids_count": 51,
       "ranked_docids": [
         "eefa4e2410fe",
         "acf8b71ddce6",
@@ -101,15 +185,30 @@
       ],
       "recall@5": 0.8,
       "mrr@10": 1.0,
-      "ndcg@10": 0.9818483242455303
+      "ndcg@10": 0.800693766409882
     },
     {
       "id": "q006",
       "query": "Describe the MACD indicator and how trading signals are generated from it.",
-      "relevant_docids": [
-        "9d68d29e894b",
-        "1b6004383a64"
+      "relevant_pages": [
+        {
+          "source_pdf": "Naked_Forex_-_Walter_Petrs.pdf",
+          "pages": [
+            20,
+            35
+          ]
+        },
+        {
+          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+          "pages": [
+            157,
+            240
+          ]
+        }
       ],
+      "n_labels": 2,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 115,
       "ranked_docids": [
         "1b6004383a64",
         "9d68d29e894b",
@@ -124,18 +223,44 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 1.0
+      "ndcg@10": 0.5423640154200349
     },
     {
       "id": "q007",
       "query": "What is cointegration and why does it matter for statistical arbitrage?",
-      "relevant_docids": [
-        "fc7b891a6de1",
-        "eedf6ee4eb50",
-        "8f1a53b38535",
-        "d4c40e2a2fca",
-        "0d621ebe175e"
+      "relevant_pages": [
+        {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            434,
+            437
+          ]
+        },
+        {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            423,
+            429
+          ]
+        },
+        {
+          "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+          "pages": [
+            190,
+            196
+          ]
+        },
+        {
+          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+          "pages": [
+            111,
+            114
+          ]
+        }
       ],
+      "n_labels": 4,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 24,
       "ranked_docids": [
         "0d621ebe175e",
         "d4c40e2a2fca",
@@ -148,18 +273,39 @@
         "0a078c058806",
         "60b85e97aac1"
       ],
-      "recall@5": 0.6,
+      "recall@5": 0.75,
       "mrr@10": 1.0,
-      "ndcg@10": 0.9330795243082165
+      "ndcg@10": 0.8263333286520083
     },
     {
       "id": "q008",
       "query": "How do Bollinger Bands work and what do they signal?",
-      "relevant_docids": [
-        "23aa0a7875f5",
-        "77dfc516e3b4",
-        "fe1e6cb85785"
+      "relevant_pages": [
+        {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            316,
+            316
+          ]
+        },
+        {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            1019,
+            1020
+          ]
+        },
+        {
+          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+          "pages": [
+            55,
+            57
+          ]
+        }
       ],
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 20,
       "ranked_docids": [
         "23aa0a7875f5",
         "77dfc516e3b4",
@@ -174,18 +320,51 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.9469024295259745
+      "ndcg@10": 0.4440973278132557
     },
     {
       "id": "q010",
       "query": "Explain the concept of drawdown and how it is used to measure risk.",
-      "relevant_docids": [
-        "306e87714d7c",
-        "a7d285c7a576",
-        "83ca77bea78e",
-        "90e284d269f4",
-        "0bfde0e9fd7c"
+      "relevant_pages": [
+        {
+          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+          "pages": [
+            252,
+            254
+          ]
+        },
+        {
+          "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+          "pages": [
+            67,
+            71
+          ]
+        },
+        {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            250,
+            250
+          ]
+        },
+        {
+          "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+          "pages": [
+            76,
+            77
+          ]
+        },
+        {
+          "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+          "pages": [
+            78,
+            80
+          ]
+        }
       ],
+      "n_labels": 5,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 24,
       "ranked_docids": [
         "306e87714d7c",
         "a7d285c7a576",
@@ -200,7 +379,7 @@
       ],
       "recall@5": 0.6,
       "mrr@10": 1.0,
-      "ndcg@10": 0.9228632535992205
+      "ndcg@10": 0.5988751049740155
     }
   ]
 }

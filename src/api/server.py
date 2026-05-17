@@ -13,6 +13,7 @@ import sqlite3
 import time
 from pathlib import Path
 
+import anthropic
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -107,16 +108,62 @@ def query(req: QueryRequest) -> QueryResponse:
         results = retrieve(req.query, db_path, cfg)
         # Trim to the user-requested k (retriever may return more or fewer)
         results = results[: req.k]
+        retrieve_ms = (time.perf_counter() - t0) * 1000
+        t_synth = time.perf_counter()
         answered: AnsweredQuery = synthesize_answer(req.query, results)
+        synth_ms = (time.perf_counter() - t_synth) * 1000
     except EnvironmentError as exc:
+        # Misconfiguration (no ANTHROPIC_API_KEY etc.) — server-side failure
+        # under-the-hood but caller can retry once the operator fixes it.
         latency_ms = (time.perf_counter() - t0) * 1000
         log_rag_request(
             request_id=request_id, collection=req.collection, query=req.query,
             k=req.k, status="503", latency_ms=latency_ms, error=str(exc),
         )
         raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except anthropic.RateLimitError as exc:
+        latency_ms = (time.perf_counter() - t0) * 1000
+        log_rag_request(
+            request_id=request_id, collection=req.collection, query=req.query,
+            k=req.k, status="429", latency_ms=latency_ms, error=str(exc),
+        )
+        raise HTTPException(status_code=429, detail="Upstream rate-limited.") from exc
+    except anthropic.APITimeoutError as exc:
+        latency_ms = (time.perf_counter() - t0) * 1000
+        log_rag_request(
+            request_id=request_id, collection=req.collection, query=req.query,
+            k=req.k, status="504", latency_ms=latency_ms, error=str(exc),
+        )
+        raise HTTPException(status_code=504, detail="Upstream timed out.") from exc
+    except anthropic.APIStatusError as exc:
+        # Bad request, auth error, server error, etc. — mirror upstream status
+        # when reasonable, otherwise 502.
+        latency_ms = (time.perf_counter() - t0) * 1000
+        upstream_status = getattr(exc, "status_code", None) or 502
+        # We never want to leak 5xx as 4xx (or vice versa) — clamp class.
+        if upstream_status >= 500:
+            our_status = 502
+        elif upstream_status == 401 or upstream_status == 403:
+            our_status = 503  # treat upstream auth issues as server misconfig
+        else:
+            our_status = upstream_status
+        log_rag_request(
+            request_id=request_id, collection=req.collection, query=req.query,
+            k=req.k, status=str(our_status), latency_ms=latency_ms, error=str(exc),
+        )
+        raise HTTPException(status_code=our_status, detail=str(exc)) from exc
+    except anthropic.APIConnectionError as exc:
+        latency_ms = (time.perf_counter() - t0) * 1000
+        log_rag_request(
+            request_id=request_id, collection=req.collection, query=req.query,
+            k=req.k, status="502", latency_ms=latency_ms, error=str(exc),
+        )
+        raise HTTPException(status_code=502, detail="Upstream unreachable.") from exc
 
     total_latency_ms = (time.perf_counter() - t0) * 1000
+    refused = answered.answer.strip().startswith(
+        "I cannot answer this question from the provided context."
+    )
     log_rag_request(
         request_id=request_id,
         collection=req.collection,
@@ -127,6 +174,11 @@ def query(req: QueryRequest) -> QueryResponse:
         hit_count=len(results),
         prompt_tokens=answered.prompt_tokens,
         completion_tokens=answered.completion_tokens,
+        retrieve_ms=round(retrieve_ms, 1),
+        synth_ms=round(synth_ms, 1),
+        answer_len=len(answered.answer),
+        citations_count=len(answered.citations),
+        refused=refused,
     )
 
     return QueryResponse(

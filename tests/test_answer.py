@@ -149,7 +149,8 @@ def test_synthesize_answer_returns_full_payload():
     client = _mock_anthropic_client(answer_text, input_tokens=120, output_tokens=30)
     out = synthesize_answer("capital of France?", [_make_result()], client=client)
     assert out.answer == answer_text
-    assert out.model == "claude-3-5-sonnet-latest"
+    from src.answer import _DEFAULT_MODEL
+    assert out.model == _DEFAULT_MODEL
     assert out.prompt_tokens == 120
     assert out.completion_tokens == 30
     assert out.latency_ms >= 0
@@ -202,3 +203,77 @@ def test_citation_model_validates():
     )
     assert c.page_range == (1, 3)
     assert c.score == pytest.approx(0.88)
+
+
+# ─── Tolerant citation-tag parsing (slice 3 follow-up #6) ────────────────────
+
+
+def test_extract_citations_tolerates_uppercase_doc_tag():
+    results = [_make_result(docid="c1"), _make_result(docid="c2")]
+    cites = _extract_citations("Capital is Paris [Doc-1].", results)
+    assert [c.docid for c in cites] == ["c1"]
+
+
+def test_extract_citations_tolerates_screaming_doc_tag():
+    results = [_make_result(docid="c1")]
+    cites = _extract_citations("Paris [DOC-1].", results)
+    assert [c.docid for c in cites] == ["c1"]
+
+
+def test_extract_citations_tolerates_internal_whitespace():
+    results = [_make_result(docid="c1"), _make_result(docid="c2")]
+    cites = _extract_citations("Paris [ doc-1 ] and [doc- 2].", results)
+    assert [c.docid for c in cites] == ["c1", "c2"]
+
+
+def test_extract_citations_tolerates_space_separator():
+    results = [_make_result(docid="c1")]
+    cites = _extract_citations("Paris [doc 1].", results)
+    assert [c.docid for c in cites] == ["c1"]
+
+
+def test_extract_citations_handles_multi_citation_run_with_comma():
+    results = [_make_result(docid="c1"), _make_result(docid="c2"), _make_result(docid="c3")]
+    cites = _extract_citations("Paris [doc-1, doc-3].", results)
+    assert [c.docid for c in cites] == ["c1", "c3"]
+
+
+def test_extract_citations_handles_multi_citation_run_with_semicolon():
+    results = [_make_result(docid="c1"), _make_result(docid="c2")]
+    cites = _extract_citations("Two facts [doc-1; doc-2].", results)
+    assert [c.docid for c in cites] == ["c1", "c2"]
+
+
+def test_extract_citations_handles_adjacent_tag_blocks():
+    results = [_make_result(docid="c1"), _make_result(docid="c2")]
+    cites = _extract_citations("Two facts [doc-1][doc-2].", results)
+    assert [c.docid for c in cites] == ["c1", "c2"]
+
+
+def test_extract_citations_ignores_brackets_without_doc():
+    """A markdown list `[1.]` or footnote `[1]` must not be treated as a citation."""
+    results = [_make_result(docid="c1")]
+    cites = _extract_citations("See item [1] above [doc-1].", results)
+    assert [c.docid for c in cites] == ["c1"]
+
+
+# ─── Model-emits-refusal path (slice 3 follow-up #5) ─────────────────────────
+
+
+def test_synthesize_answer_propagates_model_refusal():
+    """The system prompt instructs Claude to emit the canonical refusal when
+    context is insufficient. The harness must surface that refusal verbatim,
+    NOT short-circuit on empty results (the empty-retrieval short-circuit is
+    a separate path tested above)."""
+    refusal_text = "I cannot answer this question from the provided context."
+    client = _mock_anthropic_client(refusal_text, input_tokens=80, output_tokens=12)
+    # Non-empty retrieval results — so the empty-results short-circuit does
+    # NOT fire and we genuinely exercise the answer-layer path.
+    results = [_make_result(docid="irrelevant-chunk", content="Something unrelated.")]
+    out = synthesize_answer("What is X?", results, client=client)
+    assert out.answer == refusal_text
+    # Refusal contains no [doc-N] tags, so citations should be empty
+    # regardless of how many chunks were retrieved.
+    assert out.citations == []
+    assert out.prompt_tokens == 80
+    assert out.completion_tokens == 12
