@@ -1,56 +1,106 @@
 [
   {
     "id": "q001",
+    "category": "factual_lookup",
     "query": "What is the RSI indicator and how is it calculated?",
-    "expected_source": "TSaM RSI relative strength",
-    "relevant_docids": ["2b5ae26fde3f", "a714ae741ca8", "87ee21bc96e9"]
+    "expected_source": "Machine Learning for Algorithmic Trading / RSI definition",
+    "relevant_docids": [
+      "a2610bb376c4",
+      "60432dbb0d8e"
+    ],
+    "notes": "Corpus has thin RSI coverage; the canonical definition lives in MLAT p171."
   },
   {
     "id": "q002",
+    "category": "comparison",
     "query": "How does exponential moving average differ from simple moving average?",
-    "expected_source": "TSaM exponential moving average",
-    "relevant_docids": ["55af5c6fd54f", "88c7b479d5e7", "ef3893848aac"]
+    "expected_source": "MLAT side-by-side SMA/EMA definitions; Murphy moving averages chapter",
+    "relevant_docids": [
+      "5536323c02d1",
+      "bc2e4d5cdd63",
+      "467f7f0b5d6b"
+    ]
   },
   {
     "id": "q003",
+    "category": "multi_doc_synthesis",
     "query": "What is mean reversion and how is it used in pairs trading?",
-    "expected_source": "Chan quantitative trading mean reversion pairs",
-    "relevant_docids": ["90d4765d49e1", "ef92795037c2", "38d83e75858c"]
+    "expected_source": "Chan Quantitative Trading mean-reversion chapter",
+    "relevant_docids": [
+      "90d4765d49e1",
+      "ef92795037c2"
+    ],
+    "notes": "60b85e97aac1 was dropped from labels — it is the chapter-opener for 'Special Topics in Quantitative Trading' and only marginally about mean-reversion specifically."
   },
   {
     "id": "q004",
+    "category": "definition",
     "query": "Explain the Sharpe ratio and its limitations as a performance metric.",
-    "expected_source": "Chan quantitative trading Sharpe ratio performance",
-    "relevant_docids": ["0ed901aa2d46", "e065242fcec2", "d75b8a8a8971"]
+    "expected_source": "Chan + AFML coverage of Sharpe, plus DSR (deflated Sharpe) critique in AFML",
+    "relevant_docids": [
+      "d1f6712b174f",
+      "eefa4e2410fe",
+      "acf8b71ddce6",
+      "f0fc1a88b6cd",
+      "038b9778768a"
+    ]
   },
   {
     "id": "q006",
+    "category": "factual_lookup",
     "query": "Describe the MACD indicator and how trading signals are generated from it.",
-    "expected_source": "TSaM MACD moving average convergence divergence",
-    "relevant_docids": ["a6500422962e", "e651e14881e8", "33b4a181bdc1"]
+    "expected_source": "Murphy MACD signal-line crossing; Naked Forex MACD example chart",
+    "relevant_docids": [
+      "9d68d29e894b",
+      "1b6004383a64"
+    ],
+    "notes": "Corpus has thin MACD coverage; only two chunks describe the actual signal-generation mechanism."
   },
   {
     "id": "q007",
+    "category": "multi_doc_synthesis",
     "query": "What is cointegration and why does it matter for statistical arbitrage?",
-    "expected_source": "Chan quantitative trading cointegration",
-    "relevant_docids": ["8f1a53b38535", "eedf6ee4eb50", "d0bc6d11c358"]
+    "expected_source": "MLAT cointegration tests + Chan KO/PEP example + AFML cointegration framing",
+    "relevant_docids": [
+      "0d621ebe175e",
+      "d4c40e2a2fca",
+      "eedf6ee4eb50",
+      "8f1a53b38535",
+      "fc7b891a6de1"
+    ],
+    "notes": "Capped at 5 canonical labels. 630974910a78 (Johansen trace-stat mechanical) is also relevant but a derivative result; recall@5 cannot exceed 1.0 by definition, so labels are bounded to the canonical 5."
   },
   {
     "id": "q008",
+    "category": "factual_lookup",
     "query": "How do Bollinger Bands work and what do they signal?",
-    "expected_source": "TSaM Bollinger bands volatility",
-    "relevant_docids": ["7dfceb65645b", "d39a2bc7aa22"]
+    "expected_source": "MLAT BBANDS function + Bollinger's trading rules; AFML CUSUM-vs-Bollinger critique",
+    "relevant_docids": [
+      "23aa0a7875f5",
+      "77dfc516e3b4",
+      "fe1e6cb85785"
+    ]
   },
   {
     "id": "q009",
+    "category": "refusal_expected",
     "query": "What is the information ratio and how does it differ from the Sharpe ratio?",
-    "expected_source": "Chan quantitative trading information ratio",
-    "relevant_docids": ["0ed901aa2d46", "e065242fcec2", "98ebaf9c0c3e"]
+    "expected_source": "(none — corpus does not contain a clean information-ratio definition; system SHOULD refuse)",
+    "relevant_docids": [],
+    "notes": "Refusal-expected. The corpus covers Sharpe extensively but never defines the information ratio; a faithful system refuses rather than blending. Excluded from recall@5 averaging."
   },
   {
     "id": "q010",
+    "category": "definition",
     "query": "Explain the concept of drawdown and how it is used to measure risk.",
-    "expected_source": "Chan quantitative trading drawdown risk",
-    "relevant_docids": ["bf5b355d725a", "ebaab5687ed5", "40187a87432a", "dd4493d50c55"]
+    "expected_source": "AFML DD definition + Chan max-DD calculation + MLAT pyfolio drawdown plot",
+    "relevant_docids": [
+      "0bfde0e9fd7c",
+      "306e87714d7c",
+      "a7d285c7a576",
+      "90e284d269f4",
+      "83ca77bea78e"
+    ],
+    "notes": "Capped at 5 canonical academic/technical sources; the Naked Forex max-DD-rule chunk (6963e8379327) is also relevant but less authoritative as a definition source."
   }
 ]

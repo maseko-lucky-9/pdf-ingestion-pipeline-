@@ -26,3 +26,6 @@ data/
 .idea/
 .vscode/
 *.swp
+
+# Claude Code local settings
+.claude/
