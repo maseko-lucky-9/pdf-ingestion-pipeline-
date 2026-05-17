@@ -1,0 +1,104 @@
+[
+  {
+    "id": "sa01",
+    "category": "factual_lookup",
+    "query": "What is personal information under POPIA?",
+    "expected_source": "POPIA definitions + categories of personal information",
+    "relevant_pages": [
+      {"source_pdf": "popia-2013.pdf", "pages": [1, 8]},
+      {"source_pdf": "popia-2013.pdf", "pages": [1, 9]}
+    ],
+    "notes": "Retrieval scores are weak on this — POPIA defines personal information in early sections (p.1-9) but the chunker bundles the definition with surrounding processing-rule chunks. Labels intentionally point at the definition pages even though retrieval may miss them; that's an honest signal for slice 6 chunker tuning."
+  },
+  {
+    "id": "sa02",
+    "category": "factual_lookup",
+    "query": "What is a director's fiduciary duty under the Companies Act?",
+    "expected_source": "Companies Act ss. 75-77 (director duties + liabilities)",
+    "relevant_pages": [
+      {"source_pdf": "companies-act-2008.pdf", "pages": [1, 77]},
+      {"source_pdf": "companies-act-2008.pdf", "pages": [1, 86]},
+      {"source_pdf": "companies-act-2008.pdf", "pages": [1, 125]}
+    ]
+  },
+  {
+    "id": "sa03",
+    "category": "factual_lookup",
+    "query": "What does the Consumer Protection Act say about defective goods?",
+    "expected_source": "CPA ss. 55-56 (warranty + free-of-defects standard)",
+    "relevant_pages": [
+      {"source_pdf": "consumer-protection-act-2008.pdf", "pages": [1, 55]},
+      {"source_pdf": "consumer-protection-act-2008.pdf", "pages": [1, 56]}
+    ]
+  },
+  {
+    "id": "sa04",
+    "category": "factual_lookup",
+    "query": "What is unfair dismissal under the Labour Relations Act?",
+    "expected_source": "LRA ss. 186-193 (definition of unfair dismissal + remedies)",
+    "relevant_pages": [
+      {"source_pdf": "labour-relations-act-1995.pdf", "pages": [1, 147]},
+      {"source_pdf": "labour-relations-act-1995.pdf", "pages": [1, 150]},
+      {"source_pdf": "labour-relations-act-1995.pdf", "pages": [1, 158]},
+      {"source_pdf": "labour-relations-act-1995.pdf", "pages": [1, 160]}
+    ]
+  },
+  {
+    "id": "sa05",
+    "category": "definition",
+    "query": "What obligations does a responsible party have when processing personal information under POPIA?",
+    "expected_source": "POPIA conditions for lawful processing (Chapter 3 sections)",
+    "relevant_pages": [
+      {"source_pdf": "popia-2013.pdf", "pages": [1, 16]},
+      {"source_pdf": "popia-2013.pdf", "pages": [1, 19]},
+      {"source_pdf": "popia-2013.pdf", "pages": [1, 20]}
+    ]
+  },
+  {
+    "id": "sa06",
+    "category": "refusal_expected",
+    "query": "What is a public benefit organisation under the Companies Act?",
+    "expected_source": "(none — public benefit organisation is an Income Tax Act / Nonprofit Organisations Act concept, NOT a Companies Act concept; the corpus does not define it)",
+    "relevant_pages": [],
+    "notes": "Refusal-expected. PBO is a tax-act term, not a companies-act term; a faithful system should refuse rather than synthesize an answer from companies-act material that talks generically about pension funds or public-sector pensions."
+  },
+  {
+    "id": "sa08",
+    "category": "multi_doc_synthesis",
+    "query": "What rights does an employee have when retrenched and what consultation must the employer conduct?",
+    "expected_source": "LRA workplace-forum consultation + operational-requirements dismissal sections",
+    "relevant_pages": [
+      {"source_pdf": "labour-relations-act-1995.pdf", "pages": [1, 83]},
+      {"source_pdf": "labour-relations-act-1995.pdf", "pages": [1, 152]},
+      {"source_pdf": "labour-relations-act-1995.pdf", "pages": [1, 216]}
+    ]
+  },
+  {
+    "id": "sa09",
+    "category": "multi_doc_synthesis",
+    "query": "How must a company process customer personal information when offering credit?",
+    "expected_source": "POPIA conditions for lawful processing (Ch.3)",
+    "relevant_pages": [
+      {"source_pdf": "popia-2013.pdf", "pages": [1, 13]},
+      {"source_pdf": "popia-2013.pdf", "pages": [1, 36]},
+      {"source_pdf": "popia-2013.pdf", "pages": [1, 41]}
+    ],
+    "notes": "National Credit Act is the natural other source for the 'offering credit' angle; that act failed to download in this batch — sourcing it is a slice-6 follow-up."
+  },
+  {
+    "id": "sa10",
+    "category": "refusal_expected",
+    "query": "What is the optimal tax structure for a Mauritius offshore trust?",
+    "expected_source": "(none — corpus has no tax-residency or offshore-trust material)",
+    "relevant_pages": [],
+    "notes": "Refusal-expected. Offshore trust structures are governed by SARS Income Tax Act + cross-border treaties that are not in the corpus."
+  },
+  {
+    "id": "sa11",
+    "category": "refusal_expected",
+    "query": "What are the disclosure rules under the Securities Services Act of 2004?",
+    "expected_source": "(none — Securities Services Act is referenced by the Companies Act but the full text is not in the corpus)",
+    "relevant_pages": [],
+    "notes": "Refusal-expected. Companies Act mentions the Securities Services Act 36 of 2004 by reference; the SSA full text is not in the corpus. The system should refuse rather than infer SSA rules from a Companies Act cross-reference."
+  }
+]

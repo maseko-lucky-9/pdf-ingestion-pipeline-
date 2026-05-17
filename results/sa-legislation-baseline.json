@@ -1,0 +1,319 @@
+{
+  "collection": "sa-legislation",
+  "labels_path": "src/eval/queries_sa_legislation.json",
+  "timestamp": "2026-05-17T16:05:06.504036+00:00",
+  "n_queries": 10,
+  "avg_recall@5": 1.0,
+  "avg_mrr@10": 1.0,
+  "avg_ndcg@10": 0.950677429867096,
+  "per_query": [
+    {
+      "id": "sa01",
+      "query": "What is personal information under POPIA?",
+      "relevant_pages": [
+        {
+          "source_pdf": "popia-2013.pdf",
+          "pages": [
+            1,
+            8
+          ]
+        },
+        {
+          "source_pdf": "popia-2013.pdf",
+          "pages": [
+            1,
+            9
+          ]
+        }
+      ],
+      "n_labels": 2,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 48,
+      "ranked_docids": [
+        "1340389e3079",
+        "cecacd72a5e1",
+        "24df9de81af0",
+        "5129b29e7125",
+        "5e3d3019bb24",
+        "b5c650bc612b",
+        "e2de0a8cee27",
+        "60ef0f7f511a",
+        "51e8cd5be5fa",
+        "6827a3358111"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.8701249883466593
+    },
+    {
+      "id": "sa02",
+      "query": "What is a director's fiduciary duty under the Companies Act?",
+      "relevant_pages": [
+        {
+          "source_pdf": "companies-act-2008.pdf",
+          "pages": [
+            1,
+            77
+          ]
+        },
+        {
+          "source_pdf": "companies-act-2008.pdf",
+          "pages": [
+            1,
+            86
+          ]
+        },
+        {
+          "source_pdf": "companies-act-2008.pdf",
+          "pages": [
+            1,
+            125
+          ]
+        }
+      ],
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 166,
+      "ranked_docids": [
+        "d4b9cbea36c4",
+        "2781dbc2e534",
+        "70bdda208d1d",
+        "f47637a0726b",
+        "3d5b0c664b33",
+        "ea4db5e411ae",
+        "039e4cb9be9c",
+        "b79ec666af42",
+        "65879126784d",
+        "ce268eab38c1"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "id": "sa03",
+      "query": "What does the Consumer Protection Act say about defective goods?",
+      "relevant_pages": [
+        {
+          "source_pdf": "consumer-protection-act-2008.pdf",
+          "pages": [
+            1,
+            55
+          ]
+        },
+        {
+          "source_pdf": "consumer-protection-act-2008.pdf",
+          "pages": [
+            1,
+            56
+          ]
+        }
+      ],
+      "n_labels": 2,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 70,
+      "ranked_docids": [
+        "5a13c63ec9bf",
+        "ce4811e076d8",
+        "6cf49a8a5947",
+        "61bee61dfaf5",
+        "a9d0d541d119",
+        "489413b67a14",
+        "c199ed1022b1",
+        "02cfa77fd055",
+        "2d142a075cb8",
+        "ab6321fc69db"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "id": "sa04",
+      "query": "What is unfair dismissal under the Labour Relations Act?",
+      "relevant_pages": [
+        {
+          "source_pdf": "labour-relations-act-1995.pdf",
+          "pages": [
+            1,
+            147
+          ]
+        },
+        {
+          "source_pdf": "labour-relations-act-1995.pdf",
+          "pages": [
+            1,
+            150
+          ]
+        },
+        {
+          "source_pdf": "labour-relations-act-1995.pdf",
+          "pages": [
+            1,
+            158
+          ]
+        },
+        {
+          "source_pdf": "labour-relations-act-1995.pdf",
+          "pages": [
+            1,
+            160
+          ]
+        }
+      ],
+      "n_labels": 4,
+      "n_labels_hit_at_5": 4,
+      "resolved_docids_count": 117,
+      "ranked_docids": [
+        "bde3e466baa4",
+        "a8e15adbe43c",
+        "bdb7273c03ee",
+        "64dfb91434d7",
+        "5f764a700aea",
+        "d49617dc866f",
+        "0c8e9c890abd",
+        "651389a9ddf0",
+        "35f7a348b3c6",
+        "b5bb38758fc9"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "id": "sa05",
+      "query": "What obligations does a responsible party have when processing personal information under POPIA?",
+      "relevant_pages": [
+        {
+          "source_pdf": "popia-2013.pdf",
+          "pages": [
+            1,
+            16
+          ]
+        },
+        {
+          "source_pdf": "popia-2013.pdf",
+          "pages": [
+            1,
+            19
+          ]
+        },
+        {
+          "source_pdf": "popia-2013.pdf",
+          "pages": [
+            1,
+            20
+          ]
+        }
+      ],
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 48,
+      "ranked_docids": [
+        "64857b45dfd3",
+        "5e3d3019bb24",
+        "2aafaafd76de",
+        "3eeee1b6b2b5",
+        "cb307b41f985",
+        "8782c4d5581d",
+        "9573d2c0a052",
+        "7bd725579c35",
+        "5129b29e7125",
+        "cecacd72a5e1"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "id": "sa08",
+      "query": "What rights does an employee have when retrenched and what consultation must the employer conduct?",
+      "relevant_pages": [
+        {
+          "source_pdf": "labour-relations-act-1995.pdf",
+          "pages": [
+            1,
+            83
+          ]
+        },
+        {
+          "source_pdf": "labour-relations-act-1995.pdf",
+          "pages": [
+            1,
+            152
+          ]
+        },
+        {
+          "source_pdf": "labour-relations-act-1995.pdf",
+          "pages": [
+            1,
+            216
+          ]
+        }
+      ],
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 117,
+      "ranked_docids": [
+        "64dfb91434d7",
+        "99f2f2e42fbe",
+        "35f7a348b3c6",
+        "08fddc0ecb38",
+        "a8e15adbe43c",
+        "37908eda9910",
+        "99e1017b19da",
+        "2e6f1fdbb03a",
+        "5f764a700aea",
+        "74e5e246e28f"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "id": "sa09",
+      "query": "How must a company process customer personal information when offering credit?",
+      "relevant_pages": [
+        {
+          "source_pdf": "popia-2013.pdf",
+          "pages": [
+            1,
+            13
+          ]
+        },
+        {
+          "source_pdf": "popia-2013.pdf",
+          "pages": [
+            1,
+            36
+          ]
+        },
+        {
+          "source_pdf": "popia-2013.pdf",
+          "pages": [
+            1,
+            41
+          ]
+        }
+      ],
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 48,
+      "ranked_docids": [
+        "2082ff79beb5",
+        "8782c4d5581d",
+        "783767b423e1",
+        "537955af8880",
+        "4a203975c8d6",
+        "5333ae0f435c",
+        "d191b57bb292",
+        "24df9de81af0",
+        "9573d2c0a052",
+        "147fd55975c7"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.7846170207230129
+    }
+  ]
+}

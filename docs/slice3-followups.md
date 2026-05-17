@@ -3,7 +3,7 @@
 Pulled forward from PR #1 code-review and slice 2 discoveries. Each item is
 a candidate for the slice 3 work plan, not a guaranteed deliverable.
 
-**Status legend:** ✅ landed in PR #3 (slice 3 tech-debt batch) or PR #4 (slice 4 autonomous batch); 🟡 deferred (operator-gated or hardware-gated); 🔵 UI polish — all landed in slice 4.
+**Status legend:** ✅ landed in PR #3 (slice 3), PR #4 (slice 4), or PR #5 (slice 5); 🟡 deferred (operator-gated or hardware-gated); 🔵 UI polish — all landed in slice 4.
 
 ## From PR #1 code-review (P2 + P3 items)
 
@@ -134,9 +134,12 @@ a candidate for the slice 3 work plan, not a guaranteed deliverable.
     becomes a path (today's design re-embeds only at ingest), revisit the
     sizing. (P3)
 
-22. 🟡 **South African legislation corpus.**
-    Slice 2 shipped against the quant-finance corpus. The sales narrative
-    targets compliance/legal/ops buyers; demoing against a legislation
-    corpus aligns the narrative. Source ~30 PDFs from gov.za, ingest, relabel
-    a category-balanced eval set. (P1 — gate for first paid legal-sector
-    engagement.)
+22. ✅ **South African legislation corpus.**
+    Curated 4 acts (POPIA, Companies, Consumer Protection, Labour Relations)
+    sourced from gov.za via `scripts/fetch_sa_legislation.py`. New collection
+    `sa-legislation` (401 chunks, 589 pages). 7 labelled queries + 3 refusal-
+    expected; baseline recall@5 = 1.000 (small corpus, topically clean).
+    ADR-008 documents the corpus + the chunker page-start quirk surfaced
+    during labelling. Sourcing for 3 additional acts (NCA / FICA / PAIA)
+    was attempted but URLs returned 404 — slice 6 follow-up. (P1 — landed in
+    slice 5)
