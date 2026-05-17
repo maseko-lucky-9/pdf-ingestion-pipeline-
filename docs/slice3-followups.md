@@ -3,7 +3,7 @@
 Pulled forward from PR #1 code-review and slice 2 discoveries. Each item is
 a candidate for the slice 3 work plan, not a guaranteed deliverable.
 
-**Status legend:** ✅ landed in PR #3 (slice 3 tech-debt batch); 🟡 deferred (operator-gated or research-gated); 🔵 deferred (UI polish bundle).
+**Status legend:** ✅ landed in PR #3 (slice 3 tech-debt batch) or PR #4 (slice 4 autonomous batch); 🟡 deferred (operator-gated or hardware-gated); 🔵 UI polish — all landed in slice 4.
 
 ## From PR #1 code-review (P2 + P3 items)
 
@@ -68,13 +68,12 @@ a candidate for the slice 3 work plan, not a guaranteed deliverable.
     overlap matcher and the hit counter. New baseline: recall@5 = 0.894
     (was 0.875 against uuid labels). (P1 — landed)
 
-12. 🟡 **Expand the labelled eval set toward 30-40 queries.**
-    Slice 2 shipped with 9 queries (8 scored, 1 refusal-expected). The parent
-    plan called for 50; corpus coverage caps the realistic count around 30-40
-    (RSI, Bollinger, MACD have thin coverage). Expand with queries the corpus
-    actually supports across the 5 categories, then bump the recall@5 target
-    to 0.85 on the new set. (P1; deferred — slow LLM-as-labeller work, best
-    done as its own focused session)
+12. ✅ **Expand the labelled eval set toward 30-40 queries.**
+    Set expanded 9 → 28 queries (25 labelled + 3 refusal-expected) across the
+    5 categories. 4 drafted queries dropped because the corpus has thin
+    retrieval coverage for those topics (Kelly, slippage, microstructure
+    noise, volatility clustering). New baseline: recall@5 = 0.919 on the
+    25-labelled-query set (was 0.894 on 8). (P1 — landed in slice 4)
 
 13. ✅ **Wire the eval harness into CI.**
     `.github/workflows/test.yml` runs pytest on every push + PR.
@@ -85,16 +84,19 @@ a candidate for the slice 3 work plan, not a guaranteed deliverable.
     upload + scheduled runs. (P1 — landed; scheduled cadence deferred to
     slice 4)
 
-14. 🟡 **Per-PDF ingest parallelism.**
-    Slice 2 measured ~80 sec per PDF on M2 (single-threaded). A 50-PDF
-    corpus takes ~67 min today. With per-PDF parallelism we should land
-    under ~20 min on the same hardware. (P2)
+14. ✅ **Per-PDF ingest parallelism.**
+    `--parallel N` flag on `python -m src.ingest` and `scripts/swap_corpus.py`.
+    ProcessPoolExecutor handles extract+normalize+chunk in workers; embed
+    (Ollama) + write (SQLite) stay serial. Measured: 4 PDFs went 325s → 252s
+    with --parallel 3 (23% reduction; on 50 PDFs the worker overhead
+    amortises better — projected ~25-30 min vs ~67 min). (P2 — landed in slice 4)
 
-15. 🟡 **OCR for scanned PDFs.**
-    `src/pipeline/router.is_scanned()` already detects scanned PDFs and
-    skips them with a warning. Many prospect corpora contain scanned legal
-    documents; add a `--ocr` flag to `scripts/swap_corpus.py` that pipes
-    detected scans through Tesseract before ingest. (P2)
+15. ✅ **OCR for scanned PDFs.**
+    `scripts/ocr_preprocess.py` uses Tesseract (`pdf` output mode) to produce
+    searchable PDFs the existing pipeline can ingest. `scripts/swap_corpus.py
+    --ocr` enables pre-processing. Lazy imports of pytesseract + pdf2image
+    so the project still works without Tesseract installed. Realistic
+    timing: ~6-10 sec per page at 300 DPI. (P2 — landed in slice 4)
 
 16. 🟡 **Live judge calibration result.**
     `scripts/run_judge_calibration.py` is in place but needs to be run once
@@ -102,15 +104,18 @@ a candidate for the slice 3 work plan, not a guaranteed deliverable.
     against ~10 hand-spot-checked verdicts. If agreement < 80%, document the
     faithfulness caveat in the released baseline JSON. (P1)
 
-17. 🔵 **Light theme for the citation UI.**
-    `src/api/static/styles.css` is dark-only. Light-theme parity adds visual
-    flexibility for prospects on light-themed decks. (P3)
+17. ✅ **Light theme for the citation UI.**
+    Token-driven dark + light themes. `prefers-color-scheme` drives the
+    default; `body[data-theme="light"|"dark"]` forces a specific theme.
+    Toggle button in the topbar persists choice to localStorage. (P3 — landed in slice 4)
 
-18. 🔵 **PDF.js viewer instead of the browser iframe.**
-    The current `<iframe>` renders the PDF using the browser's built-in
-    viewer, which works on Chrome and Safari but is inconsistent on Firefox
-    and Edge mobile. PDF.js gives consistent rendering, programmatic page
-    navigation, and search highlighting. (P3)
+18. ✅ **PDF.js viewer (opt-in).**
+    `buildPdfViewerUrl()` in app.js dispatches between the browser-native
+    iframe (default) and a Mozilla pdf.js viewer (opt-in). To enable, set
+    `window.PRUDENTIA_PDF_VIEWER = "pdfjs"` + `PRUDENTIA_PDF_VIEWER_BASE` to
+    a same-origin pdf.js install before app.js loads. CORS on pdf.js's
+    `file` param means CDN-hosted pdf.js won't work; the vendored-locally
+    path is the production approach. (P3 — landed in slice 4)
 
 19. 🟡 **ntfy cron health-pinger across all demo systems.**
     Per the parent plan's Phases 2–6 framing item 6: a single cron-driven
