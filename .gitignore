@@ -32,3 +32,6 @@ data/
 
 # Operational logs (audit log retained on each host, not in git)
 logs/
+
+# Demo recordings (>25 MB)
+assets/demos/*.mp4

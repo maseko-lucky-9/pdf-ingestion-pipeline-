@@ -8,9 +8,9 @@
 
 ## Pre-demo (offline, before the call)
 
-> **Status (slice 1):** the dedicated [`docs/pre-demo-checklist.md`](pre-demo-checklist.md) ships in Phase 3 slice 2. Until it lands, the "Quick verify" block below is the floor — do not skip it.
+Run [`docs/pre-demo-checklist.md`](pre-demo-checklist.md). T-60 / T-15 / T-5 sequence; don't skip it.
 
-Quick verify:
+Quick verify (subset of the checklist):
 ```bash
 .venv/bin/python -c "from src.answer import synthesize_answer; print('imports OK')"
 .venv/bin/python -m pytest tests/test_answer.py tests/test_api_server.py -q
@@ -88,10 +88,10 @@ Pause. Let them answer.
 Yes. Python + SQLite + Ollama. Tested on a 32 GB Linux VM. We can deploy behind Cloudflare Access or Tailscale today.
 
 **"What's the false-answer rate?"**
-The eval harness reports answer-faithfulness on every change. We don't release without baseline measurement. Current numbers ship with the engagement report.
+The eval harness reports recall@5 and answer-faithfulness on every release. Current baseline: recall@5 = 0.875 on 8 labelled queries (target 0.85). We don't release without baseline measurement; numbers ship with the engagement report.
 
 **"How long does ingestion take?"**
-~3–8 minutes per 500-page PDF on an M2 MacBook. Re-indexing is incremental.
+~80 sec per mid-size native-text PDF on an M2 MacBook (measured 2026-05-17). A 50-PDF / 200 MB prospect corpus is ~60-70 min end-to-end. Re-indexing is incremental. Scanned PDFs are auto-detected and skipped with a warning — for OCR-required corpora we add a pre-processing step ahead of the engagement.
 
 **"How do you handle POPIA / data residency?"**
 Retrieval is fully local. Answer synthesis defaults to Anthropic API but swaps to a local Llama model with one config change. See `docs/decisions/ADR-006-…` for the trade-off.
@@ -106,7 +106,7 @@ Three tiers — Audit / Pilot / Retainer. Indicative ranges in the next session 
 Network drops, API quota hit, daemon died:
 
 1. **Acknowledge immediately.** "Live system is having a moment — happens 1 in 30 demos. Showing the recorded run."
-2. **Open `assets/demos/production-rag.mp4`** (5-min pre-recorded run). **Status (slice 1):** the recording itself ships in Phase 3 slice 2 (Task 5). Until then, the live demo IS the demo — do not book a call you cannot run live, and pre-rehearse the corpus + opening query under the conditions you'll face.
+2. **Open `assets/demos/production-rag.mp4`** (5-min pre-recorded run; deterministic walkthrough per `assets/demos/production-rag-script.md`). If the file is missing on a fresh checkout, the recording is gitignored (size) and lives in the Prudentia private bucket — pull it before the call.
 3. **Do not debug live.** Looks worse than the recording.
 
 Log the failure post-call. Two same-kind failures in a month → switch to recording-first until fixed.
