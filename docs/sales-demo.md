@@ -8,7 +8,7 @@
 
 ## Pre-demo (offline, before the call)
 
-Run [`docs/pre-demo-checklist.md`](pre-demo-checklist.md). Three minutes; don't skip it.
+> **Status (slice 1):** the dedicated [`docs/pre-demo-checklist.md`](pre-demo-checklist.md) ships in Phase 3 slice 2. Until it lands, the "Quick verify" block below is the floor — do not skip it.
 
 Quick verify:
 ```bash
@@ -106,7 +106,7 @@ Three tiers — Audit / Pilot / Retainer. Indicative ranges in the next session 
 Network drops, API quota hit, daemon died:
 
 1. **Acknowledge immediately.** "Live system is having a moment — happens 1 in 30 demos. Showing the recorded run."
-2. **Open `assets/demos/production-rag.mp4`** (5-min pre-recorded run).
+2. **Open `assets/demos/production-rag.mp4`** (5-min pre-recorded run). **Status (slice 1):** the recording itself ships in Phase 3 slice 2 (Task 5). Until then, the live demo IS the demo — do not book a call you cannot run live, and pre-rehearse the corpus + opening query under the conditions you'll face.
 3. **Do not debug live.** Looks worse than the recording.
 
 Log the failure post-call. Two same-kind failures in a month → switch to recording-first until fixed.
