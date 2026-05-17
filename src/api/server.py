@@ -59,10 +59,16 @@ app = FastAPI(
     description="Retrieve + synthesize cited answers from ingested PDF collections.",
 )
 
+_cors_origins = os.environ.get("CORS_ORIGINS", "*").split(",")
+# `allow_credentials=True` is incompatible with `allow_origins=["*"]` per the
+# CORS spec (browsers refuse the combo). Only enable credentials when the
+# operator has narrowed origins explicitly via the env var.
+_cors_allow_credentials = _cors_origins != ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.environ.get("CORS_ORIGINS", "*").split(","),
-    allow_credentials=True,
+    allow_origins=_cors_origins,
+    allow_credentials=_cors_allow_credentials,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
