@@ -1,7 +1,13 @@
 // Prudentia RAG demo UI controller.
 // Vanilla DOM + fetch; no framework. The [doc-N] markers in the answer are
 // turned into click targets that load the cited source PDF into the right
-// pane at the cited page (via the browser's built-in PDF #page anchor).
+// pane at the cited page.
+//
+// PDF rendering: by default uses Mozilla's pdf.js viewer (consistent across
+// Chrome, Safari, Firefox, Edge). The viewer is loaded from a CDN; set
+// `window.PRUDENTIA_PDF_VIEWER = "native"` BEFORE this script loads to
+// fall back to the browser's built-in iframe rendering (e.g. for air-gapped
+// demos that cannot reach a CDN).
 //
 // XSS posture: we never assemble HTML by string concatenation. Every piece
 // of server-returned text reaches the DOM through textContent. The only
@@ -12,6 +18,33 @@
 
 const REFUSAL_PREFIX = "I cannot answer this question from the provided context.";
 const DOC_TAG_RE = /\[doc-(\d+)\]/g;
+
+// PDF rendering strategy:
+//   "native" (default): use the browser's built-in PDF viewer via #page=N.
+//                       Works on Chrome and Safari out of the box; Firefox
+//                       and Edge mobile are inconsistent on the page anchor.
+//   "pdfjs":            use a Mozilla pdf.js viewer (consistent everywhere).
+//                       Requires the viewer to be SAME-ORIGIN (mozilla.github.io
+//                       enforces CORS on the file param); vendor pdf.js under
+//                       /static/pdfjs/ and set PRUDENTIA_PDF_VIEWER_BASE.
+//
+// To opt into pdf.js, set BEFORE app.js loads:
+//     window.PRUDENTIA_PDF_VIEWER = "pdfjs";
+//     window.PRUDENTIA_PDF_VIEWER_BASE = "/static/pdfjs/web/viewer.html";
+const PDF_VIEWER_MODE =
+  (typeof window !== "undefined" && window.PRUDENTIA_PDF_VIEWER) || "native";
+const PDF_VIEWER_BASE =
+  (typeof window !== "undefined" && window.PRUDENTIA_PDF_VIEWER_BASE) || null;
+
+function buildPdfViewerUrl(collection, docid, page) {
+  const fileParam = `/document/${encodeURIComponent(collection)}/${encodeURIComponent(docid)}`;
+  if (PDF_VIEWER_MODE !== "pdfjs" || !PDF_VIEWER_BASE) {
+    // Native browser PDF viewer with the standard #page anchor.
+    return `${fileParam}#page=${page}`;
+  }
+  const absoluteFile = new URL(fileParam, window.location.origin).toString();
+  return `${PDF_VIEWER_BASE}?file=${encodeURIComponent(absoluteFile)}#page=${page}`;
+}
 
 const $ = (id) => document.getElementById(id);
 
@@ -31,7 +64,45 @@ const els = {
   panel: $("panel"),
   panelTitle: $("panelTitle"),
   closePanel: $("closePanel"),
+  themeToggle: $("themeToggle"),
+  themeIcon: $("themeIcon"),
 };
+
+// ─── Theme handling ─────────────────────────────────────────────────────────
+// Persist the operator's choice in localStorage. If no choice has been made,
+// fall back to the prefers-color-scheme system preference (handled by CSS).
+
+const THEME_KEY = "prudentia-rag.theme";
+
+function applyTheme(theme) {
+  // theme is "light", "dark", or null (system default)
+  if (theme === "light" || theme === "dark") {
+    document.body.setAttribute("data-theme", theme);
+  } else {
+    document.body.removeAttribute("data-theme");
+  }
+  if (els.themeIcon) {
+    // Show the icon for the OPPOSITE theme (i.e. what you'll get on click).
+    const isLight = (theme === "light") ||
+      (theme === null && window.matchMedia("(prefers-color-scheme: light)").matches);
+    els.themeIcon.textContent = isLight ? "◑" : "◐";
+  }
+}
+
+function toggleTheme() {
+  const current = document.body.getAttribute("data-theme");
+  let next;
+  if (current === "light") next = "dark";
+  else if (current === "dark") next = "light";
+  else {
+    // No explicit choice yet — flip relative to the system preference.
+    next = window.matchMedia("(prefers-color-scheme: light)").matches ? "dark" : "light";
+  }
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+
+applyTheme(localStorage.getItem(THEME_KEY));
 
 let lastResponse = null;
 
@@ -146,7 +217,7 @@ function openCitation(n, anchorEl) {
 
   const collection = els.collection.value;
   const page = c.page_range && c.page_range[0] ? c.page_range[0] : 1;
-  const src = `/document/${encodeURIComponent(collection)}/${encodeURIComponent(c.docid)}#page=${page}`;
+  const src = buildPdfViewerUrl(collection, c.docid, page);
 
   els.panel.classList.remove("empty");
   els.panelTitle.textContent = `${c.source_pdf} · p.${page}`;
@@ -156,6 +227,8 @@ function openCitation(n, anchorEl) {
   const iframe = document.createElement("iframe");
   iframe.setAttribute("src", src);
   iframe.setAttribute("title", "source PDF");
+  // pdf.js needs same-origin storage for state; allow it on the iframe.
+  iframe.setAttribute("allow", "fullscreen");
   els.panel.appendChild(iframe);
 }
 
@@ -224,4 +297,5 @@ async function submit(event) {
 
 els.form.addEventListener("submit", submit);
 els.closePanel.addEventListener("click", closePanel);
+if (els.themeToggle) els.themeToggle.addEventListener("click", toggleTheme);
 loadCollections();

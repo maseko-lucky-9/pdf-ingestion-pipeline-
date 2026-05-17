@@ -62,6 +62,25 @@ def main() -> None:
         default=None,
         help="Optional query string to run against the new index after ingest.",
     )
+    parser.add_argument(
+        "--parallel",
+        type=int,
+        default=1,
+        help="Worker count for the extract+normalize+chunk phases (slice 4 #14). "
+             "Embed+write stay serial regardless. Default 1.",
+    )
+    parser.add_argument(
+        "--ocr",
+        action="store_true",
+        help="Pre-process scanned PDFs with Tesseract before ingest (slice 4 #15). "
+             "Requires `tesseract` and `pdftoppm` on PATH. Outputs an OCR'd folder "
+             "alongside the input and points ingest at it.",
+    )
+    parser.add_argument(
+        "--ocr-lang",
+        default="eng",
+        help="Tesseract language code passed through to OCR pre-processing.",
+    )
     args = parser.parse_args()
 
     if not args.src.exists() or not args.src.is_dir():
@@ -74,6 +93,14 @@ def main() -> None:
         sys.exit(2)
     print(f"[+] Found {len(pdfs)} PDFs under {args.src}")
 
+    ingest_src = args.src
+    if args.ocr:
+        ocr_dir = args.src.parent / f"{args.src.name}-ocr"
+        print(f"[+] OCR pre-processing: {args.src} → {ocr_dir}")
+        from scripts.ocr_preprocess import ocr_folder
+        ocr_folder(args.src, ocr_dir, lang=args.ocr_lang)
+        ingest_src = ocr_dir
+
     target_dir = args.collections_root / args.collection_name
     if target_dir.exists() and not args.keep_existing:
         print(f"[+] Nuking existing collection {target_dir}")
@@ -82,19 +109,19 @@ def main() -> None:
         print(f"[+] Keeping existing collection {target_dir} (--keep-existing)")
 
     t0 = time.perf_counter()
-    proc = subprocess.run(
-        [
-            sys.executable,
-            "-m",
-            "src.ingest",
-            str(args.src),
-            "--collection",
-            args.collection_name,
-            "--domain",
-            args.domain,
-        ],
-        check=False,
-    )
+    cmd = [
+        sys.executable,
+        "-m",
+        "src.ingest",
+        str(ingest_src),
+        "--collection",
+        args.collection_name,
+        "--domain",
+        args.domain,
+    ]
+    if args.parallel > 1:
+        cmd.extend(["--parallel", str(args.parallel)])
+    proc = subprocess.run(cmd, check=False)
     elapsed = time.perf_counter() - t0
 
     if proc.returncode != 0:
