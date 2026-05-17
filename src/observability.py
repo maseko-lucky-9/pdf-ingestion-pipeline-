@@ -59,6 +59,11 @@ def log_rag_request(
     hit_count: int = 0,
     prompt_tokens: int = 0,
     completion_tokens: int = 0,
+    retrieve_ms: float | None = None,
+    synth_ms: float | None = None,
+    answer_len: int | None = None,
+    citations_count: int | None = None,
+    refused: bool | None = None,
     error: str | None = None,
 ) -> None:
     """Single structured-log emit point for every /query call.
@@ -66,6 +71,12 @@ def log_rag_request(
     Truncates the query to 200 chars so the log line stays bounded. To wire
     OTEL traces or Sentry breadcrumbs later, change only this function — the
     callers never need to know.
+
+    Fields ``retrieve_ms`` / ``synth_ms`` split the total latency so an
+    investigator can tell whether time went to retrieval or to the LLM call.
+    ``refused`` distinguishes a successful answer from a deliberate refusal.
+    ``answer_len`` and ``citations_count`` let post-hoc analysis spot
+    suspiciously short / uncited answers without rerunning the request.
     """
     configure_logging()
     log = structlog.get_logger("rag")
@@ -80,5 +91,10 @@ def log_rag_request(
         hit_count=hit_count,
         prompt_tokens=prompt_tokens,
         completion_tokens=completion_tokens,
+        retrieve_ms=retrieve_ms,
+        synth_ms=synth_ms,
+        answer_len=answer_len,
+        citations_count=citations_count,
+        refused=refused,
         error=error,
     )

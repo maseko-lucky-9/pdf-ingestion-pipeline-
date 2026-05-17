@@ -28,7 +28,10 @@ from pydantic import BaseModel, Field
 
 from src.pipeline.retriever import SearchResult
 
-_DEFAULT_MODEL = "claude-3-5-sonnet-latest"
+# Pinned to a dated alias so eval baselines do not drift silently when
+# Anthropic ships a new minor. Bump this together with a re-baseline of
+# results/slice2-baseline.json (see ADR-006 + slice 3 follow-ups).
+_DEFAULT_MODEL = "claude-3-5-sonnet-20241022"
 _DEFAULT_MAX_TOKENS = 4096
 _REFUSAL_TEXT = "I cannot answer this question from the provided context."
 _SNIPPET_MAX_CHARS = 300
@@ -45,8 +48,18 @@ context the user provides. Rules:
 5. Do not invent docids or citations.
 """
 
-# Captures the integer N inside [doc-N] tags in the model's answer.
-_DOC_TAG_RE = re.compile(r"\[doc-(\d+)\]")
+# Captures integer Ns inside citation tags in the model's answer.
+#
+# The canonical form the system prompt asks for is `[doc-N]`. We tolerate
+# common drift the model produces in practice:
+#   * Case:   [Doc-1], [DOC-1]
+#   * Spacing inside brackets:  [doc 1], [ doc-1 ], [doc- 1]
+#   * Multi-citation runs:      [doc-1, doc-3], [doc-1; doc-3]
+# Each `[...]` group is scanned independently and every integer it contains
+# becomes one citation reference. Outer brackets that contain no integer are
+# left as-is in the rendered answer (defensive — Markdown lists, etc.).
+_DOC_TAG_BLOCK_RE = re.compile(r"\[\s*[Dd][Oo][Cc][^\]]*\]")
+_DOC_INT_RE = re.compile(r"\d+")
 
 
 class Citation(BaseModel):
@@ -94,29 +107,31 @@ def _truncate_snippet(content: str) -> str:
 
 
 def _extract_citations(answer_text: str, results: list[SearchResult]) -> list[Citation]:
-    """Find every unique [doc-N] tag in the answer and resolve to Citations.
+    """Find every unique citation index in the answer and resolve to Citations.
 
-    A tag pointing past the end of results is silently dropped (defensive —
-    a misbehaving model occasionally invents tags). Ordering reflects the
+    Tolerates model drift (case, spacing, multi-citation runs). A tag
+    pointing past the end of results is silently dropped (defensive — a
+    misbehaving model occasionally invents tags). Ordering reflects the
     order of first appearance in the answer text.
     """
     seen: set[int] = set()
     citations: list[Citation] = []
-    for match in _DOC_TAG_RE.finditer(answer_text):
-        n = int(match.group(1))
-        if n in seen or n < 1 or n > len(results):
-            continue
-        seen.add(n)
-        r = results[n - 1]
-        citations.append(
-            Citation(
-                docid=r.docid,
-                source_pdf=r.source_pdf,
-                page_range=r.page_range,
-                snippet=_truncate_snippet(r.content),
-                score=r.score,
+    for block in _DOC_TAG_BLOCK_RE.finditer(answer_text):
+        for int_match in _DOC_INT_RE.finditer(block.group(0)):
+            n = int(int_match.group(0))
+            if n in seen or n < 1 or n > len(results):
+                continue
+            seen.add(n)
+            r = results[n - 1]
+            citations.append(
+                Citation(
+                    docid=r.docid,
+                    source_pdf=r.source_pdf,
+                    page_range=r.page_range,
+                    snippet=_truncate_snippet(r.content),
+                    score=r.score,
+                )
             )
-        )
     return citations
 
 
