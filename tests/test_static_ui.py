@@ -108,3 +108,33 @@ class TestStaticMount:
         body = res.json()
         assert "status" in body
         assert body["status"] == "ok"
+
+
+class TestStaticAssetsContainThemeAndPdfjsHooks:
+    """Light theme + PDF.js opt-in (slice 4 #17 + #18)."""
+
+    def test_styles_define_light_theme_tokens(self, client_with_pdf):
+        client, _ = client_with_pdf
+        css = client.get("/styles.css").text
+        assert "prefers-color-scheme: light" in css
+        assert 'data-theme="light"' in css
+        assert 'data-theme="dark"' in css
+
+    def test_app_js_exposes_theme_toggle(self, client_with_pdf):
+        client, _ = client_with_pdf
+        js = client.get("/app.js").text
+        assert "toggleTheme" in js
+        assert "data-theme" in js
+
+    def test_app_js_supports_pdfjs_opt_in(self, client_with_pdf):
+        client, _ = client_with_pdf
+        js = client.get("/app.js").text
+        assert "PDF_VIEWER_MODE" in js
+        assert "PRUDENTIA_PDF_VIEWER" in js
+        assert "buildPdfViewerUrl" in js
+
+    def test_index_has_theme_toggle_button(self, client_with_pdf):
+        client, _ = client_with_pdf
+        html = client.get("/").text
+        assert 'id="themeToggle"' in html
+        assert 'id="themeIcon"' in html

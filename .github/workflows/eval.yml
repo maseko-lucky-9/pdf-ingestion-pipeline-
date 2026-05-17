@@ -3,7 +3,7 @@
 # will wire collection-artifact upload + scheduled runs.
 #
 # Slice 3 backlog item #13 — second half. Gating logic:
-#   * recall@5 must not drop by more than 5% vs results/slice2-baseline.json
+#   * recall@5 must not drop by more than 5% vs results/slice4-baseline.json
 #   * mrr@10 must not drop by more than 5%
 #   * Faithfulness disabled in CI (cost). Re-enable when budget allows.
 
@@ -71,7 +71,7 @@ jobs:
         run: |
           python <<'PY'
           import json, sys, pathlib
-          base = json.loads(pathlib.Path("results/slice2-baseline.json").read_text())
+          base = json.loads(pathlib.Path("results/slice4-baseline.json").read_text())
           cur  = json.loads(pathlib.Path("results/ci-eval.json").read_text())
           drift_pct = lambda b, c: (b - c) / b * 100 if b > 0 else 0
           recall_drop = drift_pct(base["avg_recall@5"], cur["avg_recall@5"])

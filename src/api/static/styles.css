@@ -1,6 +1,10 @@
-/* Prudentia RAG demo UI — dark theme to match prudentia-digital-website tokens. */
+/* Prudentia RAG demo UI — supports light + dark themes via prefers-color-scheme.
+ * Tokens align with prudentia-digital-website. Override the body's
+ * `data-theme` attribute to force a theme: data-theme="light" / "dark".
+ */
 
 :root {
+  /* Dark is the default — same palette as slice 2. */
   --bg: #0d0f12;
   --panel: #15181d;
   --panel-2: #1c2026;
@@ -11,8 +15,64 @@
   --accent-strong: #e2b878;
   --link: #7fb3ff;
   --refusal: #f1b15d;
+  --cite-bg: rgba(201, 160, 98, 0.12);
+  --cite-bg-hover: rgba(201, 160, 98, 0.22);
+  --cite-border: rgba(201, 160, 98, 0.25);
+  --pdf-iframe-bg: #ffffff;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fafbfc;
+    --panel: #ffffff;
+    --panel-2: #f1f3f6;
+    --border: #d8dde3;
+    --text: #1a1d22;
+    --muted: #5b6473;
+    --accent: #8c6c3d;        /* AA contrast against light bg + on a light pill */
+    --accent-strong: #6e5430;
+    --link: #1f5fbf;
+    --refusal: #a25b18;
+    --cite-bg: rgba(140, 108, 61, 0.10);
+    --cite-bg-hover: rgba(140, 108, 61, 0.18);
+    --cite-border: rgba(140, 108, 61, 0.30);
+    --pdf-iframe-bg: #ffffff;
+  }
+}
+
+/* Manual overrides for prospects who want a specific theme during a demo. */
+body[data-theme="dark"] {
+  --bg: #0d0f12;
+  --panel: #15181d;
+  --panel-2: #1c2026;
+  --border: #2a3038;
+  --text: #e6e9ef;
+  --muted: #8b94a3;
+  --accent: #c9a062;
+  --accent-strong: #e2b878;
+  --link: #7fb3ff;
+  --refusal: #f1b15d;
+  --cite-bg: rgba(201, 160, 98, 0.12);
+  --cite-bg-hover: rgba(201, 160, 98, 0.22);
+  --cite-border: rgba(201, 160, 98, 0.25);
+}
+
+body[data-theme="light"] {
+  --bg: #fafbfc;
+  --panel: #ffffff;
+  --panel-2: #f1f3f6;
+  --border: #d8dde3;
+  --text: #1a1d22;
+  --muted: #5b6473;
+  --accent: #8c6c3d;
+  --accent-strong: #6e5430;
+  --link: #1f5fbf;
+  --refusal: #a25b18;
+  --cite-bg: rgba(140, 108, 61, 0.10);
+  --cite-bg-hover: rgba(140, 108, 61, 0.18);
+  --cite-border: rgba(140, 108, 61, 0.30);
 }
 
 * { box-sizing: border-box; }
@@ -36,6 +96,12 @@ html, body {
   background: var(--panel);
 }
 
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .brand {
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -45,6 +111,13 @@ html, body {
   color: var(--muted);
   font-family: var(--mono);
   font-size: 12px;
+}
+
+#themeToggle {
+  font-size: 16px;
+  line-height: 1;
+  padding: 6px 10px;
+  min-width: 36px;
 }
 
 .layout {
@@ -94,7 +167,7 @@ html, body {
   width: 100%;
   height: 100%;
   border: 0;
-  background: #ffffff; /* PDF viewer renders cleaner on white */
+  background: var(--pdf-iframe-bg);
 }
 
 .placeholder {

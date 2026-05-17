@@ -1,5 +1,10 @@
 docling==2.15.0
 pypdfium2>=4.30.0
+# OCR for scanned PDFs (slice 4 #15). pytesseract needs the `tesseract`
+# binary on PATH; pdf2image needs `pdftoppm` (poppler). Both are optional;
+# scripts/ocr_preprocess.py imports them lazily.
+pytesseract>=0.3.10
+pdf2image>=1.17.0
 # pymupdf>=1.24.0  # used only by benchmarks; kept installed but not a production dep
 ollama>=0.1.0
 tiktoken>=0.5.0
