@@ -29,3 +29,6 @@ data/
 
 # Claude Code local settings
 .claude/
+
+# Operational logs (audit log retained on each host, not in git)
+logs/
