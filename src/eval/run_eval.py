@@ -11,6 +11,7 @@ import argparse
 import datetime as _dt
 import json
 import math
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -21,6 +22,82 @@ from src.config import load_config
 from src.pipeline.retriever import retrieve
 
 console = Console()
+
+
+# A label is identified by (source_pdf_basename, page_start, page_end). Two
+# chunks count as "the same labelled source" iff they share a label key —
+# concretely, iff their page ranges overlap one of the label's page ranges.
+LabelKey = tuple[str, int, int]
+
+
+def _chunk_matches_label(chunk_source: str, chunk_pages: tuple[int, int], label: dict) -> bool:
+    """True iff the chunk's page range overlaps a label's page range and the
+    chunk's source PDF basename matches the label's."""
+    basename = label["source_pdf"]
+    if not chunk_source.endswith(basename):
+        return False
+    label_start, label_end = label["pages"][0], label["pages"][1]
+    chunk_start, chunk_end = chunk_pages
+    return chunk_start <= label_end and chunk_end >= label_start
+
+
+def _hits_per_label(
+    relevant_pages: list[dict],
+    ranked_chunks: list[tuple[str, tuple[int, int]]],
+    k: int,
+) -> tuple[int, int]:
+    """Count distinct labels that any top-k retrieved chunk overlaps.
+
+    Returns ``(n_labels_hit, n_labels_total)``. Recall@k = first / second.
+    A single retrieved chunk that overlaps multiple labels counts once per
+    label; a single label that multiple retrieved chunks overlap also counts
+    once. The metric measures coverage of distinct labelled sources, NOT
+    coverage of chunks.
+    """
+    n_total = len(relevant_pages)
+    hit: set[int] = set()
+    for chunk_source, chunk_pages in ranked_chunks[:k]:
+        for idx, label in enumerate(relevant_pages):
+            if idx in hit:
+                continue
+            if _chunk_matches_label(chunk_source, chunk_pages, label):
+                hit.add(idx)
+    return len(hit), n_total
+
+
+def _resolve_stable_labels(
+    relevant_pages: list[dict],
+    db_path: Path,
+) -> set[str]:
+    """Resolve (source_pdf, pages) stable labels to current chunk docids.
+
+    Retained for the legacy fall-through path and for any downstream consumer
+    that wants a flat docid set. The primary metric path now uses
+    :func:`_hits_per_label` directly on the retriever's (source, pages)
+    output so chunker boundary changes between ingests do not change recall.
+    """
+    if not relevant_pages:
+        return set()
+    con = sqlite3.connect(str(db_path))
+    docids: set[str] = set()
+    try:
+        for ref in relevant_pages:
+            basename = ref["source_pdf"]
+            start, end = ref["pages"][0], ref["pages"][1]
+            rows = con.execute(
+                """
+                SELECT docid FROM meta
+                WHERE source_pdf LIKE ?
+                  AND page_start <= ?
+                  AND page_end   >= ?
+                """,
+                (f"%{basename}", end, start),
+            ).fetchall()
+            for (docid,) in rows:
+                docids.add(docid)
+    finally:
+        con.close()
+    return docids
 
 
 def _recall_at_k(relevant: set[str], ranked: list[str], k: int = 5) -> float:
@@ -65,12 +142,20 @@ def run_eval(
     with open(labels_path) as f:
         queries = json.load(f)
 
-    unlabeled = [q for q in queries if not q.get("relevant_docids")]
-    if unlabeled:
-        console.print(f"[yellow]Warning: {len(unlabeled)} queries have no relevant_docids — skipping.[/yellow]")
-        queries = [q for q in queries if q.get("relevant_docids")]
+    # Queries without relevant_pages (refusal-expected) are skipped from the
+    # averaging — they belong to a separate eval axis.
+    eligible: list[dict] = []
+    skipped: list[str] = []
+    for q in queries:
+        if not q.get("relevant_pages"):
+            skipped.append(q["id"])
+            continue
+        eligible.append(q)
 
-    if not queries:
+    if skipped:
+        console.print(f"[yellow]Skipping {len(skipped)} queries with no relevant_pages (e.g. refusal-expected): {skipped}[/yellow]")
+
+    if not eligible:
         console.print("[red]No labeled queries to evaluate.[/red]")
         sys.exit(1)
 
@@ -84,14 +169,24 @@ def run_eval(
     per_query: list[dict] = []
     recalls, mrrs, ndcgs = [], [], []
 
-    for q in queries:
-        relevant = set(q["relevant_docids"])
+    for q in eligible:
+        relevant_pages = q["relevant_pages"]
+        # Per-chunk MRR/NDCG still operate on docid identity (chunk granularity
+        # is the right level for "which retrieved item ranked highest"). Recall
+        # is over the LABEL set — i.e. distinct source ranges — because two
+        # chunks at the same range are not two different sources.
+        relevant_docids = _resolve_stable_labels(relevant_pages, db_path)
         results = retrieve(q["query"], db_path, cfg)
         ranked = [r.docid for r in results]
-
-        recall = _recall_at_k(relevant, ranked, k=5)
-        mrr = _mrr_at_k(relevant, ranked)
-        ndcg = _ndcg_at_k(relevant, ranked)
+        ranked_chunks = [(r.source_pdf, r.page_range) for r in results]
+        n_hit, n_total = _hits_per_label(relevant_pages, ranked_chunks, k=5)
+        recall = n_hit / n_total if n_total else 0.0
+        # MRR and NDCG still use the per-chunk relevant set so they reward
+        # finding any chunk overlapping a labelled source. This is the same
+        # semantics the metrics had previously, just sourced from stable
+        # labels instead of uuid pins.
+        mrr = _mrr_at_k(relevant_docids, ranked)
+        ndcg = _ndcg_at_k(relevant_docids, ranked)
         recalls.append(recall)
         mrrs.append(mrr)
         ndcgs.append(ndcg)
@@ -99,7 +194,10 @@ def run_eval(
         per_query.append({
             "id": q["id"],
             "query": q["query"],
-            "relevant_docids": list(relevant),
+            "relevant_pages": relevant_pages,
+            "n_labels": n_total,
+            "n_labels_hit_at_5": n_hit,
+            "resolved_docids_count": len(relevant_docids),
             "ranked_docids": ranked[:10],
             "recall@5": recall,
             "mrr@10": mrr,

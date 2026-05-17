@@ -4,9 +4,21 @@
     "category": "factual_lookup",
     "query": "What is the RSI indicator and how is it calculated?",
     "expected_source": "Machine Learning for Algorithmic Trading / RSI definition",
-    "relevant_docids": [
-      "a2610bb376c4",
-      "60432dbb0d8e"
+    "relevant_pages": [
+      {
+        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+        "pages": [
+          1022,
+          1023
+        ]
+      },
+      {
+        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+        "pages": [
+          171,
+          171
+        ]
+      }
     ],
     "notes": "Corpus has thin RSI coverage; the canonical definition lives in MLAT p171."
   },
@@ -15,10 +27,28 @@
     "category": "comparison",
     "query": "How does exponential moving average differ from simple moving average?",
     "expected_source": "MLAT side-by-side SMA/EMA definitions; Murphy moving averages chapter",
-    "relevant_docids": [
-      "5536323c02d1",
-      "bc2e4d5cdd63",
-      "467f7f0b5d6b"
+    "relevant_pages": [
+      {
+        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+        "pages": [
+          1014,
+          1018
+        ]
+      },
+      {
+        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+        "pages": [
+          157,
+          192
+        ]
+      },
+      {
+        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+        "pages": [
+          157,
+          190
+        ]
+      }
     ]
   },
   {
@@ -26,23 +56,65 @@
     "category": "multi_doc_synthesis",
     "query": "What is mean reversion and how is it used in pairs trading?",
     "expected_source": "Chan Quantitative Trading mean-reversion chapter",
-    "relevant_docids": [
-      "90d4765d49e1",
-      "ef92795037c2"
+    "relevant_pages": [
+      {
+        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+        "pages": [
+          150,
+          169
+        ]
+      },
+      {
+        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+        "pages": [
+          182,
+          186
+        ]
+      }
     ],
-    "notes": "60b85e97aac1 was dropped from labels — it is the chapter-opener for 'Special Topics in Quantitative Trading' and only marginally about mean-reversion specifically."
+    "notes": "60b85e97aac1 was dropped from labels \u2014 it is the chapter-opener for 'Special Topics in Quantitative Trading' and only marginally about mean-reversion specifically."
   },
   {
     "id": "q004",
     "category": "definition",
     "query": "Explain the Sharpe ratio and its limitations as a performance metric.",
     "expected_source": "Chan + AFML coverage of Sharpe, plus DSR (deflated Sharpe) critique in AFML",
-    "relevant_docids": [
-      "d1f6712b174f",
-      "eefa4e2410fe",
-      "acf8b71ddce6",
-      "f0fc1a88b6cd",
-      "038b9778768a"
+    "relevant_pages": [
+      {
+        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+        "pages": [
+          36,
+          40
+        ]
+      },
+      {
+        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+        "pages": [
+          217,
+          223
+        ]
+      },
+      {
+        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+        "pages": [
+          181,
+          207
+        ]
+      },
+      {
+        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+        "pages": [
+          147,
+          147
+        ]
+      },
+      {
+        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+        "pages": [
+          254,
+          261
+        ]
+      }
     ]
   },
   {
@@ -50,9 +122,21 @@
     "category": "factual_lookup",
     "query": "Describe the MACD indicator and how trading signals are generated from it.",
     "expected_source": "Murphy MACD signal-line crossing; Naked Forex MACD example chart",
-    "relevant_docids": [
-      "9d68d29e894b",
-      "1b6004383a64"
+    "relevant_pages": [
+      {
+        "source_pdf": "Naked_Forex_-_Walter_Petrs.pdf",
+        "pages": [
+          20,
+          35
+        ]
+      },
+      {
+        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+        "pages": [
+          157,
+          240
+        ]
+      }
     ],
     "notes": "Corpus has thin MACD coverage; only two chunks describe the actual signal-generation mechanism."
   },
@@ -61,12 +145,35 @@
     "category": "multi_doc_synthesis",
     "query": "What is cointegration and why does it matter for statistical arbitrage?",
     "expected_source": "MLAT cointegration tests + Chan KO/PEP example + AFML cointegration framing",
-    "relevant_docids": [
-      "0d621ebe175e",
-      "d4c40e2a2fca",
-      "eedf6ee4eb50",
-      "8f1a53b38535",
-      "fc7b891a6de1"
+    "relevant_pages": [
+      {
+        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+        "pages": [
+          434,
+          437
+        ]
+      },
+      {
+        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+        "pages": [
+          423,
+          429
+        ]
+      },
+      {
+        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+        "pages": [
+          190,
+          196
+        ]
+      },
+      {
+        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+        "pages": [
+          111,
+          114
+        ]
+      }
     ],
     "notes": "Capped at 5 canonical labels. 630974910a78 (Johansen trace-stat mechanical) is also relevant but a derivative result; recall@5 cannot exceed 1.0 by definition, so labels are bounded to the canonical 5."
   },
@@ -75,18 +182,36 @@
     "category": "factual_lookup",
     "query": "How do Bollinger Bands work and what do they signal?",
     "expected_source": "MLAT BBANDS function + Bollinger's trading rules; AFML CUSUM-vs-Bollinger critique",
-    "relevant_docids": [
-      "23aa0a7875f5",
-      "77dfc516e3b4",
-      "fe1e6cb85785"
+    "relevant_pages": [
+      {
+        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+        "pages": [
+          316,
+          316
+        ]
+      },
+      {
+        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+        "pages": [
+          1019,
+          1020
+        ]
+      },
+      {
+        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+        "pages": [
+          55,
+          57
+        ]
+      }
     ]
   },
   {
     "id": "q009",
     "category": "refusal_expected",
     "query": "What is the information ratio and how does it differ from the Sharpe ratio?",
-    "expected_source": "(none — corpus does not contain a clean information-ratio definition; system SHOULD refuse)",
-    "relevant_docids": [],
+    "expected_source": "(none \u2014 corpus does not contain a clean information-ratio definition; system SHOULD refuse)",
+    "relevant_pages": [],
     "notes": "Refusal-expected. The corpus covers Sharpe extensively but never defines the information ratio; a faithful system refuses rather than blending. Excluded from recall@5 averaging."
   },
   {
@@ -94,12 +219,42 @@
     "category": "definition",
     "query": "Explain the concept of drawdown and how it is used to measure risk.",
     "expected_source": "AFML DD definition + Chan max-DD calculation + MLAT pyfolio drawdown plot",
-    "relevant_docids": [
-      "0bfde0e9fd7c",
-      "306e87714d7c",
-      "a7d285c7a576",
-      "90e284d269f4",
-      "83ca77bea78e"
+    "relevant_pages": [
+      {
+        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+        "pages": [
+          252,
+          254
+        ]
+      },
+      {
+        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+        "pages": [
+          67,
+          71
+        ]
+      },
+      {
+        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+        "pages": [
+          250,
+          250
+        ]
+      },
+      {
+        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+        "pages": [
+          76,
+          77
+        ]
+      },
+      {
+        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+        "pages": [
+          78,
+          80
+        ]
+      }
     ],
     "notes": "Capped at 5 canonical academic/technical sources; the Naked Forex max-DD-rule chunk (6963e8379327) is also relevant but less authoritative as a definition source."
   }

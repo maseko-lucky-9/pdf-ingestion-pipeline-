@@ -176,3 +176,128 @@ class TestJudgeCalibration:
         result = calibrate_judge_against_manual_labels(judge_scores, manual)
         assert result["agreement"] == 0.0
         assert result["n_citations_compared"] == 0
+
+
+# ─── Stable label scheme (slice 3 follow-up #11) ─────────────────────────────
+
+
+class TestChunkMatchesLabel:
+    def test_exact_match(self):
+        from src.eval.run_eval import _chunk_matches_label
+
+        label = {"source_pdf": "Foo.pdf", "pages": [10, 20]}
+        assert _chunk_matches_label("data/Foo.pdf", (10, 20), label) is True
+
+    def test_overlap_left(self):
+        from src.eval.run_eval import _chunk_matches_label
+
+        label = {"source_pdf": "Foo.pdf", "pages": [10, 20]}
+        # chunk ends inside the labelled range
+        assert _chunk_matches_label("data/Foo.pdf", (5, 12), label) is True
+
+    def test_overlap_right(self):
+        from src.eval.run_eval import _chunk_matches_label
+
+        label = {"source_pdf": "Foo.pdf", "pages": [10, 20]}
+        # chunk starts inside the labelled range
+        assert _chunk_matches_label("data/Foo.pdf", (15, 25), label) is True
+
+    def test_chunk_contains_label(self):
+        from src.eval.run_eval import _chunk_matches_label
+
+        label = {"source_pdf": "Foo.pdf", "pages": [10, 20]}
+        # chunk spans wider than the label
+        assert _chunk_matches_label("data/Foo.pdf", (5, 30), label) is True
+
+    def test_no_overlap(self):
+        from src.eval.run_eval import _chunk_matches_label
+
+        label = {"source_pdf": "Foo.pdf", "pages": [10, 20]}
+        assert _chunk_matches_label("data/Foo.pdf", (21, 30), label) is False
+        assert _chunk_matches_label("data/Foo.pdf", (1, 9), label) is False
+
+    def test_different_source_pdf(self):
+        from src.eval.run_eval import _chunk_matches_label
+
+        label = {"source_pdf": "Foo.pdf", "pages": [10, 20]}
+        # Same page range but a different book
+        assert _chunk_matches_label("data/Bar.pdf", (15, 18), label) is False
+
+    def test_basename_matching_with_directory_prefix(self):
+        from src.eval.run_eval import _chunk_matches_label
+
+        label = {"source_pdf": "Foo.pdf", "pages": [10, 20]}
+        # The retriever returns source_pdf with a path prefix; label has only
+        # the basename. The matcher must still resolve.
+        assert _chunk_matches_label("data/quant_pdfs/Foo.pdf", (10, 20), label) is True
+
+
+class TestHitsPerLabel:
+    def test_all_labels_hit(self):
+        from src.eval.run_eval import _hits_per_label
+
+        labels = [
+            {"source_pdf": "A.pdf", "pages": [1, 10]},
+            {"source_pdf": "B.pdf", "pages": [20, 30]},
+        ]
+        ranked = [
+            ("data/A.pdf", (5, 8)),
+            ("data/B.pdf", (25, 28)),
+            ("data/C.pdf", (1, 1)),
+        ]
+        n_hit, n_total = _hits_per_label(labels, ranked, k=5)
+        assert n_hit == 2
+        assert n_total == 2
+
+    def test_partial_hit(self):
+        from src.eval.run_eval import _hits_per_label
+
+        labels = [
+            {"source_pdf": "A.pdf", "pages": [1, 10]},
+            {"source_pdf": "B.pdf", "pages": [20, 30]},
+            {"source_pdf": "C.pdf", "pages": [40, 50]},
+        ]
+        ranked = [
+            ("data/A.pdf", (5, 8)),
+            ("data/D.pdf", (1, 1)),
+        ]
+        n_hit, n_total = _hits_per_label(labels, ranked, k=5)
+        assert n_hit == 1
+        assert n_total == 3
+
+    def test_one_chunk_does_not_double_count(self):
+        """Two retrieved chunks hitting the SAME label still count once."""
+        from src.eval.run_eval import _hits_per_label
+
+        labels = [
+            {"source_pdf": "A.pdf", "pages": [1, 100]},
+        ]
+        ranked = [
+            ("data/A.pdf", (5, 8)),
+            ("data/A.pdf", (10, 15)),
+            ("data/A.pdf", (90, 99)),
+        ]
+        n_hit, n_total = _hits_per_label(labels, ranked, k=5)
+        assert n_hit == 1
+        assert n_total == 1
+
+    def test_k_truncation(self):
+        """A hit beyond rank-k must not count."""
+        from src.eval.run_eval import _hits_per_label
+
+        labels = [{"source_pdf": "A.pdf", "pages": [1, 10]}]
+        ranked = [
+            ("data/B.pdf", (1, 1)),
+            ("data/B.pdf", (1, 1)),
+            ("data/B.pdf", (1, 1)),
+            ("data/B.pdf", (1, 1)),
+            ("data/B.pdf", (1, 1)),
+            ("data/A.pdf", (5, 8)),  # hit at rank 6
+        ]
+        assert _hits_per_label(labels, ranked, k=5) == (0, 1)
+        assert _hits_per_label(labels, ranked, k=10) == (1, 1)
+
+    def test_empty_labels(self):
+        from src.eval.run_eval import _hits_per_label
+
+        assert _hits_per_label([], [("a.pdf", (1, 1))], k=5) == (0, 0)
