@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Prudentia RAG — cited Q&amp;A</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <span class="brand">Prudentia · Production RAG</span>
+  <span class="status" id="status">Ready</span>
+</header>
+
+<main class="layout">
+  <section class="left">
+    <form id="ask" autocomplete="off">
+      <label class="field">
+        <span>Collection</span>
+        <select id="collection" name="collection"></select>
+      </label>
+      <label class="field">
+        <span>Question</span>
+        <textarea id="query" rows="4" placeholder="Ask a question grounded in the indexed corpus." required></textarea>
+      </label>
+      <div class="row">
+        <label class="field small">
+          <span>Top-k</span>
+          <input id="k" name="k" type="number" min="1" max="20" value="5" />
+        </label>
+        <button type="submit" id="submit">Ask</button>
+      </div>
+    </form>
+
+    <article id="answer" class="answer empty">
+      <p class="placeholder">Cited answer will appear here.</p>
+    </article>
+
+    <aside id="meta" class="meta hidden">
+      <span class="pill" id="latency"></span>
+      <span class="pill" id="model"></span>
+      <span class="pill" id="tokens"></span>
+      <span class="pill mono" id="request"></span>
+    </aside>
+  </section>
+
+  <section class="right">
+    <header class="paneltop">
+      <span id="panelTitle">Source preview</span>
+      <button id="closePanel" class="ghost" hidden>Close</button>
+    </header>
+    <div id="panel" class="panel empty">
+      <p class="placeholder">Click any <code>[doc-N]</code> citation in the answer to load the source PDF here.</p>
+    </div>
+  </section>
+</main>
+
+<script src="app.js" defer></script>
+</body>
+</html>
