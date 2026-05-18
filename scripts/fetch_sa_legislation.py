@@ -47,17 +47,17 @@ CURATED_ACTS: list[tuple[str, str, str]] = [
     (
         "national-credit-act-2005.pdf",
         "National Credit Act 34 of 2005",
-        "https://www.gov.za/sites/default/files/gcis_document/201409/a34-05.pdf",
+        "https://www.gov.za/sites/default/files/gcis_document/201409/a34-050.pdf",
     ),
     (
         "fica-2001.pdf",
         "Financial Intelligence Centre Act 38 of 2001 (FICA)",
-        "https://www.gov.za/sites/default/files/gcis_document/201409/a38-01.pdf",
+        "https://www.gov.za/sites/default/files/gcis_document/201409/a38-010.pdf",
     ),
     (
         "paia-2000.pdf",
         "Promotion of Access to Information Act 2 of 2000 (PAIA)",
-        "https://www.gov.za/sites/default/files/gcis_document/201409/a2-00.pdf",
+        "https://www.gov.za/sites/default/files/gcis_document/201409/a2-000.pdf",
     ),
 ]
 

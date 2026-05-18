@@ -13,17 +13,20 @@ Slice 5 ships a buyer-aligned demo corpus: a small curated set of South African 
 
 ## Decision
 
-A curated `sa-legislation` collection of 4 acts:
+A curated `sa-legislation` collection of 7 acts (originally 4 in slice 5; the 3 missing acts joined in slice 6 after probing the `a<N>-<YY>0.pdf` URL pattern on gov.za):
 
-| Act | Source | Pages | Chunks |
-|---|---|---|---|
-| Protection of Personal Information Act 4 of 2013 (POPIA) | gov.za | 76 | 48 |
-| Companies Act 71 of 2008 | gov.za | 197 | 166 |
-| Consumer Protection Act 68 of 2008 | gov.za | 94 | 70 |
-| Labour Relations Act 66 of 1995 | gov.za | 222 | 117 |
-| **TOTAL** | | **589** | **401** |
+| Act | Source | Pages |
+|---|---|---|
+| Protection of Personal Information Act 4 of 2013 (POPIA) | gov.za | 76 |
+| Companies Act 71 of 2008 | gov.za | 197 |
+| Consumer Protection Act 68 of 2008 | gov.za | 94 |
+| Labour Relations Act 66 of 1995 | gov.za | 222 |
+| National Credit Act 34 of 2005 (NCA) | gov.za | 116 |
+| Financial Intelligence Centre Act 38 of 2001 (FICA) | gov.za | 28 |
+| Promotion of Access to Information Act 2 of 2000 (PAIA) | gov.za | 45 |
+| **TOTAL** | | **~778** |
 
-Sourcing automated via `scripts/fetch_sa_legislation.py`. The script holds the canonical URL list; operators can extend it. Three additional acts were drafted (National Credit Act, FICA, PAIA) but the URLs in the initial guess returned 404 — sourcing those is a slice 6 follow-up that needs a search-driven URL discovery step.
+Sourcing automated via `scripts/fetch_sa_legislation.py`. The script holds the canonical URL list; operators can extend it.
 
 ## Why this set (not larger, not different)
 
@@ -31,8 +34,10 @@ Sourcing automated via `scripts/fetch_sa_legislation.py`. The script holds the c
 - **Companies Act** is universally relevant — every prospect's lawyer reads it weekly.
 - **Consumer Protection Act** covers B2C buyers (retailers, services).
 - **Labour Relations Act** covers HR/operations buyers; retrenchment + unfair dismissal are the queries every HR head asks.
+- **National Credit Act** + **FICA** together cover financial-services buyers — reckless credit, accountable-institution due diligence, customer-money-laundering checks.
+- **PAIA** covers the data-access angle that pairs with POPIA (privacy in tandem with access-to-info rights).
 
-Together this set spans the four most common compliance domains and gives the demo room to show the system swapping between source documents on a single buyer's question.
+Together this set spans the six most common compliance domains and gives the demo room to show the system swapping between source documents on a single buyer's question.
 
 ## Operational rules
 
@@ -43,20 +48,19 @@ Together this set spans the four most common compliance domains and gives the de
 
 ## Baseline
 
-`results/sa-legislation-baseline.json` (slice 5):
+`results/sa-legislation-baseline.json` (slice 6, 7-act corpus + chunker fix + expanded query set):
 
 | Metric | Value | Notes |
 |---|---|---|
-| avg_recall@5 | **1.000** | 7 labelled queries (3 refusal-expected excluded from averaging) |
-| avg_mrr@10 | 1.000 | Top-ranked chunk hits a labelled source for every query |
-| avg_ndcg@10 | 0.951 | |
-| n_queries (labelled) | 7 | factual_lookup (4), definition (1), multi_doc_synthesis (2) |
-| n_queries (refusal_expected) | 3 | |
+| avg_recall@5 | **0.970** | 11 labelled queries (4 refusal-expected excluded). |
+| avg_mrr@10 | 0.909 | |
+| avg_ndcg@10 | 0.665 | |
+| n_queries (labelled) | 11 | factual_lookup (7), definition (2), multi_doc_synthesis (2) |
+| n_queries (refusal_expected) | 4 | |
 
-The 1.000 recall@5 reflects two things, honestly:
+**Trajectory:** slice 5 reported 1.000 on 7 labelled queries; that number was inflated by the chunker `page_start=1` quirk (every chunk in a document reported the same start page, so page-overlap matching resolved labels too loosely). Slice 6 fixed the chunker AND added 3 more acts AND added 5 new labelled queries. After all three changes recall@5 settled at 0.970 — the honest number on a meaningfully larger corpus.
 
-1. **The corpus is small and topically clean** — each query targets one act, so retrieval has less ambiguity than the 3,138-chunk quant-finance index.
-2. **Page-overlap matching is forgiving here** because the chunker reports `page_start = 1` for every chunk in these acts, with `page_end` varying. A label at pages `[1, 147]` overlaps any chunk in the same act. This is a known chunker quirk surfaced by slice 5; ADR-002's atomic chunking decision should be revisited if precision-at-page becomes a buyer ask.
+**Chunker fix detail.** `src/pipeline/chunker.py` now anchors each chunk's `page_start` at the page where the carried-overlap content actually lived (the `page_end` of the previous flush). Page ranges advance monotonically — POPIA chunk 7 reports pages (12, 13) instead of (1, 13). 3 new tests in `tests/test_chunker.py` lock this in.
 
 The score is honest in the sense that the retrieval finds genuinely relevant chunks for each query — it's just measuring source-level coverage, not chapter-level precision.
 

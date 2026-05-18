@@ -1,0 +1,25 @@
+# Example targets config for infra/monitoring/health_pinger.py.
+# Copy to targets.yaml on the host (chmod 600 since it can name JWTs).
+# NEVER commit the real targets.yaml.
+
+# Where to POST alerts. If empty, failures are logged but no alert is sent.
+ntfy_url: "https://ntfy.prudentiadigital.co.za/prudentia-alerts"
+
+# Per-request HTTP timeout.
+timeout_seconds: 10
+
+targets:
+  - name: rag-hetzner
+    url: https://rag.prudentiadigital.co.za/health
+    expected_status: 200
+    # Optional: read a Cloudflare Access service-token JWT from this env var.
+    # Set when the target is behind Cloudflare Access; leave unset for public.
+    access_jwt_env: CF_ACCESS_RAG_JWT
+
+  - name: prudentia-site
+    url: https://prudentiadigital.co.za/
+    expected_status: 200
+
+  - name: ai-portfolio-landing
+    url: https://prudentiadigital.co.za/ai/
+    expected_status: 200

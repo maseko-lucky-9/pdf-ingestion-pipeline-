@@ -1,11 +1,11 @@
 {
   "collection": "sa-legislation",
   "labels_path": "src/eval/queries_sa_legislation.json",
-  "timestamp": "2026-05-17T16:05:06.504036+00:00",
-  "n_queries": 10,
-  "avg_recall@5": 1.0,
-  "avg_mrr@10": 1.0,
-  "avg_ndcg@10": 0.950677429867096,
+  "timestamp": "2026-05-18T07:23:15.368522+00:00",
+  "n_queries": 15,
+  "avg_recall@5": 0.9696969696969698,
+  "avg_mrr@10": 0.9090909090909091,
+  "avg_ndcg@10": 0.6654355228045964,
   "per_query": [
     {
       "id": "sa01",
@@ -28,22 +28,22 @@
       ],
       "n_labels": 2,
       "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 48,
+      "resolved_docids_count": 5,
       "ranked_docids": [
-        "1340389e3079",
-        "cecacd72a5e1",
-        "24df9de81af0",
+        "9573d2c0a052",
+        "4a203975c8d6",
         "5129b29e7125",
-        "5e3d3019bb24",
-        "b5c650bc612b",
         "e2de0a8cee27",
-        "60ef0f7f511a",
-        "51e8cd5be5fa",
-        "6827a3358111"
+        "240a09cfe85c",
+        "59c5afe273f1",
+        "35f7a348b3c6",
+        "e565c67d7162",
+        "35b99c90670b",
+        "f78c9dfe2c5e"
       ],
       "recall@5": 1.0,
-      "mrr@10": 1.0,
-      "ndcg@10": 0.8701249883466593
+      "mrr@10": 0.5,
+      "ndcg@10": 0.21398626473452756
     },
     {
       "id": "sa02",
@@ -73,22 +73,22 @@
       ],
       "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 166,
+      "resolved_docids_count": 114,
       "ranked_docids": [
         "d4b9cbea36c4",
         "2781dbc2e534",
         "70bdda208d1d",
         "f47637a0726b",
         "3d5b0c664b33",
-        "ea4db5e411ae",
         "039e4cb9be9c",
         "b79ec666af42",
         "65879126784d",
-        "ce268eab38c1"
+        "ce268eab38c1",
+        "48c43cbb0b90"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 1.0
+      "ndcg@10": 0.8899541168509599
     },
     {
       "id": "sa03",
@@ -111,22 +111,22 @@
       ],
       "n_labels": 2,
       "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 70,
+      "resolved_docids_count": 42,
       "ranked_docids": [
         "5a13c63ec9bf",
         "ce4811e076d8",
         "6cf49a8a5947",
         "61bee61dfaf5",
         "a9d0d541d119",
-        "489413b67a14",
         "c199ed1022b1",
         "02cfa77fd055",
         "2d142a075cb8",
-        "ab6321fc69db"
+        "ab6321fc69db",
+        "3f6ab4f06500"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 1.0
+      "ndcg@10": 0.7885497208855957
     },
     {
       "id": "sa04",
@@ -163,7 +163,7 @@
       ],
       "n_labels": 4,
       "n_labels_hit_at_5": 4,
-      "resolved_docids_count": 117,
+      "resolved_docids_count": 83,
       "ranked_docids": [
         "bde3e466baa4",
         "a8e15adbe43c",
@@ -178,7 +178,7 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 1.0
+      "ndcg@10": 0.7695261902392829
     },
     {
       "id": "sa05",
@@ -208,22 +208,22 @@
       ],
       "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 48,
+      "resolved_docids_count": 15,
       "ranked_docids": [
         "64857b45dfd3",
         "5e3d3019bb24",
         "2aafaafd76de",
-        "3eeee1b6b2b5",
         "cb307b41f985",
         "8782c4d5581d",
         "9573d2c0a052",
         "7bd725579c35",
+        "e28a60721154",
         "5129b29e7125",
         "cecacd72a5e1"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 1.0
+      "ndcg@10": 0.6339753813071974
     },
     {
       "id": "sa08",
@@ -253,7 +253,7 @@
       ],
       "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 117,
+      "resolved_docids_count": 114,
       "ranked_docids": [
         "64dfb91434d7",
         "99f2f2e42fbe",
@@ -298,22 +298,202 @@
       ],
       "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 48,
+      "resolved_docids_count": 34,
       "ranked_docids": [
-        "2082ff79beb5",
+        "415193e0cee1",
         "8782c4d5581d",
         "783767b423e1",
-        "537955af8880",
-        "4a203975c8d6",
-        "5333ae0f435c",
-        "d191b57bb292",
-        "24df9de81af0",
-        "9573d2c0a052",
-        "147fd55975c7"
+        "d7d1ab6e9960",
+        "a87ebfa025cf",
+        "5ae981bdeae0",
+        "5942eb6d13f3",
+        "f403a24f7b2f",
+        "993351b53e19",
+        "e096593bd9cf"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 0.5,
+      "ndcg@10": 0.2489083270225946
+    },
+    {
+      "id": "sa12",
+      "query": "What are the requirements for a credit provider under the National Credit Act?",
+      "relevant_pages": [
+        {
+          "source_pdf": "national-credit-act-2005.pdf",
+          "pages": [
+            35,
+            37
+          ]
+        },
+        {
+          "source_pdf": "national-credit-act-2005.pdf",
+          "pages": [
+            50,
+            55
+          ]
+        },
+        {
+          "source_pdf": "national-credit-act-2005.pdf",
+          "pages": [
+            100,
+            105
+          ]
+        }
+      ],
+      "n_labels": 3,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 14,
+      "ranked_docids": [
+        "5942eb6d13f3",
+        "5ae981bdeae0",
+        "f4368fd900e2",
+        "59c5afe273f1",
+        "f403a24f7b2f",
+        "96c36e79e52e",
+        "a0f1bb953058",
+        "011493dae12c",
+        "5c4232e5040f",
+        "77a43fa2b403"
+      ],
+      "recall@5": 0.6666666666666666,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.727329844310522
+    },
+    {
+      "id": "sa13",
+      "query": "What is reckless credit under the National Credit Act?",
+      "relevant_pages": [
+        {
+          "source_pdf": "national-credit-act-2005.pdf",
+          "pages": [
+            58,
+            60
+          ]
+        },
+        {
+          "source_pdf": "national-credit-act-2005.pdf",
+          "pages": [
+            63,
+            64
+          ]
+        },
+        {
+          "source_pdf": "national-credit-act-2005.pdf",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 10,
+      "ranked_docids": [
+        "29e67f764414",
+        "77a43fa2b403",
+        "b37382ed767f",
+        "5c4232e5040f",
+        "c91ac48fee91",
+        "011493dae12c",
+        "e3204e3e0fdf",
+        "22a52fe4c4fd",
+        "9673a8ae1ee9",
+        "06064d193681"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.7846170207230129
+      "ndcg@10": 0.6911279212606076
+    },
+    {
+      "id": "sa15",
+      "query": "What is the definition of an accountable institution under FICA?",
+      "relevant_pages": [
+        {
+          "source_pdf": "fica-2001.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        },
+        {
+          "source_pdf": "fica-2001.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        },
+        {
+          "source_pdf": "fica-2001.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 8,
+      "ranked_docids": [
+        "d050fdc00df4",
+        "208bceee4e5f",
+        "6c68fdd6c40c",
+        "374643c822fa",
+        "0a976c1009b8",
+        "7db7e575e6e0",
+        "852477318212",
+        "37d8bcb5136a",
+        "4fc17dbe5ba0",
+        "e565c67d7162"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.6291031399287498
+    },
+    {
+      "id": "sa16",
+      "query": "What grounds may a public body refuse access to a record under PAIA?",
+      "relevant_pages": [
+        {
+          "source_pdf": "paia-2000.pdf",
+          "pages": [
+            20,
+            22
+          ]
+        },
+        {
+          "source_pdf": "paia-2000.pdf",
+          "pages": [
+            26,
+            28
+          ]
+        },
+        {
+          "source_pdf": "paia-2000.pdf",
+          "pages": [
+            33,
+            35
+          ]
+        }
+      ],
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 14,
+      "ranked_docids": [
+        "1aa26d5e4d9c",
+        "44c3f840c7ea",
+        "753f881a72f1",
+        "3a9a8921119c",
+        "37a3196846c3",
+        "46e796e179cc",
+        "ac50fe677090",
+        "99122c81b4df",
+        "240a09cfe85c",
+        "35b99c90670b"
+      ],
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.727329844310522
     }
   ]
 }
