@@ -104,7 +104,7 @@ Pause. Let them answer.
 Yes. Python + SQLite + Ollama. Tested on a 32 GB Linux VM. We can deploy behind Cloudflare Access or Tailscale today.
 
 **"What's the false-answer rate?"**
-The eval harness reports recall@5 and answer-faithfulness on every release. Current baseline: recall@5 = 0.875 on 8 labelled queries (target 0.85). We don't release without baseline measurement; numbers ship with the engagement report.
+The eval harness reports recall@5 and answer-faithfulness on every release. Current baseline: recall@5 = 1.000 on 25 labelled queries against the quant-finance corpus, plus 0.970 on 15 labelled queries against the SA-legislation corpus (target ≥ 0.85 on both). We don't release without baseline measurement; numbers ship with the engagement report.
 
 **"How long does ingestion take?"**
 ~80 sec per mid-size native-text PDF on an M2 MacBook (measured 2026-05-17). A 50-PDF / 200 MB prospect corpus is ~60-70 min end-to-end. Re-indexing is incremental. Scanned PDFs are auto-detected and skipped with a warning — for OCR-required corpora we add a pre-processing step ahead of the engagement.
