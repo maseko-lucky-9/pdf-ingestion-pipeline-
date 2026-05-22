@@ -85,9 +85,8 @@ def main() -> None:
         "--prefix",
         default="",
         help="In cron mode, only consider collections whose name starts with this "
-             "prefix. Default empty = everything under --collections-root. Strongly "
-             "recommended in production (e.g. --prefix prospect-) so the cron "
-             "never nukes a rehearsed demo corpus.",
+             "prefix. REQUIRED with --age-threshold-days so the cron never nukes "
+             "a rehearsed demo corpus (e.g. --prefix prospect-).",
     )
     parser.add_argument(
         "--collections-root",
@@ -110,6 +109,18 @@ def main() -> None:
         help="Operator identifier for the audit log (default: $USER).",
     )
     args = parser.parse_args()
+
+    # Cron-mode safety gate: --prefix is REQUIRED when --age-threshold-days
+    # is set. Without it, a long-running deployment whose mtime drifts past
+    # the threshold would lose rehearsed demo corpora (quant-finance,
+    # sa-legislation) on the next cron tick. Slice 6 review P2 fix.
+    if args.age_threshold_days is not None and not args.prefix:
+        print(
+            "ERR: --age-threshold-days requires --prefix to avoid sweeping "
+            "rehearsed demo corpora. Use e.g. --prefix prospect-.",
+            file=sys.stderr,
+        )
+        sys.exit(2)
 
     # Mode-select: exactly one of --collection / --age-threshold-days.
     if bool(args.collection) == (args.age_threshold_days is not None):

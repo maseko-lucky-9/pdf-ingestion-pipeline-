@@ -147,3 +147,33 @@ a candidate for the slice 3 work plan, not a guaranteed deliverable.
     during labelling. Sourcing for 3 additional acts (NCA / FICA / PAIA)
     was attempted but URLs returned 404 — slice 6 follow-up. (P1 — landed in
     slice 5)
+
+## Slice 7 — surfaced during PR #6 review
+
+23. 🟡 **Relabel `queries_bound.json` against the new chunker page-tracking.**
+    Labels in slice 4 were authored against the OLD `page_start=1` chunker
+    output. The bug made every chunk appear to span `[doc-first-page, real-end]`,
+    so labels like Murphy `[1, 118]` (q024) naturally overlapped any chunk
+    whose true content was anywhere in pages 1-118. Under the slice 6 chunker
+    fix, those chunks now report tight page ranges (e.g. `[114, 117]`), and
+    the overlap-matcher correctly resolves to fewer chunks. Net effect:
+    recall@5 on slice4-baseline dropped 0.919 → 0.691 not because retrieval
+    degraded, but because the inflated overlap matches went away. Plan:
+    inspect top-5 returned chunks per query under the new chunker; tighten
+    labels to the actual content pages (single chunk's page range, or the
+    canonical narrow `[start_of_relevant_passage, end_of_relevant_passage]`).
+    Estimate: ~90 min across the 25 labelled queries. (P1 — gates recall@5
+    target re-attainment)
+
+24. 🟡 **Investigate the q001 / q010 / q020 recall-zero queries.**
+    Three slice 4 queries now resolve to 0 hits in the top-5 (RSI definition,
+    drawdown definition, VWAP definition). Either retrieval genuinely shifted
+    away from the canonical sources, or the labels are mis-aligned with the
+    new chunk boundaries. Decision point: if relabel (item 23) doesn't recover
+    these, treat as a retrieval-quality regression and revisit reranker /
+    BM25/vector weights. (P1 — gates slice 7 close)
+
+25. 🟡 **Refresh `docs/sales-demo.md`'s recall@5 figure.**
+    The buyer-Q answer cites "recall@5 = 0.875 on 8 labelled queries" — that's
+    the slice 2 number. Update to the post-slice-7 baseline once item 23 lands.
+    (P3 — tied to item 23)

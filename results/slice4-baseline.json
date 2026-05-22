@@ -1,11 +1,11 @@
 {
   "collection": "quant-finance",
   "labels_path": "src/eval/queries_bound.json",
-  "timestamp": "2026-05-17T17:08:00.373931+00:00",
+  "timestamp": "2026-05-22T14:58:29.359804+00:00",
   "n_queries": 28,
-  "avg_recall@5": 0.9193333333333333,
-  "avg_mrr@10": 0.9533333333333335,
-  "avg_ndcg@10": 0.5954745609245619,
+  "avg_recall@5": 0.6906666666666668,
+  "avg_mrr@10": 0.7283333333333333,
+  "avg_ndcg@10": 0.40091699269120723,
   "per_query": [
     {
       "id": "q001",
@@ -27,23 +27,23 @@
         }
       ],
       "n_labels": 2,
-      "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 7,
+      "n_labels_hit_at_5": 0,
+      "resolved_docids_count": 4,
       "ranked_docids": [
-        "c0e9a7ccef5a",
-        "60432dbb0d8e",
-        "0bd48bc41423",
-        "a2610bb376c4",
-        "0404ca5d626c",
-        "17b9729a78a4",
-        "85fedd75a92f",
-        "24286e63797e",
-        "89cdbb6aab13",
-        "7e00ea689e46"
+        "a714ae741ca8",
+        "55429f808098",
+        "06bb4c499053",
+        "87ee21bc96e9",
+        "2b5ae26fde3f",
+        "b194810c63b3",
+        "2adad49676ac",
+        "b89d8f3d249f",
+        "61e76fa39a04",
+        "36417acfcf99"
       ],
-      "recall@5": 1.0,
-      "mrr@10": 0.5,
-      "ndcg@10": 0.2918104499436024
+      "recall@5": 0.0,
+      "mrr@10": 0.16666666666666666,
+      "ndcg@10": 0.13905617951077562
     },
     {
       "id": "q002",
@@ -72,23 +72,23 @@
         }
       ],
       "n_labels": 3,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 41,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 17,
       "ranked_docids": [
-        "bc2e4d5cdd63",
-        "5536323c02d1",
+        "1b5624aa41e6",
+        "8b6a5c0ea2bc",
+        "ae171a27115b",
+        "ef3893848aac",
         "0feb02e6806f",
-        "467f7f0b5d6b",
-        "64219b3ea932",
-        "80c8cfbd4d90",
-        "b6afb4e25b28",
-        "70125c81dbc9",
-        "ef19466b03c7",
-        "6dd9b51aee8e"
+        "053a17dde1ea",
+        "55af5c6fd54f",
+        "29ad356dd2eb",
+        "88c7b479d5e7",
+        "f14df6f86814"
       ],
-      "recall@5": 1.0,
+      "recall@5": 0.6666666666666666,
       "mrr@10": 1.0,
-      "ndcg@10": 0.6745711375739728
+      "ndcg@10": 0.2984900352767555
     },
     {
       "id": "q003",
@@ -111,22 +111,22 @@
       ],
       "n_labels": 2,
       "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 19,
+      "resolved_docids_count": 18,
       "ranked_docids": [
         "90d4765d49e1",
+        "0b56d5ff5c4d",
         "ef92795037c2",
-        "b3cee0e60431",
-        "319e763a8e4f",
-        "0df151db1892",
-        "ecc9b4af7c4f",
         "60b85e97aac1",
-        "c2190dc3d264",
-        "15092336df66",
-        "0df5a29b6550"
+        "d98c93866f8a",
+        "5447938e8d14",
+        "162d016d2afd",
+        "8b7065521445",
+        "0643df9f07c2",
+        "ae0818c90210"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.43231813227099475
+      "ndcg@10": 0.424926013816671
     },
     {
       "id": "q004",
@@ -169,23 +169,23 @@
         }
       ],
       "n_labels": 5,
-      "n_labels_hit_at_5": 4,
-      "resolved_docids_count": 51,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 32,
       "ranked_docids": [
-        "eefa4e2410fe",
+        "75c545b17a7d",
+        "0ed901aa2d46",
         "acf8b71ddce6",
+        "e065242fcec2",
         "038b9778768a",
-        "f0fc1a88b6cd",
         "1f1b3bc6a8a1",
-        "4b3a12465527",
-        "d1f6712b174f",
         "d3ba71286389",
-        "d4167d3a97ce",
-        "7693bbdf53ba"
+        "aa0df0785120",
+        "b83ae18ae054",
+        "2ed26dbe467f"
       ],
-      "recall@5": 0.8,
-      "mrr@10": 1.0,
-      "ndcg@10": 0.800693766409882
+      "recall@5": 0.6,
+      "mrr@10": 0.5,
+      "ndcg@10": 0.4124497136428909
     },
     {
       "id": "q006",
@@ -207,23 +207,23 @@
         }
       ],
       "n_labels": 2,
-      "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 115,
+      "n_labels_hit_at_5": 1,
+      "resolved_docids_count": 43,
       "ranked_docids": [
-        "1b6004383a64",
-        "9d68d29e894b",
-        "cdeaedfdf997",
-        "bd66387487c4",
+        "a6500422962e",
+        "dec894818c54",
+        "61e76fa39a04",
+        "e651e14881e8",
+        "9ad3c1f01ec0",
+        "b2e299bd863a",
         "cd712998781f",
         "f173b4d92a8c",
-        "cc911df4528b",
-        "ac0e8f767e87",
-        "b99648eec8d7",
-        "40965ea062bb"
+        "c27d087313e9",
+        "b99648eec8d7"
       ],
-      "recall@5": 1.0,
-      "mrr@10": 1.0,
-      "ndcg@10": 0.5423640154200349
+      "recall@5": 0.5,
+      "mrr@10": 0.3333333333333333,
+      "ndcg@10": 0.11004588314904008
     },
     {
       "id": "q007",
@@ -260,22 +260,22 @@
       ],
       "n_labels": 4,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 24,
+      "resolved_docids_count": 18,
       "ranked_docids": [
+        "76c5920743c7",
         "0d621ebe175e",
-        "d4c40e2a2fca",
+        "f04e38817ccc",
         "d5370c9c6998",
-        "fc7b891a6de1",
-        "7b3b6ee13996",
         "eedf6ee4eb50",
+        "bbc46c0d9da2",
+        "1b41b8ba2388",
         "8f1a53b38535",
         "630974910a78",
-        "0a078c058806",
-        "60b85e97aac1"
+        "8bf35f72f152"
       ],
       "recall@5": 0.75,
-      "mrr@10": 1.0,
-      "ndcg@10": 0.8263333286520083
+      "mrr@10": 0.5,
+      "ndcg@10": 0.6067216003536936
     },
     {
       "id": "q008",
@@ -304,23 +304,23 @@
         }
       ],
       "n_labels": 3,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 20,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 18,
       "ranked_docids": [
         "23aa0a7875f5",
         "77dfc516e3b4",
+        "cd9e93cce934",
+        "d56a79eecaff",
         "b99648eec8d7",
-        "0fa3939425e6",
-        "fe1e6cb85785",
-        "0df151db1892",
-        "fcb5f40df9be",
+        "7dfceb65645b",
+        "c5751242a263",
         "e5d5a0063a7b",
         "8aac92bfc81c",
         "31a14d5a1cef"
       ],
-      "recall@5": 1.0,
+      "recall@5": 0.6666666666666666,
       "mrr@10": 1.0,
-      "ndcg@10": 0.4440973278132557
+      "ndcg@10": 0.3589542101716347
     },
     {
       "id": "q010",
@@ -363,23 +363,23 @@
         }
       ],
       "n_labels": 5,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 24,
+      "n_labels_hit_at_5": 0,
+      "resolved_docids_count": 21,
       "ranked_docids": [
-        "306e87714d7c",
-        "a7d285c7a576",
+        "dd4493d50c55",
+        "1d0fe03b5b15",
+        "76f2c2efebb4",
+        "bf5b355d725a",
+        "ebaab5687ed5",
+        "3333feab4ab3",
+        "69381bf20599",
         "0bfde0e9fd7c",
-        "c5b1ff64672a",
-        "6963e8379327",
-        "f4cff78e2da8",
-        "f1e80680cb01",
-        "392c65c9c0a8",
-        "90e284d269f4",
-        "83ca77bea78e"
+        "80a6f3aa623d",
+        "40187a87432a"
       ],
-      "recall@5": 0.6,
-      "mrr@10": 1.0,
-      "ndcg@10": 0.5988751049740155
+      "recall@5": 0.0,
+      "mrr@10": 0.125,
+      "ndcg@10": 0.06943122193677727
     },
     {
       "id": "q011",
@@ -409,22 +409,22 @@
       ],
       "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 72,
+      "resolved_docids_count": 37,
       "ranked_docids": [
-        "f8f636d63f5f",
-        "1e27da089f61",
+        "0bc7f823d033",
+        "3b53f1a1d215",
         "3b086d709ecb",
-        "6d41ac199b9e",
+        "9683abaad405",
+        "a45610cbf547",
         "99483631bdc7",
-        "377863c76432",
-        "7f5cebd733fd",
-        "4e4971515ae1",
-        "76413760038c",
-        "8b6feba44747"
+        "adbcdfac1554",
+        "8c50098dad04",
+        "1e773d42c756",
+        "1343a1344661"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.7791714369672127
+      "ndcg@10": 0.4690000933206748
     },
     {
       "id": "q013",
@@ -453,23 +453,23 @@
         }
       ],
       "n_labels": 3,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 36,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 28,
       "ranked_docids": [
-        "f8f636d63f5f",
+        "9683abaad405",
         "3b086d709ecb",
+        "3b53f1a1d215",
+        "ac20905fdca0",
         "253974ba7042",
-        "00287f24c882",
-        "748284a897fa",
-        "b1cac0f6ee9a",
+        "d08fc5810b58",
+        "0b7234a0cab1",
+        "dfb1fc416d97",
         "e6e0cef8a63f",
-        "180966789115",
-        "de3777c1e100",
-        "49d856c65414"
+        "180966789115"
       ],
-      "recall@5": 1.0,
-      "mrr@10": 1.0,
-      "ndcg@10": 0.424926013816671
+      "recall@5": 0.6666666666666666,
+      "mrr@10": 0.3333333333333333,
+      "ndcg@10": 0.19518900079066107
     },
     {
       "id": "q014",
@@ -492,22 +492,22 @@
       ],
       "n_labels": 2,
       "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 29,
+      "resolved_docids_count": 14,
       "ranked_docids": [
         "619f3b5e4040",
+        "fc529c2088a4",
         "9d0a47c5b0f6",
         "ead1c49ad067",
         "9a84206c4e36",
         "5bf63df07b5e",
+        "5d9e74a9592a",
+        "2de78cb0551f",
         "d074b04d066f",
-        "fb5094f9ff68",
-        "af244ff97aba",
-        "8ddc6ef14d4c",
-        "bf1c2c4fb839"
+        "74e66153e413"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.5321408435198608
+      "ndcg@10": 0.41528076708874123
     },
     {
       "id": "q016",
@@ -523,22 +523,22 @@
       ],
       "n_labels": 1,
       "n_labels_hit_at_5": 1,
-      "resolved_docids_count": 5,
+      "resolved_docids_count": 4,
       "ranked_docids": [
+        "b9cb72ea4438",
         "5179b0bfd6af",
         "4f19383ba545",
-        "62fd8fca6c37",
-        "b30037b14cb2",
-        "62939956f5b7",
-        "0e96624dd3f9",
-        "85fedd75a92f",
         "5bb171abfe94",
+        "38a3fc9b7944",
+        "7fbfe9c2f188",
+        "aa42f1c2fce1",
+        "2e1e7816e730",
         "e9a12fd94e51",
-        "a44474e47838"
+        "1fbd1b07809e"
       ],
       "recall@5": 1.0,
-      "mrr@10": 1.0,
-      "ndcg@10": 0.6601396023754075
+      "mrr@10": 0.5,
+      "ndcg@10": 0.7327711443782634
     },
     {
       "id": "q017",
@@ -575,22 +575,22 @@
       ],
       "n_labels": 4,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 37,
+      "resolved_docids_count": 18,
       "ranked_docids": [
         "c7f1193a3a95",
         "9b0d63927020",
         "4d40a65b2525",
         "f609142e36c2",
         "3cb1fd0283eb",
-        "8753a042be74",
-        "50b7a46e68e9",
+        "cf11ce7fb634",
         "9868a1d8e532",
+        "4943781e82e3",
         "8a4fd9cb4160",
         "acf8b71ddce6"
       ],
       "recall@5": 0.75,
       "mrr@10": 1.0,
-      "ndcg@10": 0.8389574121760602
+      "ndcg@10": 0.5541432109622958
     },
     {
       "id": "q018",
@@ -626,23 +626,23 @@
         }
       ],
       "n_labels": 4,
-      "n_labels_hit_at_5": 4,
-      "resolved_docids_count": 71,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 41,
       "ranked_docids": [
-        "820aafd7ca81",
+        "6b168dcc5780",
+        "e8708dac515c",
+        "108c1656a620",
         "bdd2fd80c290",
         "ac3a5720268e",
-        "68aeb35baf8e",
+        "93e4de3493d6",
         "b35ebf0babf0",
+        "5dbe3e3c549d",
         "88d4db6810b4",
-        "0bd48bc41423",
-        "1b922ecbc33e",
-        "ac6e0fdeaa5b",
-        "b7250378d03e"
+        "ae140545f354"
       ],
-      "recall@5": 1.0,
-      "mrr@10": 1.0,
-      "ndcg@10": 0.6489315753318465
+      "recall@5": 0.75,
+      "mrr@10": 0.25,
+      "ndcg@10": 0.2532954041105318
     },
     {
       "id": "q019",
@@ -672,22 +672,22 @@
       ],
       "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 22,
+      "resolved_docids_count": 19,
       "ranked_docids": [
-        "9a9c5668c555",
+        "27bfc8303f87",
         "18da3c9f34c5",
-        "5cf525c70d0a",
         "2f3725a1a09e",
         "942a7913c994",
         "1146ba5a50c9",
         "3f188290a0fa",
         "0dabd746f5fb",
         "00e1d393224e",
+        "a39d7ae27126",
         "65f2a849276b"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.5388856921828065
+      "ndcg@10": 0.5637884576902256
     },
     {
       "id": "q020",
@@ -709,23 +709,23 @@
         }
       ],
       "n_labels": 2,
-      "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 8,
+      "n_labels_hit_at_5": 0,
+      "resolved_docids_count": 6,
       "ranked_docids": [
-        "31101fd9620b",
-        "9924445ef839",
-        "757e513bf237",
         "c5fe23db2b2b",
-        "66cacf5b54a9",
-        "3ae363dc28fe",
-        "79758b36b163",
-        "b99acacdafad",
-        "4e420f921751",
-        "173459bd4bd2"
+        "3b16e28d32b6",
+        "6d332176938f",
+        "6a23f7711118",
+        "a0d6198f52c5",
+        "233ccdae0ca3",
+        "1e402c3719db",
+        "1b64d0faf6b2",
+        "0eef8574a43e",
+        "f7165a32649f"
       ],
-      "recall@5": 1.0,
-      "mrr@10": 0.3333333333333333,
-      "ndcg@10": 0.22432294601898897
+      "recall@5": 0.0,
+      "mrr@10": 0.0,
+      "ndcg@10": 0.0
     },
     {
       "id": "q031",
@@ -744,15 +744,15 @@
       "resolved_docids_count": 7,
       "ranked_docids": [
         "a3784f7351fd",
+        "ff1652a1f1dc",
         "6672cf594a25",
-        "875a8ccd8542",
+        "27cb91673191",
+        "dbd6527e167b",
+        "d6df58707565",
         "b245aade651b",
         "e766feb9a9ad",
-        "c57c79c9f774",
-        "39e38615fca1",
         "8d6f72ea5a5d",
-        "1c89b6c224b9",
-        "064bdc33f5e4"
+        "1c89b6c224b9"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
@@ -785,23 +785,23 @@
         }
       ],
       "n_labels": 3,
-      "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 123,
+      "n_labels_hit_at_5": 1,
+      "resolved_docids_count": 54,
       "ranked_docids": [
+        "8ab3b367d1b2",
         "90d4765d49e1",
+        "0b56d5ff5c4d",
+        "3908cf54f7fc",
         "60b85e97aac1",
-        "89796bd6b5c9",
-        "b9c2bb0f2b66",
-        "7737d50f684b",
-        "b3cee0e60431",
-        "0df5a29b6550",
-        "86d98524f568",
-        "b1968457216c",
-        "c2190dc3d264"
+        "b37866a0e26d",
+        "a93a12ee4364",
+        "ca6db6e6b719",
+        "069c1d42bb0b",
+        "8b7065521445"
       ],
-      "recall@5": 0.6666666666666666,
-      "mrr@10": 1.0,
-      "ndcg@10": 0.5958595188912912
+      "recall@5": 0.3333333333333333,
+      "mrr@10": 0.5,
+      "ndcg@10": 0.22400556151517553
     },
     {
       "id": "q023",
@@ -831,22 +831,22 @@
       ],
       "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 87,
+      "resolved_docids_count": 26,
       "ranked_docids": [
-        "1b922ecbc33e",
         "caa4438a7ef4",
         "d94d73a2430d",
+        "957cd14c182f",
         "cd0c4c7150f1",
         "4ef29adf2b07",
-        "1b22659453e6",
-        "3575c9489263",
+        "22ce7648f307",
+        "b98f07f25f39",
+        "7d13fd0228b3",
         "52056f262131",
-        "d3f6d55c0aba",
-        "8fdc52540330"
+        "0bec5660c3a8"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.7917267193679839
+      "ndcg@10": 0.7885497208855957
     },
     {
       "id": "q024",
@@ -883,22 +883,22 @@
       ],
       "n_labels": 4,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 142,
+      "resolved_docids_count": 109,
       "ranked_docids": [
         "669adac0838e",
         "0f9d3b9cbfef",
         "04f1a3174222",
         "212f510d06f2",
+        "40d61203718c",
         "e27072718d7f",
         "68aeb35baf8e",
         "89c0b0fbfbb5",
-        "f18ddf66dba4",
-        "09ccd08e6073",
-        "10569f64fd38"
+        "51992422b23c",
+        "09ccd08e6073"
       ],
       "recall@5": 0.75,
       "mrr@10": 1.0,
-      "ndcg@10": 1.0
+      "ndcg@10": 0.7385567757549499
     },
     {
       "id": "q025",
@@ -927,23 +927,23 @@
         }
       ],
       "n_labels": 3,
-      "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 14,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 10,
       "ranked_docids": [
         "12fa564235d7",
         "969137acb156",
         "233d9a7be2b6",
+        "3dbe0c660f67",
+        "4059488bfe97",
         "61fa4059f418",
-        "bd8d5482b7e1",
-        "4c489c163ce0",
-        "4fd5c2fb2433",
+        "7d4062301401",
+        "95ebf67fba3c",
         "6672cf594a25",
-        "d045c38c5b1b",
-        "7b152ccca5dd"
+        "dede696d310c"
       ],
-      "recall@5": 0.6666666666666666,
+      "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.681660451040628
+      "ndcg@10": 0.6848374495230163
     },
     {
       "id": "q026",
@@ -972,23 +972,23 @@
         }
       ],
       "n_labels": 3,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 21,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 18,
       "ranked_docids": [
         "c3190795f23e",
         "b87f92d5ff16",
         "84a78a1d1499",
-        "1a2c1de90f3a",
         "f886031a7ec9",
         "6fd088c1876e",
         "6a648f3c96db",
-        "4849b805617c",
+        "2deedddd4838",
         "3245727444a2",
-        "d3fbd37cd387"
+        "d3fbd37cd387",
+        "7d4062301401"
       ],
-      "recall@5": 1.0,
+      "recall@5": 0.6666666666666666,
       "mrr@10": 1.0,
-      "ndcg@10": 0.5199967979955745
+      "ndcg@10": 0.501749354207772
     },
     {
       "id": "q028",
@@ -1018,22 +1018,22 @@
       ],
       "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 9,
+      "resolved_docids_count": 7,
       "ranked_docids": [
-        "353166021978",
-        "b6afb4e25b28",
-        "a16129f1b5ba",
+        "40ce06e7e4b3",
+        "c2b8c2641d6a",
         "cc82f47e028d",
         "fe1e6cb85785",
+        "5f39cb3aa2d1",
         "30aa5334dc77",
         "6d3833216c7d",
+        "0441edc49911",
         "96e28c28e92d",
-        "4585ae3b33a1",
-        "c8607d736fc8"
+        "4585ae3b33a1"
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.5008655546918772
+      "ndcg@10": 0.4483039899025303
     },
     {
       "id": "q029",
@@ -1055,23 +1055,23 @@
         }
       ],
       "n_labels": 2,
-      "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 63,
+      "n_labels_hit_at_5": 1,
+      "resolved_docids_count": 21,
       "ranked_docids": [
-        "588650378c4d",
         "3d1c48607d51",
-        "9b4d1118a1d5",
-        "8b615e2f981c",
-        "df677f0573d3",
-        "af096f8fd2c4",
-        "f5d92e070f90",
-        "8c1105309c02",
+        "f589ee3f773c",
+        "6abff363e607",
+        "9c0a6d936345",
+        "61a26a93f1d2",
+        "9255b8ad8cef",
+        "b365d74ccb91",
         "3fecc46843d2",
-        "e440e0f76e0d"
+        "17a839958f79",
+        "aeb44ff7474b"
       ],
-      "recall@5": 1.0,
+      "recall@5": 0.5,
       "mrr@10": 1.0,
-      "ndcg@10": 0.7721596254947203
+      "ndcg@10": 0.3499667779514209
     },
     {
       "id": "q030",
@@ -1100,23 +1100,23 @@
         }
       ],
       "n_labels": 3,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 16,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 11,
       "ranked_docids": [
         "87d5df990e47",
-        "5000ad472b16",
-        "52febb220c67",
+        "11a223c16d2f",
         "75266ea91f04",
         "fdfef0667350",
-        "1b6004383a64",
-        "8dfe5183771d",
-        "9b77c76ce1b7",
+        "2fb690373ac8",
+        "6f6c9fc54632",
+        "840312b248a3",
+        "0e19b4879b8e",
         "9259dedc297d",
         "107d97ab6b19"
       ],
-      "recall@5": 1.0,
+      "recall@5": 0.6666666666666666,
       "mrr@10": 1.0,
-      "ndcg@10": 0.49118023727106
+      "ndcg@10": 0.40853591842579556
     }
   ]
 }
