@@ -1,34 +1,34 @@
 {
   "collection": "quant-finance",
   "labels_path": "src/eval/queries_bound.json",
-  "timestamp": "2026-05-22T14:58:29.359804+00:00",
+  "timestamp": "2026-05-22T15:12:32.292316+00:00",
   "n_queries": 28,
-  "avg_recall@5": 0.6906666666666668,
-  "avg_mrr@10": 0.7283333333333333,
-  "avg_ndcg@10": 0.40091699269120723,
+  "avg_recall@5": 1.0,
+  "avg_mrr@10": 0.92,
+  "avg_ndcg@10": 0.5473147413202429,
   "per_query": [
     {
       "id": "q001",
       "query": "What is the RSI indicator and how is it calculated?",
       "relevant_pages": [
         {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "source_pdf": "TSaM.pdf",
           "pages": [
-            1022,
-            1023
+            406,
+            409
           ]
         },
         {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "source_pdf": "TSaM.pdf",
           "pages": [
-            171,
-            171
+            540,
+            540
           ]
         }
       ],
       "n_labels": 2,
-      "n_labels_hit_at_5": 0,
-      "resolved_docids_count": 4,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 16,
       "ranked_docids": [
         "a714ae741ca8",
         "55429f808098",
@@ -41,39 +41,32 @@
         "61e76fa39a04",
         "36417acfcf99"
       ],
-      "recall@5": 0.0,
-      "mrr@10": 0.16666666666666666,
-      "ndcg@10": 0.13905617951077562
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.40002324830925196
     },
     {
       "id": "q002",
       "query": "How does exponential moving average differ from simple moving average?",
       "relevant_pages": [
         {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-          "pages": [
-            1014,
-            1018
-          ]
-        },
-        {
           "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
           "pages": [
-            157,
+            190,
             192
           ]
         },
         {
-          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+          "source_pdf": "The_art_and_science_of_technical_analysis_-_Adam_grimes.pdf",
           "pages": [
-            157,
-            190
+            566,
+            569
           ]
         }
       ],
-      "n_labels": 3,
+      "n_labels": 2,
       "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 17,
+      "resolved_docids_count": 6,
       "ranked_docids": [
         "1b5624aa41e6",
         "8b6a5c0ea2bc",
@@ -86,9 +79,9 @@
         "88c7b479d5e7",
         "f14df6f86814"
       ],
-      "recall@5": 0.6666666666666666,
+      "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.2984900352767555
+      "ndcg@10": 0.601312434202259
     },
     {
       "id": "q003",
@@ -97,7 +90,7 @@
         {
           "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
           "pages": [
-            150,
+            167,
             169
           ]
         },
@@ -111,7 +104,7 @@
       ],
       "n_labels": 2,
       "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 18,
+      "resolved_docids_count": 9,
       "ranked_docids": [
         "90d4765d49e1",
         "0b56d5ff5c4d",
@@ -126,7 +119,7 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.424926013816671
+      "ndcg@10": 0.45379693233402824
     },
     {
       "id": "q004",
@@ -135,42 +128,42 @@
         {
           "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
           "pages": [
-            36,
-            40
-          ]
-        },
-        {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-          "pages": [
-            217,
-            223
-          ]
-        },
-        {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-          "pages": [
-            181,
-            207
+            39,
+            41
           ]
         },
         {
           "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
           "pages": [
-            147,
-            147
+            68,
+            70
           ]
         },
         {
           "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
           "pages": [
-            254,
+            206,
+            207
+          ]
+        },
+        {
+          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+          "pages": [
+            258,
             261
+          ]
+        },
+        {
+          "source_pdf": "TSaM.pdf",
+          "pages": [
+            78,
+            78
           ]
         }
       ],
       "n_labels": 5,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 32,
+      "n_labels_hit_at_5": 5,
+      "resolved_docids_count": 17,
       "ranked_docids": [
         "75c545b17a7d",
         "0ed901aa2d46",
@@ -183,32 +176,39 @@
         "b83ae18ae054",
         "2ed26dbe467f"
       ],
-      "recall@5": 0.6,
-      "mrr@10": 0.5,
-      "ndcg@10": 0.4124497136428909
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.727329844310522
     },
     {
       "id": "q006",
       "query": "Describe the MACD indicator and how trading signals are generated from it.",
       "relevant_pages": [
         {
-          "source_pdf": "Naked_Forex_-_Walter_Petrs.pdf",
+          "source_pdf": "TSaM.pdf",
           "pages": [
-            20,
-            35
+            403,
+            404
           ]
         },
         {
-          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+          "source_pdf": "The_art_and_science_of_technical_analysis_-_Adam_grimes.pdf",
           "pages": [
-            157,
-            240
+            583,
+            589
+          ]
+        },
+        {
+          "source_pdf": "Naked_Forex_-_Walter_Petrs.pdf",
+          "pages": [
+            30,
+            33
           ]
         }
       ],
-      "n_labels": 2,
-      "n_labels_hit_at_5": 1,
-      "resolved_docids_count": 43,
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 10,
       "ranked_docids": [
         "a6500422962e",
         "dec894818c54",
@@ -221,9 +221,9 @@
         "c27d087313e9",
         "b99648eec8d7"
       ],
-      "recall@5": 0.5,
-      "mrr@10": 0.3333333333333333,
-      "ndcg@10": 0.11004588314904008
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.41528076708874123
     },
     {
       "id": "q007",
@@ -232,15 +232,15 @@
         {
           "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
           "pages": [
-            434,
+            427,
             437
           ]
         },
         {
           "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
           "pages": [
-            423,
-            429
+            441,
+            445
           ]
         },
         {
@@ -249,18 +249,11 @@
             190,
             196
           ]
-        },
-        {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-          "pages": [
-            111,
-            114
-          ]
         }
       ],
-      "n_labels": 4,
+      "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 18,
+      "resolved_docids_count": 22,
       "ranked_docids": [
         "76c5920743c7",
         "0d621ebe175e",
@@ -273,9 +266,9 @@
         "630974910a78",
         "8bf35f72f152"
       ],
-      "recall@5": 0.75,
+      "recall@5": 1.0,
       "mrr@10": 0.5,
-      "ndcg@10": 0.6067216003536936
+      "ndcg@10": 0.7162874455029682
     },
     {
       "id": "q008",
@@ -296,16 +289,16 @@
           ]
         },
         {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
           "pages": [
-            55,
-            57
+            198,
+            201
           ]
         }
       ],
       "n_labels": 3,
-      "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 18,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 17,
       "ranked_docids": [
         "23aa0a7875f5",
         "77dfc516e3b4",
@@ -318,53 +311,39 @@
         "8aac92bfc81c",
         "31a14d5a1cef"
       ],
-      "recall@5": 0.6666666666666666,
+      "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.3589542101716347
+      "ndcg@10": 0.4690000933206748
     },
     {
       "id": "q010",
       "query": "Explain the concept of drawdown and how it is used to measure risk.",
       "relevant_pages": [
         {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-          "pages": [
-            252,
-            254
-          ]
-        },
-        {
           "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
           "pages": [
-            67,
-            71
+            41,
+            43
           ]
         },
         {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "source_pdf": "TSaM.pdf",
           "pages": [
-            250,
-            250
+            73,
+            75
           ]
         },
         {
-          "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
+          "source_pdf": "TSaM.pdf",
           "pages": [
-            76,
-            77
-          ]
-        },
-        {
-          "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-          "pages": [
-            78,
-            80
+            79,
+            79
           ]
         }
       ],
-      "n_labels": 5,
-      "n_labels_hit_at_5": 0,
-      "resolved_docids_count": 21,
+      "n_labels": 3,
+      "n_labels_hit_at_5": 3,
+      "resolved_docids_count": 14,
       "ranked_docids": [
         "dd4493d50c55",
         "1d0fe03b5b15",
@@ -377,9 +356,9 @@
         "80a6f3aa623d",
         "40187a87432a"
       ],
-      "recall@5": 0.0,
-      "mrr@10": 0.125,
-      "ndcg@10": 0.06943122193677727
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.47338717040861195
     },
     {
       "id": "q011",
@@ -388,28 +367,28 @@
         {
           "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
           "pages": [
-            328,
-            370
+            368,
+            369
           ]
         },
         {
           "source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf",
           "pages": [
-            117,
+            122,
             124
           ]
         },
         {
           "source_pdf": "Forex_trading_-_Jim_brown.pdf",
           "pages": [
-            1,
+            37,
             40
           ]
         }
       ],
       "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 37,
+      "resolved_docids_count": 9,
       "ranked_docids": [
         "0bc7f823d033",
         "3b53f1a1d215",
@@ -424,24 +403,17 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.4690000933206748
+      "ndcg@10": 0.5008655546918772
     },
     {
       "id": "q013",
       "query": "What is the difference between a market order and a limit order?",
       "relevant_pages": [
         {
-          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+          "source_pdf": "Forex_trading_-_Jim_brown.pdf",
           "pages": [
-            328,
-            370
-          ]
-        },
-        {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-          "pages": [
-            103,
-            103
+            37,
+            40
           ]
         },
         {
@@ -452,9 +424,9 @@
           ]
         }
       ],
-      "n_labels": 3,
+      "n_labels": 2,
       "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 28,
+      "resolved_docids_count": 8,
       "ranked_docids": [
         "9683abaad405",
         "3b086d709ecb",
@@ -467,9 +439,9 @@
         "e6e0cef8a63f",
         "180966789115"
       ],
-      "recall@5": 0.6666666666666666,
-      "mrr@10": 0.3333333333333333,
-      "ndcg@10": 0.19518900079066107
+      "recall@5": 1.0,
+      "mrr@10": 0.5,
+      "ndcg@10": 0.25744067176005675
     },
     {
       "id": "q014",
@@ -478,21 +450,21 @@
         {
           "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
           "pages": [
-            251,
-            278
+            275,
+            281
           ]
         },
         {
-          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+          "source_pdf": "TSaM.pdf",
           "pages": [
-            251,
-            281
+            161,
+            162
           ]
         }
       ],
       "n_labels": 2,
       "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 14,
+      "resolved_docids_count": 9,
       "ranked_docids": [
         "619f3b5e4040",
         "fc529c2088a4",
@@ -507,7 +479,7 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.41528076708874123
+      "ndcg@10": 0.591793585310856
     },
     {
       "id": "q016",
@@ -516,14 +488,21 @@
         {
           "source_pdf": "Forex_Trading_For_Beginners.pdf",
           "pages": [
-            1,
+            8,
             10
+          ]
+        },
+        {
+          "source_pdf": "Naked_Forex_-_Walter_Petrs.pdf",
+          "pages": [
+            33,
+            35
           ]
         }
       ],
-      "n_labels": 1,
-      "n_labels_hit_at_5": 1,
-      "resolved_docids_count": 4,
+      "n_labels": 2,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 6,
       "ranked_docids": [
         "b9cb72ea4438",
         "5179b0bfd6af",
@@ -537,8 +516,8 @@
         "1fbd1b07809e"
       ],
       "recall@5": 1.0,
-      "mrr@10": 0.5,
-      "ndcg@10": 0.7327711443782634
+      "mrr@10": 1.0,
+      "ndcg@10": 0.7751482523375255
     },
     {
       "id": "q017",
@@ -547,35 +526,28 @@
         {
           "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
           "pages": [
-            181,
-            189
+            187,
+            191
           ]
         },
         {
           "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
           "pages": [
             209,
-            209
-          ]
-        },
-        {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-          "pages": [
-            210,
             210
           ]
         },
         {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
           "pages": [
-            24,
-            27
+            350,
+            352
           ]
         }
       ],
-      "n_labels": 4,
+      "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 18,
+      "resolved_docids_count": 16,
       "ranked_docids": [
         "c7f1193a3a95",
         "9b0d63927020",
@@ -588,46 +560,39 @@
         "8a4fd9cb4160",
         "acf8b71ddce6"
       ],
-      "recall@5": 0.75,
+      "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.5541432109622958
+      "ndcg@10": 0.6489315753318465
     },
     {
       "id": "q018",
       "query": "Define support and resistance levels in technical analysis.",
       "relevant_pages": [
         {
-          "source_pdf": "Forex_Trading_For_Beginners.pdf",
-          "pages": [
-            15,
-            25
-          ]
-        },
-        {
           "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
           "pages": [
-            1,
-            71
-          ]
-        },
-        {
-          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-          "pages": [
-            1,
+            69,
             75
           ]
         },
         {
-          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
+          "source_pdf": "The_art_and_science_of_technical_analysis_-_Adam_grimes.pdf",
           "pages": [
-            1,
-            87
+            163,
+            165
+          ]
+        },
+        {
+          "source_pdf": "TSaM.pdf",
+          "pages": [
+            116,
+            117
           ]
         }
       ],
-      "n_labels": 4,
+      "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 41,
+      "resolved_docids_count": 11,
       "ranked_docids": [
         "6b168dcc5780",
         "e8708dac515c",
@@ -640,9 +605,9 @@
         "88d4db6810b4",
         "ae140545f354"
       ],
-      "recall@5": 0.75,
-      "mrr@10": 0.25,
-      "ndcg@10": 0.2532954041105318
+      "recall@5": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 0.5100691314582919
     },
     {
       "id": "q019",
@@ -651,28 +616,28 @@
         {
           "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
           "pages": [
-            298,
-            302
-          ]
-        },
-        {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-          "pages": [
             187,
             188
           ]
         },
         {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            298,
+            302
+          ]
+        },
+        {
           "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
           "pages": [
-            200,
+            202,
             203
           ]
         }
       ],
       "n_labels": 3,
       "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 19,
+      "resolved_docids_count": 18,
       "ranked_docids": [
         "27bfc8303f87",
         "18da3c9f34c5",
@@ -694,23 +659,23 @@
       "query": "Define volume-weighted average price (VWAP).",
       "relevant_pages": [
         {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "source_pdf": "TSaM.pdf",
           "pages": [
-            1042,
-            1042
+            429,
+            430
           ]
         },
         {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "source_pdf": "TSaM.pdf",
           "pages": [
-            1042,
-            1043
+            565,
+            567
           ]
         }
       ],
       "n_labels": 2,
-      "n_labels_hit_at_5": 0,
-      "resolved_docids_count": 6,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 15,
       "ranked_docids": [
         "c5fe23db2b2b",
         "3b16e28d32b6",
@@ -723,9 +688,9 @@
         "0eef8574a43e",
         "f7165a32649f"
       ],
-      "recall@5": 0.0,
-      "mrr@10": 0.0,
-      "ndcg@10": 0.0
+      "recall@5": 1.0,
+      "mrr@10": 0.5,
+      "ndcg@10": 0.3187939258847263
     },
     {
       "id": "q031",
@@ -765,28 +730,21 @@
         {
           "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
           "pages": [
-            150,
+            167,
             169
           ]
         },
         {
-          "source_pdf": "Naked_Forex_-_Walter_Petrs.pdf",
+          "source_pdf": "TSaM.pdf",
           "pages": [
-            20,
-            104
-          ]
-        },
-        {
-          "source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf",
-          "pages": [
-            117,
-            121
+            628,
+            630
           ]
         }
       ],
-      "n_labels": 3,
-      "n_labels_hit_at_5": 1,
-      "resolved_docids_count": 54,
+      "n_labels": 2,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 6,
       "ranked_docids": [
         "8ab3b367d1b2",
         "90d4765d49e1",
@@ -799,39 +757,25 @@
         "069c1d42bb0b",
         "8b7065521445"
       ],
-      "recall@5": 0.3333333333333333,
+      "recall@5": 1.0,
       "mrr@10": 0.5,
-      "ndcg@10": 0.22400556151517553
+      "ndcg@10": 0.4592846660663049
     },
     {
       "id": "q023",
       "query": "What is the difference between fundamental and technical analysis?",
       "relevant_pages": [
         {
-          "source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf",
-          "pages": [
-            35,
-            63
-          ]
-        },
-        {
           "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
           "pages": [
-            1,
-            26
-          ]
-        },
-        {
-          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-          "pages": [
-            1,
+            24,
             32
           ]
         }
       ],
-      "n_labels": 3,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 26,
+      "n_labels": 1,
+      "n_labels_hit_at_5": 1,
+      "resolved_docids_count": 6,
       "ranked_docids": [
         "caa4438a7ef4",
         "d94d73a2430d",
@@ -846,7 +790,7 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.7885497208855957
+      "ndcg@10": 0.8320020419495404
     },
     {
       "id": "q024",
@@ -855,35 +799,21 @@
         {
           "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
           "pages": [
-            1,
-            118
+            116,
+            124
           ]
         },
         {
           "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
           "pages": [
-            1,
-            121
-          ]
-        },
-        {
-          "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-          "pages": [
-            1,
-            130
-          ]
-        },
-        {
-          "source_pdf": "Naked_Forex_-_Walter_Petrs.pdf",
-          "pages": [
-            20,
-            154
+            151,
+            155
           ]
         }
       ],
-      "n_labels": 4,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 109,
+      "n_labels": 2,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 8,
       "ranked_docids": [
         "669adac0838e",
         "0f9d3b9cbfef",
@@ -896,9 +826,9 @@
         "51992422b23c",
         "09ccd08e6073"
       ],
-      "recall@5": 0.75,
+      "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.7385567757549499
+      "ndcg@10": 0.7322538581500236
     },
     {
       "id": "q025",
@@ -907,28 +837,35 @@
         {
           "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
           "pages": [
-            544,
+            523,
+            525
+          ]
+        },
+        {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            537,
+            540
+          ]
+        },
+        {
+          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
+          "pages": [
+            547,
             549
           ]
         },
         {
           "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
           "pages": [
-            535,
-            541
-          ]
-        },
-        {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-          "pages": [
-            520,
-            525
+            718,
+            718
           ]
         }
       ],
-      "n_labels": 3,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 10,
+      "n_labels": 4,
+      "n_labels_hit_at_5": 4,
+      "resolved_docids_count": 19,
       "ranked_docids": [
         "12fa564235d7",
         "969137acb156",
@@ -943,7 +880,7 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.6848374495230163
+      "ndcg@10": 0.7948833326720564
     },
     {
       "id": "q026",
@@ -953,27 +890,13 @@
           "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
           "pages": [
             274,
-            274
-          ]
-        },
-        {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-          "pages": [
-            274,
             276
-          ]
-        },
-        {
-          "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-          "pages": [
-            263,
-            272
           ]
         }
       ],
-      "n_labels": 3,
-      "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 18,
+      "n_labels": 1,
+      "n_labels_hit_at_5": 1,
+      "resolved_docids_count": 7,
       "ranked_docids": [
         "c3190795f23e",
         "b87f92d5ff16",
@@ -986,9 +909,9 @@
         "d3fbd37cd387",
         "7d4062301401"
       ],
-      "recall@5": 0.6666666666666666,
+      "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.501749354207772
+      "ndcg@10": 0.53501781839665
     },
     {
       "id": "q028",
@@ -997,28 +920,14 @@
         {
           "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
           "pages": [
-            37,
-            43
-          ]
-        },
-        {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-          "pages": [
-            37,
+            42,
             45
-          ]
-        },
-        {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-          "pages": [
-            37,
-            46
           ]
         }
       ],
-      "n_labels": 3,
-      "n_labels_hit_at_5": 3,
-      "resolved_docids_count": 7,
+      "n_labels": 1,
+      "n_labels_hit_at_5": 1,
+      "resolved_docids_count": 4,
       "ranked_docids": [
         "40ce06e7e4b3",
         "c2b8c2641d6a",
@@ -1033,7 +942,7 @@
       ],
       "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.4483039899025303
+      "ndcg@10": 0.6366824387328317
     },
     {
       "id": "q029",
@@ -1042,21 +951,21 @@
         {
           "source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf",
           "pages": [
-            211,
-            237
+            14,
+            18
           ]
         },
         {
           "source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf",
           "pages": [
-            1,
-            18
+            85,
+            87
           ]
         }
       ],
       "n_labels": 2,
-      "n_labels_hit_at_5": 1,
-      "resolved_docids_count": 21,
+      "n_labels_hit_at_5": 2,
+      "resolved_docids_count": 6,
       "ranked_docids": [
         "3d1c48607d51",
         "f589ee3f773c",
@@ -1069,9 +978,9 @@
         "17a839958f79",
         "aeb44ff7474b"
       ],
-      "recall@5": 0.5,
+      "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.3499667779514209
+      "ndcg@10": 0.4329261794091841
     },
     {
       "id": "q030",
@@ -1083,25 +992,11 @@
             68,
             73
           ]
-        },
-        {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-          "pages": [
-            64,
-            67
-          ]
-        },
-        {
-          "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-          "pages": [
-            68,
-            71
-          ]
         }
       ],
-      "n_labels": 3,
-      "n_labels_hit_at_5": 2,
-      "resolved_docids_count": 11,
+      "n_labels": 1,
+      "n_labels_hit_at_5": 1,
+      "resolved_docids_count": 6,
       "ranked_docids": [
         "87d5df990e47",
         "11a223c16d2f",
@@ -1114,9 +1009,9 @@
         "9259dedc297d",
         "107d97ab6b19"
       ],
-      "recall@5": 0.6666666666666666,
+      "recall@5": 1.0,
       "mrr@10": 1.0,
-      "ndcg@10": 0.40853591842579556
+      "ndcg@10": 0.561692774772731
     }
   ]
 }

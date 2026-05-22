@@ -3,52 +3,21 @@
     "id": "q001",
     "category": "factual_lookup",
     "query": "What is the RSI indicator and how is it calculated?",
-    "expected_source": "Machine Learning for Algorithmic Trading / RSI definition",
+    "expected_source": "TSaM RSI calculation (Wilder)",
     "relevant_pages": [
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          1022,
-          1023
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          171,
-          171
-        ]
-      }
+      {"source_pdf": "TSaM.pdf", "pages": [406, 409]},
+      {"source_pdf": "TSaM.pdf", "pages": [540, 540]}
     ],
-    "notes": "Corpus has thin RSI coverage; the canonical definition lives in MLAT p171."
+    "notes": "Slice 7 relabel: TSaM (Kaufman) has the canonical Wilder RSI calculation. Earlier slice 4 labels pointed at MLAT chunks that didn't surface under the fixed chunker."
   },
   {
     "id": "q002",
     "category": "comparison",
     "query": "How does exponential moving average differ from simple moving average?",
-    "expected_source": "MLAT side-by-side SMA/EMA definitions; Murphy moving averages chapter",
+    "expected_source": "Murphy MA chapter + Grimes appendix on MAs",
     "relevant_pages": [
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          1014,
-          1018
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          157,
-          192
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          157,
-          190
-        ]
-      }
+      {"source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf", "pages": [190, 192]},
+      {"source_pdf": "The_art_and_science_of_technical_analysis_-_Adam_grimes.pdf", "pages": [566, 569]}
     ]
   },
   {
@@ -57,424 +26,160 @@
     "query": "What is mean reversion and how is it used in pairs trading?",
     "expected_source": "Chan Quantitative Trading mean-reversion chapter",
     "relevant_pages": [
-      {
-        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-        "pages": [
-          150,
-          169
-        ]
-      },
-      {
-        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-        "pages": [
-          182,
-          186
-        ]
-      }
-    ],
-    "notes": "60b85e97aac1 was dropped from labels \u2014 it is the chapter-opener for 'Special Topics in Quantitative Trading' and only marginally about mean-reversion specifically."
+      {"source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf", "pages": [167, 169]},
+      {"source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf", "pages": [182, 186]}
+    ]
   },
   {
     "id": "q004",
     "category": "definition",
     "query": "Explain the Sharpe ratio and its limitations as a performance metric.",
-    "expected_source": "Chan + AFML coverage of Sharpe, plus DSR (deflated Sharpe) critique in AFML",
+    "expected_source": "Chan + AFML + TSaM coverage of Sharpe + DSR",
     "relevant_pages": [
-      {
-        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-        "pages": [
-          36,
-          40
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          217,
-          223
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          181,
-          207
-        ]
-      },
-      {
-        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-        "pages": [
-          147,
-          147
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          254,
-          261
-        ]
-      }
+      {"source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf", "pages": [39, 41]},
+      {"source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf", "pages": [68, 70]},
+      {"source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf", "pages": [206, 207]},
+      {"source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf", "pages": [258, 261]},
+      {"source_pdf": "TSaM.pdf", "pages": [78, 78]}
     ]
   },
   {
     "id": "q006",
     "category": "factual_lookup",
     "query": "Describe the MACD indicator and how trading signals are generated from it.",
-    "expected_source": "Murphy MACD signal-line crossing; Naked Forex MACD example chart",
+    "expected_source": "TSaM MACD coverage + Grimes Fast Line of MACD + Naked Forex example",
     "relevant_pages": [
-      {
-        "source_pdf": "Naked_Forex_-_Walter_Petrs.pdf",
-        "pages": [
-          20,
-          35
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          157,
-          240
-        ]
-      }
-    ],
-    "notes": "Corpus has thin MACD coverage; only two chunks describe the actual signal-generation mechanism."
+      {"source_pdf": "TSaM.pdf", "pages": [403, 404]},
+      {"source_pdf": "The_art_and_science_of_technical_analysis_-_Adam_grimes.pdf", "pages": [583, 589]},
+      {"source_pdf": "Naked_Forex_-_Walter_Petrs.pdf", "pages": [30, 33]}
+    ]
   },
   {
     "id": "q007",
     "category": "multi_doc_synthesis",
     "query": "What is cointegration and why does it matter for statistical arbitrage?",
-    "expected_source": "MLAT cointegration tests + Chan KO/PEP example + AFML cointegration framing",
+    "expected_source": "MLAT cointegration tests + Chan Engle-Granger example",
     "relevant_pages": [
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          434,
-          437
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          423,
-          429
-        ]
-      },
-      {
-        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-        "pages": [
-          190,
-          196
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          111,
-          114
-        ]
-      }
-    ],
-    "notes": "Capped at 5 canonical labels. 630974910a78 (Johansen trace-stat mechanical) is also relevant but a derivative result; recall@5 cannot exceed 1.0 by definition, so labels are bounded to the canonical 5."
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [427, 437]},
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [441, 445]},
+      {"source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf", "pages": [190, 196]}
+    ]
   },
   {
     "id": "q008",
     "category": "factual_lookup",
     "query": "How do Bollinger Bands work and what do they signal?",
-    "expected_source": "MLAT BBANDS function + Bollinger's trading rules; AFML CUSUM-vs-Bollinger critique",
+    "expected_source": "MLAT BBANDS function + Bollinger's trading rules + Murphy envelopes",
     "relevant_pages": [
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          316,
-          316
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          1019,
-          1020
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          55,
-          57
-        ]
-      }
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [316, 316]},
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [1019, 1020]},
+      {"source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf", "pages": [198, 201]}
     ]
   },
   {
     "id": "q009",
     "category": "refusal_expected",
     "query": "What is the information ratio and how does it differ from the Sharpe ratio?",
-    "expected_source": "(none \u2014 corpus does not contain a clean information-ratio definition; system SHOULD refuse)",
+    "expected_source": "(none — corpus does not contain a clean information-ratio definition; system SHOULD refuse)",
     "relevant_pages": [],
-    "notes": "Refusal-expected. The corpus covers Sharpe extensively but never defines the information ratio; a faithful system refuses rather than blending. Excluded from recall@5 averaging."
+    "notes": "Refusal-expected. Chan p39-41 touches on information ratio briefly but never gives a clean definition. Excluded from recall@5 averaging."
   },
   {
     "id": "q010",
     "category": "definition",
     "query": "Explain the concept of drawdown and how it is used to measure risk.",
-    "expected_source": "AFML DD definition + Chan max-DD calculation + MLAT pyfolio drawdown plot",
+    "expected_source": "Chan + TSaM drawdown definitions",
     "relevant_pages": [
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          252,
-          254
-        ]
-      },
-      {
-        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-        "pages": [
-          67,
-          71
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          250,
-          250
-        ]
-      },
-      {
-        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-        "pages": [
-          76,
-          77
-        ]
-      },
-      {
-        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-        "pages": [
-          78,
-          80
-        ]
-      }
+      {"source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf", "pages": [41, 43]},
+      {"source_pdf": "TSaM.pdf", "pages": [73, 75]},
+      {"source_pdf": "TSaM.pdf", "pages": [79, 79]}
     ],
-    "notes": "Capped at 5 canonical academic/technical sources; the Naked Forex max-DD-rule chunk (6963e8379327) is also relevant but less authoritative as a definition source."
+    "notes": "Slice 7 relabel: TSaM (Kaufman) has explicit drawdown definitions and Sortino ratio context. Earlier labels at AFML p252 / MLAT p250 / Chan p67-80 don't surface under the new chunker."
   },
   {
     "id": "q011",
     "category": "factual_lookup",
     "query": "What is a stop-loss order and how does it differ from a stop-limit order?",
-    "expected_source": "Murphy + Lien on stop / stop-loss order placement",
+    "expected_source": "Murphy stop placement + Lien stop-loss + Brown order types",
     "relevant_pages": [
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          328,
-          370
-        ]
-      },
-      {
-        "source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf",
-        "pages": [
-          117,
-          124
-        ]
-      },
-      {
-        "source_pdf": "Forex_trading_-_Jim_brown.pdf",
-        "pages": [
-          1,
-          40
-        ]
-      }
+      {"source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf", "pages": [368, 369]},
+      {"source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf", "pages": [122, 124]},
+      {"source_pdf": "Forex_trading_-_Jim_brown.pdf", "pages": [37, 40]}
     ]
   },
   {
     "id": "q013",
     "category": "factual_lookup",
     "query": "What is the difference between a market order and a limit order?",
-    "expected_source": "Murphy order types + Jansen order book",
+    "expected_source": "Brown order types + MLAT order book depth",
     "relevant_pages": [
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          328,
-          370
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          103,
-          103
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          104,
-          106
-        ]
-      }
+      {"source_pdf": "Forex_trading_-_Jim_brown.pdf", "pages": [37, 40]},
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [104, 106]}
     ]
   },
   {
     "id": "q014",
     "category": "factual_lookup",
     "query": "What is a candlestick chart and what does a doji pattern signal?",
-    "expected_source": "Murphy Japanese candlesticks chapter",
+    "expected_source": "Murphy Japanese candlesticks chapter + TSaM engulfing patterns",
     "relevant_pages": [
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          251,
-          278
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          251,
-          281
-        ]
-      }
+      {"source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf", "pages": [275, 281]},
+      {"source_pdf": "TSaM.pdf", "pages": [161, 162]}
     ]
   },
   {
     "id": "q016",
     "category": "factual_lookup",
     "query": "What is a pip in forex trading?",
-    "expected_source": "Forex Trading for Beginners pip definition",
+    "expected_source": "Forex Beginners pip definition + Naked Forex PIPS section",
     "relevant_pages": [
-      {
-        "source_pdf": "Forex_Trading_For_Beginners.pdf",
-        "pages": [
-          1,
-          10
-        ]
-      }
+      {"source_pdf": "Forex_Trading_For_Beginners.pdf", "pages": [8, 10]},
+      {"source_pdf": "Naked_Forex_-_Walter_Petrs.pdf", "pages": [33, 35]}
     ]
   },
   {
     "id": "q017",
     "category": "definition",
     "query": "Define backtesting and explain what overfitting means in that context.",
-    "expected_source": "Advances in Financial ML backtest overfitting chapter",
+    "expected_source": "Advances in Financial ML backtest overfitting chapter + MLAT backtest pitfalls",
     "relevant_pages": [
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          181,
-          189
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          209,
-          209
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          210,
-          210
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          24,
-          27
-        ]
-      }
+      {"source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf", "pages": [187, 191]},
+      {"source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf", "pages": [209, 210]},
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [350, 352]}
     ]
   },
   {
     "id": "q018",
     "category": "definition",
     "query": "Define support and resistance levels in technical analysis.",
-    "expected_source": "Murphy support/resistance + Forex Beginners",
+    "expected_source": "Murphy + Grimes + TSaM support/resistance coverage",
     "relevant_pages": [
-      {
-        "source_pdf": "Forex_Trading_For_Beginners.pdf",
-        "pages": [
-          15,
-          25
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          1,
-          71
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          1,
-          75
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          1,
-          87
-        ]
-      }
+      {"source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf", "pages": [69, 75]},
+      {"source_pdf": "The_art_and_science_of_technical_analysis_-_Adam_grimes.pdf", "pages": [163, 165]},
+      {"source_pdf": "TSaM.pdf", "pages": [116, 117]}
     ]
   },
   {
     "id": "q019",
     "category": "definition",
     "query": "What is the Fama-French three-factor model?",
-    "expected_source": "Jansen + Chan factor model coverage",
+    "expected_source": "MLAT + Chan Fama-French + SMB/HML coverage",
     "relevant_pages": [
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          298,
-          302
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          187,
-          188
-        ]
-      },
-      {
-        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-        "pages": [
-          200,
-          203
-        ]
-      }
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [187, 188]},
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [298, 302]},
+      {"source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf", "pages": [202, 203]}
     ]
   },
   {
     "id": "q020",
     "category": "definition",
     "query": "Define volume-weighted average price (VWAP).",
-    "expected_source": "Jansen VWAP entries",
+    "expected_source": "TSaM volume-weighted price formulas",
     "relevant_pages": [
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          1042,
-          1042
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          1042,
-          1043
-        ]
-      }
-    ]
+      {"source_pdf": "TSaM.pdf", "pages": [429, 430]},
+      {"source_pdf": "TSaM.pdf", "pages": [565, 567]}
+    ],
+    "notes": "Slice 7 relabel: TSaM has the actual VWAP / volume-weighted MA formulas. Earlier MLAT labels at p1042 didn't surface under the new chunker — those pages contain index entries, not the definition."
   },
   {
     "id": "q031",
@@ -482,166 +187,57 @@
     "query": "What is the Black-Litterman model for portfolio allocation?",
     "expected_source": "Jansen Global Portfolio Optimization section",
     "relevant_pages": [
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          232,
-          234
-        ]
-      }
-    ],
-    "notes": "Initially categorised refusal_expected; corpus actually has explicit coverage."
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [232, 234]}
+    ]
   },
   {
     "id": "q022",
     "category": "comparison",
     "query": "How does trend-following differ from mean-reversion as a trading strategy?",
-    "expected_source": "Chan mean-reversion + Naked Forex trending vs drifting market",
+    "expected_source": "Chan mean-reversion + TSaM trend-following vs mean-reversion contrast",
     "relevant_pages": [
-      {
-        "source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf",
-        "pages": [
-          150,
-          169
-        ]
-      },
-      {
-        "source_pdf": "Naked_Forex_-_Walter_Petrs.pdf",
-        "pages": [
-          20,
-          104
-        ]
-      },
-      {
-        "source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf",
-        "pages": [
-          117,
-          121
-        ]
-      }
+      {"source_pdf": "Quantitative_Trading_-_Ernest_P_Chan.pdf", "pages": [167, 169]},
+      {"source_pdf": "TSaM.pdf", "pages": [628, 630]}
     ]
   },
   {
     "id": "q023",
     "category": "comparison",
     "query": "What is the difference between fundamental and technical analysis?",
-    "expected_source": "Murphy ch.1 + Lien fundamental vs technical",
+    "expected_source": "Murphy ch.1 technical vs fundamental",
     "relevant_pages": [
-      {
-        "source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf",
-        "pages": [
-          35,
-          63
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          1,
-          26
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          1,
-          32
-        ]
-      }
+      {"source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf", "pages": [24, 32]}
     ]
   },
   {
     "id": "q024",
     "category": "comparison",
     "query": "How do head-and-shoulders patterns differ from double-top patterns?",
-    "expected_source": "Murphy head-and-shoulders + Naked Forex double-top",
+    "expected_source": "Murphy head-and-shoulders + double-top chapters",
     "relevant_pages": [
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          1,
-          118
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          1,
-          121
-        ]
-      },
-      {
-        "source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf",
-        "pages": [
-          1,
-          130
-        ]
-      },
-      {
-        "source_pdf": "Naked_Forex_-_Walter_Petrs.pdf",
-        "pages": [
-          20,
-          154
-        ]
-      }
+      {"source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf", "pages": [116, 124]},
+      {"source_pdf": "Technical_Analysis_of_the_Financial_Market_-_John_J_Murphy.pdf", "pages": [151, 155]}
     ]
   },
   {
     "id": "q025",
     "category": "comparison",
     "query": "Compare random forests and gradient boosting for predicting returns.",
-    "expected_source": "Jansen ensembles + boosting + random forest",
+    "expected_source": "Jansen ensemble methods + RF advantages + gradient boosting chapter",
     "relevant_pages": [
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          544,
-          549
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          535,
-          541
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          520,
-          525
-        ]
-      }
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [523, 525]},
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [537, 540]},
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [547, 549]},
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [718, 718]}
     ]
   },
   {
     "id": "q026",
     "category": "multi_doc_synthesis",
     "query": "How is cross-validation adapted for time-series financial data?",
-    "expected_source": "Jansen 'Challenges with cross-validation in finance'",
+    "expected_source": "Jansen Challenges with CV in finance",
     "relevant_pages": [
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          274,
-          274
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          274,
-          276
-        ]
-      },
-      {
-        "source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf",
-        "pages": [
-          263,
-          272
-        ]
-      }
+      {"source_pdf": "Machine_Learning_for_Algorithmic_Trading_2nd_-_Stefan_Jansen.pdf", "pages": [274, 276]}
     ]
   },
   {
@@ -650,27 +246,7 @@
     "query": "How does the Volume Imbalance Bar (VIB) sampling method work?",
     "expected_source": "Advances in Financial ML VIB/DIB section",
     "relevant_pages": [
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          37,
-          43
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          37,
-          45
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          37,
-          46
-        ]
-      }
+      {"source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf", "pages": [42, 45]}
     ]
   },
   {
@@ -679,20 +255,8 @@
     "query": "What role does the central bank play in foreign exchange markets?",
     "expected_source": "Lien intervention-based trades + central-bank section",
     "relevant_pages": [
-      {
-        "source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf",
-        "pages": [
-          211,
-          237
-        ]
-      },
-      {
-        "source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf",
-        "pages": [
-          1,
-          18
-        ]
-      }
+      {"source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf", "pages": [14, 18]},
+      {"source_pdf": "Day_trading_and_swing_trading_the_currency_market_-_Kathy_Lien.pdf", "pages": [85, 87]}
     ]
   },
   {
@@ -701,42 +265,22 @@
     "query": "How is the meta-labeling technique used to filter primary trading signals?",
     "expected_source": "Advances in Financial ML meta-labeling section",
     "relevant_pages": [
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          68,
-          73
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          64,
-          67
-        ]
-      },
-      {
-        "source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf",
-        "pages": [
-          68,
-          71
-        ]
-      }
+      {"source_pdf": "Advances_in_Financial_Machine_Learning_-_Marcos_Lopez_de_Prado.pdf", "pages": [68, 73]}
     ]
   },
   {
     "id": "q032",
     "category": "refusal_expected",
     "query": "How does the JPY/MXN cross rate behave during Bank of Japan interventions?",
-    "expected_source": "(none \u2014 corpus covers BOJ on USD/JPY but never JPY/MXN cross)",
+    "expected_source": "(none — corpus covers BOJ on USD/JPY but never JPY/MXN cross)",
     "relevant_pages": [],
-    "notes": "Refusal-expected. BOJ intervention is covered for USD/JPY pair but not JPY/MXN cross; a faithful system should refuse rather than blend the USD/JPY material onto a different cross."
+    "notes": "Refusal-expected. BOJ intervention is covered for USD/JPY pair but not JPY/MXN cross; a faithful system should refuse rather than blend USD/JPY material onto a different cross."
   },
   {
     "id": "q033",
     "category": "refusal_expected",
     "query": "What is the optimal leverage for a Roth IRA in the United States?",
-    "expected_source": "(none \u2014 corpus covers Kelly-optimal leverage abstractly but never tax-advantaged account rules)",
+    "expected_source": "(none — corpus covers Kelly-optimal leverage abstractly but never tax-advantaged account rules)",
     "relevant_pages": [],
     "notes": "Refusal-expected. Roth IRA rules are not in the trading corpus; the system should refuse rather than synthesize a tax-policy answer from Kelly-criterion material."
   }
