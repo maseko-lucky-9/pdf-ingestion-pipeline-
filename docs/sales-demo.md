@@ -40,7 +40,7 @@ kill "$UVICORN_PID"
 Pull up the live system. **Use the web UI or `curl` against `/query` — do not show raw retrieval results.** The cited answer is the moment that sells.
 
 **Pick the rehearsed corpus.** Default options:
-- **`sa-legislation`** — POPIA, Companies Act, Consumer Protection Act, Labour Relations Act. Use this for compliance / legal / ops buyers (the doc's primary audience). Baseline: recall@5 = 1.000 on 7 labelled queries (ADR-008).
+- **`sa-legislation`** — POPIA, Companies Act, Consumer Protection Act, Labour Relations Act, NCA, FICA, PAIA (7 acts, ~778 pages). Default for compliance / legal / ops buyers. Baseline: recall@5 = 0.970 on 11 labelled queries (ADR-008).
 - **`quant-finance`** — quant trading & ML books. Use this for fintech, ML, or trading-desk buyers. Baseline: recall@5 = 0.919.
 - **`prospect-<name>`** — pre-ingest with `scripts/swap_corpus.py` if the prospect sent docs ahead of the call.
 

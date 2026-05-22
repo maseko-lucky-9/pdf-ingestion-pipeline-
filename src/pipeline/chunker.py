@@ -76,7 +76,7 @@ def chunk_items(
     buffer_page_end = 0
 
     def flush_buffer(page_end: int) -> None:
-        nonlocal idx, text_buffer_ids
+        nonlocal idx, text_buffer_ids, buffer_page_start
         if not text_buffer_ids:
             return
         content = _decode(text_buffer_ids)
@@ -85,6 +85,15 @@ def chunk_items(
         idx += 1
         # carry overlap into next buffer
         text_buffer_ids = text_buffer_ids[-overlap_tokens:] if overlap_tokens else []
+        # When overlap is non-empty the buffer never becomes empty, so the
+        # `if not text_buffer_ids: buffer_page_start = page` branch below
+        # never re-fires and every chunk inherited the document's first
+        # content page. Anchor the new chunk's page_start at the page where
+        # the overlap actually lived — i.e. the page_end of the chunk we
+        # just emitted. This is the latest page any token in the carried
+        # overlap could have come from.
+        if text_buffer_ids:
+            buffer_page_start = page_end
 
     for item in items:
         if item.kind in _ATOMIC_KINDS:

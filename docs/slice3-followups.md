@@ -3,7 +3,7 @@
 Pulled forward from PR #1 code-review and slice 2 discoveries. Each item is
 a candidate for the slice 3 work plan, not a guaranteed deliverable.
 
-**Status legend:** ✅ landed in PR #3 (slice 3), PR #4 (slice 4), or PR #5 (slice 5); 🟡 deferred (operator-gated or hardware-gated); 🔵 UI polish — all landed in slice 4.
+**Status legend:** ✅ landed in PR #3 (slice 3), PR #4 (slice 4), PR #5 (slice 5), or PR #6 (slice 6); 🟡 deferred (operator-gated — only the live judge calibration run + the slice-2 operator-step prereqs remain).
 
 ## From PR #1 code-review (P2 + P3 items)
 
@@ -117,22 +117,26 @@ a candidate for the slice 3 work plan, not a guaranteed deliverable.
     `file` param means CDN-hosted pdf.js won't work; the vendored-locally
     path is the production approach. (P3 — landed in slice 4)
 
-19. 🟡 **ntfy cron health-pinger across all demo systems.**
-    Per the parent plan's Phases 2–6 framing item 6: a single cron-driven
-    script in `infra/homelab-infra/` that pings all five demos' /health every
-    30 minutes and alerts via ntfy on failure. Slice 2 only built the demo
-    `/health` endpoint; the pinger lives at the homelab layer. (P2)
+19. ✅ **ntfy cron health-pinger across all demo systems.**
+    `infra/monitoring/health_pinger.py` posts to ntfy on /health failure;
+    YAML-configured target list (template in `targets.example.yaml`).
+    Supports Cloudflare Access service-token JWTs via env-var indirection.
+    Crontab snippet in `infra/monitoring/README.md`. Deployment to the box
+    stays operator-gated. (P2 — landed in slice 6)
 
-20. 🟡 **Post-session scrub automation via cron.**
-    `scripts/scrub_corpus.py` exists as a manual command. Add a cron entry
-    on the host that scrubs prospect collections older than 7 days
-    automatically, audit-logged. (P2)
+20. ✅ **Post-session scrub automation via cron.**
+    `scripts/scrub_corpus.py --age-threshold-days 7 --prefix prospect-`
+    walks the collections root and scrubs anything older than the threshold.
+    Prefix filter ensures rehearsed demo corpora are never touched.
+    `infra/monitoring/scrub_cron_wrapper.sh` is the cron-friendly wrapper.
+    Deployment stays operator-gated. (P2 — landed in slice 6)
 
-21. 🟡 **Ollama-on-Hetzner CX22 sizing check.**
-    CX22 has 4 GB RAM. `nomic-embed-text` (~270 MB) + FastAPI + Ollama
-    daemon plus buffers fit, but margin is thin. If embedding-during-query
-    becomes a path (today's design re-embeds only at ingest), revisit the
-    sizing. (P3)
+21. ✅ **Ollama-on-Hetzner CX22 sizing check.**
+    `scripts/box_health_check.py` snapshots RAM / CPU load / disk / Ollama
+    daemon and compares against a CX22 envelope (4 GB RAM, 2 vCPU, 40 GB).
+    Exit 1 on errors, optional --strict for warnings. JSON output mode for
+    cron-friendly machine parsing. Running on the actual box stays
+    operator-gated. (P3 — landed in slice 6)
 
 22. ✅ **South African legislation corpus.**
     Curated 4 acts (POPIA, Companies, Consumer Protection, Labour Relations)
@@ -143,3 +147,33 @@ a candidate for the slice 3 work plan, not a guaranteed deliverable.
     during labelling. Sourcing for 3 additional acts (NCA / FICA / PAIA)
     was attempted but URLs returned 404 — slice 6 follow-up. (P1 — landed in
     slice 5)
+
+## Slice 7 — surfaced during PR #6 review
+
+23. 🟡 **Relabel `queries_bound.json` against the new chunker page-tracking.**
+    Labels in slice 4 were authored against the OLD `page_start=1` chunker
+    output. The bug made every chunk appear to span `[doc-first-page, real-end]`,
+    so labels like Murphy `[1, 118]` (q024) naturally overlapped any chunk
+    whose true content was anywhere in pages 1-118. Under the slice 6 chunker
+    fix, those chunks now report tight page ranges (e.g. `[114, 117]`), and
+    the overlap-matcher correctly resolves to fewer chunks. Net effect:
+    recall@5 on slice4-baseline dropped 0.919 → 0.691 not because retrieval
+    degraded, but because the inflated overlap matches went away. Plan:
+    inspect top-5 returned chunks per query under the new chunker; tighten
+    labels to the actual content pages (single chunk's page range, or the
+    canonical narrow `[start_of_relevant_passage, end_of_relevant_passage]`).
+    Estimate: ~90 min across the 25 labelled queries. (P1 — gates recall@5
+    target re-attainment)
+
+24. 🟡 **Investigate the q001 / q010 / q020 recall-zero queries.**
+    Three slice 4 queries now resolve to 0 hits in the top-5 (RSI definition,
+    drawdown definition, VWAP definition). Either retrieval genuinely shifted
+    away from the canonical sources, or the labels are mis-aligned with the
+    new chunk boundaries. Decision point: if relabel (item 23) doesn't recover
+    these, treat as a retrieval-quality regression and revisit reranker /
+    BM25/vector weights. (P1 — gates slice 7 close)
+
+25. 🟡 **Refresh `docs/sales-demo.md`'s recall@5 figure.**
+    The buyer-Q answer cites "recall@5 = 0.875 on 8 labelled queries" — that's
+    the slice 2 number. Update to the post-slice-7 baseline once item 23 lands.
+    (P3 — tied to item 23)
