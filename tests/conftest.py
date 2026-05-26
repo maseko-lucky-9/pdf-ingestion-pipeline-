@@ -1,7 +1,31 @@
 """Shared pytest configuration."""
 from __future__ import annotations
 
+import os
+
 import pytest
+
+
+@pytest.fixture(autouse=True, scope="session")
+def _skip_ollama_startup_probe():
+    """Bypass the Ollama daemon startup probe for all non-integration tests.
+
+    The FastAPI lifespan calls ``probe_ollama_reachable()`` when the resolved
+    provider is ``ollama`` (i.e. when ``ANTHROPIC_API_KEY`` is absent).  Unit
+    tests run without a live daemon, so we set ``RAG_SKIP_STARTUP_PROBE`` for
+    the entire session.  The escape hatch is intentional — see server.py
+    lifespan and ``src/llm_provider.py:probe_ollama_reachable``.
+
+    Ollama-integration tests exercise the live daemon directly and do not go
+    through the FastAPI lifespan, so they are unaffected by this fixture.
+    """
+    prev = os.environ.get("RAG_SKIP_STARTUP_PROBE")
+    os.environ["RAG_SKIP_STARTUP_PROBE"] = "1"
+    yield
+    if prev is None:
+        os.environ.pop("RAG_SKIP_STARTUP_PROBE", None)
+    else:
+        os.environ["RAG_SKIP_STARTUP_PROBE"] = prev
 
 
 def pytest_configure(config):
