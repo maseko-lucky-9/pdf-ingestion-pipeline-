@@ -294,3 +294,45 @@ button.ghost:hover { color: var(--text); }
   .left { border-right: none; border-bottom: 1px solid var(--border); }
   .right { min-height: 60vh; }
 }
+
+/* Provider banner — shown when the resolved model is a local (non-Claude)
+ * variant. AA-contrast yellow that works in both themes. */
+.provider-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: rgba(241, 177, 93, 0.16);  /* amber from --refusal token, lighter */
+  border: 1px solid rgba(241, 177, 93, 0.45);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.4;
+}
+body[data-theme="light"] .provider-banner {
+  background: rgba(162, 91, 24, 0.10);
+  border-color: rgba(162, 91, 24, 0.35);
+}
+.provider-banner.hidden { display: none; }
+.provider-banner .banner-icon {
+  flex: 0 0 auto;
+  font-size: 16px;
+  color: var(--refusal);
+}
+.provider-banner #providerBannerText { flex: 1 1 auto; }
+.provider-banner .banner-dismiss {
+  flex: 0 0 auto;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+.provider-banner .banner-dismiss:hover {
+  background: rgba(127, 127, 127, 0.12);
+  color: var(--text);
+}

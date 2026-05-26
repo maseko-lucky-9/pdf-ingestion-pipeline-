@@ -29,6 +29,7 @@ from dataclasses import dataclass
 import anthropic
 
 from src.answer import _REFUSAL_TEXT, Citation
+from src.llm_provider import OllamaJudgeClient, resolve_llm_provider
 
 # Pinned to a dated alias; see ADR-006 + src/answer.py for rationale.
 _DEFAULT_JUDGE_MODEL = "claude-3-5-haiku-20241022"
@@ -85,6 +86,12 @@ class FaithfulnessScore:
     verdicts: list[FaithfulnessVerdict]
     judge_model: str
     raw_response: str  # for debugging / spot-checks
+    # Ollama-path-only metadata: how many attempts the judge took to produce
+    # parseable JSON (1 = first try, 0 = Anthropic path that doesn't retry).
+    # ``judge_parse_failed`` is True when all attempts failed and ``overall``
+    # is None as a parse-failure marker (distinct from None for no-citations).
+    attempts: int = 0
+    judge_parse_failed: bool = False
 
 
 def _build_chunks_block(citations: list[Citation]) -> str:
@@ -131,23 +138,61 @@ def score_faithfulness(
     api_key: str | None = None,
     judge_model: str | None = None,
     client: anthropic.Anthropic | None = None,
+    ollama_client: OllamaJudgeClient | None = None,
 ) -> FaithfulnessScore:
     """Score citation faithfulness for one (question, answer) pair.
 
     Returns a ``FaithfulnessScore`` with ``overall=None`` when the answer is a
-    refusal or has no citations.
+    refusal or has no citations. Under the Ollama provider, also returns
+    ``overall=None`` + ``judge_parse_failed=True`` after 3 failed parse
+    attempts; callers should report ``judge_parse_failures`` in their
+    aggregate metrics so the noise is visible rather than silent.
 
     Raises:
-        EnvironmentError: If the API key is missing and no client supplied.
+        EnvironmentError: If provider resolves to anthropic and the API key
+            is missing and no client supplied.
     """
+    # Explicit client override pins the provider; resolver only fires when
+    # neither was supplied. Matches the synthesize_answer() convention.
+    if client is not None and ollama_client is None:
+        provider: str = "anthropic"
+    elif ollama_client is not None and client is None:
+        provider = "ollama"
+    else:
+        provider = resolve_llm_provider()
+
     if answer.strip().startswith(_REFUSAL_TEXT) or not citations:
+        if provider == "anthropic":
+            stamped = judge_model or os.environ.get("ANTHROPIC_JUDGE_MODEL", _DEFAULT_JUDGE_MODEL)
+        else:
+            stamped = (ollama_client.model if ollama_client else OllamaJudgeClient().model)
         return FaithfulnessScore(
             overall=None,
             verdicts=[],
-            judge_model=judge_model or os.environ.get("ANTHROPIC_JUDGE_MODEL", _DEFAULT_JUDGE_MODEL),
+            judge_model=stamped,
             raw_response="",
         )
 
+    user_message = _USER_TEMPLATE.format(
+        question=question,
+        answer=answer,
+        chunks_block=_build_chunks_block(citations),
+    )
+
+    if provider == "anthropic":
+        return _judge_anthropic(
+            user_message, api_key=api_key, judge_model=judge_model, client=client,
+        )
+    return _judge_ollama(user_message, ollama_client=ollama_client)
+
+
+def _judge_anthropic(
+    user_message: str,
+    *,
+    api_key: str | None,
+    judge_model: str | None,
+    client: anthropic.Anthropic | None,
+) -> FaithfulnessScore:
     resolved_model = judge_model or os.environ.get("ANTHROPIC_JUDGE_MODEL", _DEFAULT_JUDGE_MODEL)
 
     if client is None:
@@ -157,12 +202,6 @@ def score_faithfulness(
                 "ANTHROPIC_API_KEY is not set and no client was supplied."
             )
         client = anthropic.Anthropic(api_key=resolved_key)
-
-    user_message = _USER_TEMPLATE.format(
-        question=question,
-        answer=answer,
-        chunks_block=_build_chunks_block(citations),
-    )
 
     response = client.messages.create(
         model=resolved_model,
@@ -176,10 +215,54 @@ def score_faithfulness(
     overall, verdicts = _parse_judge_response(raw)
 
     return FaithfulnessScore(
-        overall=overall,
-        verdicts=verdicts,
-        judge_model=resolved_model,
-        raw_response=raw,
+        overall=overall, verdicts=verdicts,
+        judge_model=resolved_model, raw_response=raw,
+        attempts=1, judge_parse_failed=False,
+    )
+
+
+def _judge_ollama(
+    user_message: str,
+    *,
+    ollama_client: OllamaJudgeClient | None,
+) -> FaithfulnessScore:
+    """Ollama judge with the 3-attempt retry loop documented in ADR-006."""
+    if ollama_client is None:
+        ollama_client = OllamaJudgeClient()
+
+    result = ollama_client.complete_with_retry(
+        system_prompt=_JUDGE_SYSTEM,
+        user_message=user_message,
+        max_tokens=_MAX_TOKENS,
+    )
+    last_raw = result.raw_responses[-1] if result.raw_responses else ""
+
+    if result.parsed is None:
+        # All retries failed to produce parseable JSON. Caller surfaces this
+        # via judge_parse_failures counter; faithfulness for this example is
+        # genuinely unknowable rather than zero.
+        return FaithfulnessScore(
+            overall=None, verdicts=[],
+            judge_model=ollama_client.model, raw_response=last_raw,
+            attempts=result.attempts, judge_parse_failed=True,
+        )
+
+    verdicts = [
+        FaithfulnessVerdict(
+            docid=v["docid"],
+            supported=bool(v["supported"]),
+            reason=str(v.get("reason", ""))[:200],
+        )
+        for v in result.parsed.get("verdicts", [])
+    ]
+    overall = result.parsed.get("overall_supported_fraction")
+    if overall is None and verdicts:
+        overall = sum(1 for v in verdicts if v.supported) / len(verdicts)
+
+    return FaithfulnessScore(
+        overall=overall, verdicts=verdicts,
+        judge_model=ollama_client.model, raw_response=last_raw,
+        attempts=result.attempts, judge_parse_failed=False,
     )
 
 

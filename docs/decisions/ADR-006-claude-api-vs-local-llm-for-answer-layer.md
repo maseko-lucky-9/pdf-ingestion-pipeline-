@@ -1,9 +1,25 @@
 # ADR-006 — Claude API vs local LLM for the answer layer
 
-**Date:** 2026-05-16
-**Status:** Accepted
+**Date:** 2026-05-16 (Ollama fallback wired 2026-05-22)
+**Status:** Accepted, fallback implemented
 **Decision-makers:** Thulani Maseko
 **Phase reference:** AI Agent Portfolio Phase 3 (see `~/.claude/plans/create-a-comprehensive-plan-buzzing-backus.md`)
+
+## Status note — 2026-05-22
+
+The Ollama fallback documented below is **implemented** as of this date. Provider selection:
+
+- `LLM_PROVIDER=anthropic|ollama` (explicit) always wins.
+- Else, `ANTHROPIC_API_KEY` set → Anthropic.
+- Else, auto-fallback → Ollama (`gpt-oss-20b` for answers, `llama3.1:8b` for the judge by default; both env-overridable via `OLLAMA_ANSWER_MODEL` / `OLLAMA_JUDGE_MODEL`).
+
+**Production hardening:** systemd unit / Cloudflare Access tunnel must set `LLM_PROVIDER=anthropic` so a missing `.env` doesn't silently degrade to local quality.
+
+**Demo UX:** when the resolved model is not a Claude variant, the citation UI shows a yellow banner ("Running on local model — quality and latency lower than production").
+
+**Judge robustness:** the Ollama judge uses a 3-attempt retry loop with progressively stricter "JSON only" system prompts. After 3 failures, `faithfulness=None` is surfaced with a `judge_parse_failed=True` flag — the caller increments a `judge_parse_failures` metric so the noise is visible rather than silent.
+
+**Quality delta:** the side-by-side measurement against the 25 quant-finance + 15 SA-legislation labelled queries is the responsibility of the operator (run `llm-eval compare` per the sibling `~/Repo/apps/llm-eval-harness` README). Honest expectation: gpt-oss-20b on M2 produces 30-90s answers vs Claude's 2-3s, and recall/citation faithfulness drops measurably. Use for dev/CI/internal eval; sales demos default to Claude.
 
 ## Context
 

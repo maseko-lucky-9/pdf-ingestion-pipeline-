@@ -18,6 +18,11 @@
 
 const REFUSAL_PREFIX = "I cannot answer this question from the provided context.";
 const DOC_TAG_RE = /\[doc-(\d+)\]/g;
+// Models whose names start with "claude" are the production path. Anything
+// else — gpt-oss-*, llama*, qwen*, mistral*, phi* — triggers the yellow
+// "running on local model" banner.
+const PRODUCTION_MODEL_PREFIX = "claude";
+const BANNER_DISMISS_KEY = "prudentia-rag.banner-dismissed";
 
 // PDF rendering strategy:
 //   "native" (default): use the browser's built-in PDF viewer via #page=N.
@@ -66,7 +71,38 @@ const els = {
   closePanel: $("closePanel"),
   themeToggle: $("themeToggle"),
   themeIcon: $("themeIcon"),
+  providerBanner: $("providerBanner"),
+  providerBannerText: $("providerBannerText"),
+  providerBannerDismiss: $("providerBannerDismiss"),
 };
+
+// ─── Provider banner ──────────────────────────────────────────────────────
+// Shown when the resolved model is NOT a Claude variant. Dismissed-per-session
+// so the operator isn't nagged after they've acknowledged the local-model
+// quality drop. Returns true if the banner ended up visible.
+function maybeShowProviderBanner(model) {
+  if (!els.providerBanner) return false;
+  const isLocal = typeof model === "string" &&
+    !model.toLowerCase().startsWith(PRODUCTION_MODEL_PREFIX);
+  if (!isLocal) {
+    els.providerBanner.classList.add("hidden");
+    return false;
+  }
+  if (sessionStorage.getItem(BANNER_DISMISS_KEY) === "1") {
+    els.providerBanner.classList.add("hidden");
+    return false;
+  }
+  // textContent only — never inject the model name as HTML.
+  els.providerBannerText.textContent =
+    `Running on local model (${model}) — quality and latency lower than production.`;
+  els.providerBanner.classList.remove("hidden");
+  return true;
+}
+
+function dismissProviderBanner() {
+  sessionStorage.setItem(BANNER_DISMISS_KEY, "1");
+  if (els.providerBanner) els.providerBanner.classList.add("hidden");
+}
 
 // ─── Theme handling ─────────────────────────────────────────────────────────
 // Persist the operator's choice in localStorage. If no choice has been made,
@@ -277,6 +313,7 @@ async function submit(event) {
 
     const body = await res.json();
     lastResponse = body;
+    maybeShowProviderBanner(body.model);
     setAnswer(body.answer, body.citations);
 
     els.latency.textContent = `server ${body.latency_ms} ms · roundtrip ${clientLatencyMs} ms`;
@@ -298,4 +335,7 @@ async function submit(event) {
 els.form.addEventListener("submit", submit);
 els.closePanel.addEventListener("click", closePanel);
 if (els.themeToggle) els.themeToggle.addEventListener("click", toggleTheme);
+if (els.providerBannerDismiss) {
+  els.providerBannerDismiss.addEventListener("click", dismissProviderBanner);
+}
 loadCollections();

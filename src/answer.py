@@ -26,6 +26,7 @@ import time
 import anthropic
 from pydantic import BaseModel, Field
 
+from src.llm_provider import OllamaAnswerClient, resolve_llm_provider
 from src.pipeline.retriever import SearchResult
 
 # Pinned to a dated alias so eval baselines do not drift silently when
@@ -143,8 +144,14 @@ def synthesize_answer(
     model: str | None = None,
     max_tokens: int = _DEFAULT_MAX_TOKENS,
     client: anthropic.Anthropic | None = None,
+    ollama_client: OllamaAnswerClient | None = None,
 ) -> AnsweredQuery:
     """Generate a cited answer from a query + retrieval results.
+
+    The provider is picked by ``resolve_llm_provider()`` (env-driven):
+      * ``LLM_PROVIDER=anthropic|ollama`` always wins,
+      * else ``ANTHROPIC_API_KEY`` set → Anthropic,
+      * else auto-fallback to Ollama (local).
 
     Args:
         query: User question.
@@ -153,21 +160,63 @@ def synthesize_answer(
         model: Override env var (defaults to ``ANTHROPIC_MODEL`` or claude-3-5-sonnet-latest).
         max_tokens: Completion token budget.
         client: Pre-built Anthropic client (useful for tests).
+        ollama_client: Pre-built ``OllamaAnswerClient`` (useful for tests).
 
     Raises:
-        EnvironmentError: If the API key is missing and no client supplied.
+        EnvironmentError: If the Anthropic API key is missing and no
+            ``client`` was supplied AND the provider resolved to ``anthropic``.
     """
+    # Explicit client override pins the provider: callers passing a mocked
+    # Anthropic client (existing test suite) or a mocked Ollama client are
+    # making an explicit choice; the resolver only fires when neither is set.
+    if client is not None and ollama_client is None:
+        provider: str = "anthropic"
+    elif ollama_client is not None and client is None:
+        provider = "ollama"
+    else:
+        provider = resolve_llm_provider()
+
     # Short-circuit: no retrieval results means no context to ground on.
     if not results:
+        if provider == "anthropic":
+            stamped = model or os.environ.get("ANTHROPIC_MODEL", _DEFAULT_MODEL)
+        else:
+            stamped = (ollama_client.model if ollama_client else OllamaAnswerClient().model)
         return AnsweredQuery(
             answer=_REFUSAL_TEXT,
             citations=[],
-            model=model or os.environ.get("ANTHROPIC_MODEL", _DEFAULT_MODEL),
+            model=stamped,
             prompt_tokens=0,
             completion_tokens=0,
             latency_ms=0,
         )
 
+    context_block = _build_context_block(results)
+    user_message = (
+        f"Question: {query}\n\n"
+        f"Context:\n{context_block}\n\n"
+        "Answer using only the context above. Cite every factual claim with [doc-N]."
+    )
+
+    if provider == "anthropic":
+        return _synthesize_anthropic(
+            user_message, results, api_key=api_key, model=model,
+            max_tokens=max_tokens, client=client,
+        )
+    return _synthesize_ollama(
+        user_message, results, max_tokens=max_tokens, ollama_client=ollama_client,
+    )
+
+
+def _synthesize_anthropic(
+    user_message: str,
+    results: list[SearchResult],
+    *,
+    api_key: str | None,
+    model: str | None,
+    max_tokens: int,
+    client: anthropic.Anthropic | None,
+) -> AnsweredQuery:
     resolved_model = model or os.environ.get("ANTHROPIC_MODEL", _DEFAULT_MODEL)
 
     if client is None:
@@ -178,13 +227,6 @@ def synthesize_answer(
                 "Copy .env.example → .env and fill it in, or pass `client=` for testing."
             )
         client = anthropic.Anthropic(api_key=resolved_key)
-
-    context_block = _build_context_block(results)
-    user_message = (
-        f"Question: {query}\n\n"
-        f"Context:\n{context_block}\n\n"
-        "Answer using only the context above. Cite every factual claim with [doc-N]."
-    )
 
     t0 = time.perf_counter()
     response = client.messages.create(
@@ -204,5 +246,35 @@ def synthesize_answer(
         model=resolved_model,
         prompt_tokens=response.usage.input_tokens if response.usage else 0,
         completion_tokens=response.usage.output_tokens if response.usage else 0,
+        latency_ms=latency_ms,
+    )
+
+
+def _synthesize_ollama(
+    user_message: str,
+    results: list[SearchResult],
+    *,
+    max_tokens: int,
+    ollama_client: OllamaAnswerClient | None,
+) -> AnsweredQuery:
+    """Same shape as the Anthropic path, routed through Ollama HTTP."""
+    if ollama_client is None:
+        ollama_client = OllamaAnswerClient()
+
+    t0 = time.perf_counter()
+    result = ollama_client.complete(
+        system_prompt=_SYSTEM_PROMPT,
+        user_message=user_message,
+        max_tokens=max_tokens,
+    )
+    latency_ms = int((time.perf_counter() - t0) * 1000)
+
+    citations = _extract_citations(result.answer_text, results)
+    return AnsweredQuery(
+        answer=result.answer_text,
+        citations=citations,
+        model=ollama_client.model,
+        prompt_tokens=result.prompt_tokens,
+        completion_tokens=result.completion_tokens,
         latency_ms=latency_ms,
     )

@@ -127,6 +127,17 @@ Network drops, API quota hit, daemon died:
 
 Log the failure post-call. Two same-kind failures in a month → switch to recording-first until fixed.
 
+### Last-resort local fallback (Ollama)
+
+If Anthropic is genuinely unreachable mid-call (API outage, rate-limit, quota exhausted), the system can run on a local Ollama daemon — pulled and warmed before the call. Steps:
+
+1. **Stop the running server.** `kill "$UVICORN_PID"` from the pre-demo block.
+2. **Unset the API key.** `unset ANTHROPIC_API_KEY` (or `export LLM_PROVIDER=ollama` to lock it explicitly).
+3. **Restart.** `.venv/bin/uvicorn src.api.server:app --port 8000 &` — startup log will show `llm_provider_resolved provider=ollama`.
+4. **Acknowledge the banner.** The UI now shows a yellow "Running on local model" banner above every answer. Say it out loud: *"We've fallen back to a local model for this call — quality and latency will be visibly lower than what production looks like, but the system still works end-to-end."* Buyers respect transparency more than they punish degradation.
+
+Per ADR-006: local models default to `gpt-oss-20b` (answer) + `llama3.1:8b` (judge); expect 30-90 s per question vs the usual 2-3 s. The cited-answer contract is preserved — citations still resolve, refusals still fire. Quality drops but the proof of architecture stays intact.
+
 ---
 
 ## After the call
