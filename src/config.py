@@ -14,6 +14,12 @@ class OllamaConfig(BaseModel):
     embed_model: str = "nomic-embed-text"
     embed_dim: int = 768
     batch_size: int = 64
+    # Used by src/llm_provider.py when LLM_PROVIDER resolves to "ollama".
+    # Pick sizes that fit a 16 GB M2; overridable via OLLAMA_ANSWER_MODEL /
+    # OLLAMA_JUDGE_MODEL / OLLAMA_TIMEOUT env vars (resolved by the loader).
+    answer_model: str = "gpt-oss-20b"
+    judge_model: str = "llama3.1:8b"
+    request_timeout_seconds: float = 120.0
 
 
 class ChunkerConfig(BaseModel):

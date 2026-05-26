@@ -139,7 +139,13 @@ def test_synthesize_answer_empty_results_short_circuits_without_api_call(monkeyp
 
 
 def test_synthesize_answer_missing_api_key_raises(monkeypatch):
+    """When the operator explicitly forces the anthropic provider but no key
+    is set, the EnvironmentError still fires — production lock from ADR-006
+    (set LLM_PROVIDER=anthropic on the systemd unit so a missing .env does
+    not silently degrade to Ollama). Default behaviour (no LLM_PROVIDER) is
+    the auto-fallback path, covered in tests/test_llm_provider.py."""
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.setenv("LLM_PROVIDER", "anthropic")
     with pytest.raises(EnvironmentError, match="ANTHROPIC_API_KEY"):
         synthesize_answer("q?", [_make_result()])
 

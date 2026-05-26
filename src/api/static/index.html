@@ -37,6 +37,12 @@
       </div>
     </form>
 
+    <div id="providerBanner" class="provider-banner hidden" role="status" aria-live="polite">
+      <span class="banner-icon" aria-hidden="true">⚠</span>
+      <span id="providerBannerText">Running on local model — quality and latency lower than production.</span>
+      <button type="button" id="providerBannerDismiss" class="banner-dismiss" aria-label="Dismiss banner">×</button>
+    </div>
+
     <article id="answer" class="answer empty">
       <p class="placeholder">Cited answer will appear here.</p>
     </article>

@@ -8,12 +8,15 @@ Boot with:
     uvicorn src.api.server:app --reload --port 8000
 """
 
+import logging
 import os
 import sqlite3
 import time
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 import anthropic
+import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -22,8 +25,15 @@ from fastapi.staticfiles import StaticFiles
 from src.answer import AnsweredQuery, synthesize_answer
 from src.api.schemas import HealthResponse, QueryRequest, QueryResponse
 from src.config import load_config
+from src.llm_provider import (
+    LlmProviderError,
+    probe_ollama_reachable,
+    resolve_llm_provider,
+)
 from src.observability import configure_logging, log_rag_request, new_request_id
 from src.pipeline.retriever import retrieve
+
+log = logging.getLogger(__name__)
 
 _DEFAULT_COLLECTIONS_ROOT = "./collections"
 
@@ -57,10 +67,45 @@ def _collection_db(collection: str) -> Path:
 
 configure_logging()
 
+
+@asynccontextmanager
+async def _lifespan(_app: FastAPI):
+    """Startup probe + structured log line for the resolved LLM provider.
+
+    Runs in the FastAPI lifespan (not at module import) so unit tests that
+    just import ``src.api.server:app`` with no Ollama daemon present don't
+    blow up — only the actually-running server triggers the probe.
+
+    Set ``RAG_SKIP_STARTUP_PROBE=1`` to bypass (used in tests that boot
+    the app via ``TestClient`` without a daemon).
+    """
+    provider = resolve_llm_provider()
+    cfg = load_config()
+    log.info(
+        "llm_provider_resolved",
+        extra={
+            "provider": provider,
+            "answer_model": (
+                os.environ.get("ANTHROPIC_MODEL") if provider == "anthropic"
+                else cfg.ollama.answer_model
+            ),
+            "judge_model": (
+                os.environ.get("ANTHROPIC_JUDGE_MODEL") if provider == "anthropic"
+                else cfg.ollama.judge_model
+            ),
+        },
+    )
+    if provider == "ollama" and not os.environ.get("RAG_SKIP_STARTUP_PROBE"):
+        # Fail fast at startup rather than per-request 5xx loops downstream.
+        probe_ollama_reachable(cfg.ollama.host)
+    yield
+
+
 app = FastAPI(
     title="pdf-ingestion-pipeline RAG API",
     version="0.1.0",
     description="Retrieve + synthesize cited answers from ingested PDF collections.",
+    lifespan=_lifespan,
 )
 
 _cors_origins = os.environ.get("CORS_ORIGINS", "*").split(",")
@@ -153,6 +198,38 @@ def query(req: QueryRequest) -> QueryResponse:
         )
         raise HTTPException(status_code=our_status, detail=str(exc)) from exc
     except anthropic.APIConnectionError as exc:
+        latency_ms = (time.perf_counter() - t0) * 1000
+        log_rag_request(
+            request_id=request_id, collection=req.collection, query=req.query,
+            k=req.k, status="502", latency_ms=latency_ms, error=str(exc),
+        )
+        raise HTTPException(status_code=502, detail="Upstream unreachable.") from exc
+    except LlmProviderError as exc:
+        # Ollama-path failures: the client already mapped httpx errors to a
+        # status_code on the exception. Default to 502 when unknown so the
+        # caller distinguishes "transient upstream" from a 4xx client error.
+        latency_ms = (time.perf_counter() - t0) * 1000
+        our_status = exc.status_code or 502
+        # Clamp into safe ranges — never expose a 4xx upstream as a 4xx here
+        # (treat upstream auth issues as our misconfig, like the Anthropic path).
+        if our_status in (401, 403):
+            our_status = 503
+        elif our_status >= 500 and our_status != 504 and our_status != 503:
+            our_status = 502
+        log_rag_request(
+            request_id=request_id, collection=req.collection, query=req.query,
+            k=req.k, status=str(our_status), latency_ms=latency_ms, error=str(exc),
+        )
+        raise HTTPException(status_code=our_status, detail=str(exc)) from exc
+    except httpx.TimeoutException as exc:
+        # Should normally be caught by LlmProviderError; this is the safety net.
+        latency_ms = (time.perf_counter() - t0) * 1000
+        log_rag_request(
+            request_id=request_id, collection=req.collection, query=req.query,
+            k=req.k, status="504", latency_ms=latency_ms, error=str(exc),
+        )
+        raise HTTPException(status_code=504, detail="Upstream timed out.") from exc
+    except httpx.HTTPError as exc:
         latency_ms = (time.perf_counter() - t0) * 1000
         log_rag_request(
             request_id=request_id, collection=req.collection, query=req.query,

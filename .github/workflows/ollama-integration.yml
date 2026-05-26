@@ -1,0 +1,67 @@
+# Manual-dispatch Ollama integration tests.
+# Spins up an ollama/ollama service container, pulls a small model
+# (qwen2.5:0.5b), and runs the Ollama-tagged tests against the real daemon
+# so we catch wire-level breakage that mock-only tests can miss.
+#
+# Push/PR CI stays mock-only via .github/workflows/test.yml. This job runs
+# only when you click "Run workflow" or trigger via gh workflow run.
+
+name: ollama-integration
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ollama-integration:
+    runs-on: ubuntu-latest
+    services:
+      ollama:
+        image: ollama/ollama:latest
+        ports: ["11434:11434"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Wait for Ollama to be ready
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://localhost:11434/api/tags > /dev/null 2>&1; then
+              echo "Ollama is ready after $i attempts."
+              break
+            fi
+            sleep 2
+          done
+          curl -fsS http://localhost:11434/api/tags
+
+      - name: Pull small model
+        # qwen2.5:0.5b is tiny (~370 MB) — fastest model that produces JSON.
+        run: |
+          curl -fsS -X POST http://localhost:11434/api/pull \
+            -H 'content-type: application/json' \
+            -d '{"name":"qwen2.5:0.5b","stream":false}'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Run ollama-integration tagged tests
+        env:
+          OLLAMA_HOST: http://localhost:11434
+          OLLAMA_ANSWER_MODEL: qwen2.5:0.5b
+          OLLAMA_JUDGE_MODEL: qwen2.5:0.5b
+          ANTHROPIC_API_KEY: ""
+          LLM_PROVIDER: ollama
+        run: pytest -q --no-header -m ollama_integration
