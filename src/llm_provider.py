@@ -48,6 +48,35 @@ _JUDGE_MAX_ATTEMPTS = 3
 _JSON_RE = re.compile(r"\{.*\}", re.DOTALL)
 
 
+def _judge_payload_shape_valid(parsed: object) -> bool:
+    """Confirm the judge payload has the keys ``score_faithfulness`` expects.
+
+    Small Ollama models sometimes return JSON-shaped output where every
+    ``verdicts`` entry omits ``docid`` (e.g. they emit ``"id"`` or skip the
+    key entirely). Without this guard the call site explodes with
+    ``KeyError: 'docid'`` — which the retry loop was meant to prevent.
+
+    Returns ``False`` for any of:
+      - non-dict root
+      - missing or non-list ``verdicts``
+      - any verdict entry that isn't a dict or lacks ``docid`` / ``supported``
+
+    An empty ``verdicts`` list is accepted (a model may legitimately decide
+    nothing in the answer was checkable).
+    """
+    if not isinstance(parsed, dict):
+        return False
+    verdicts = parsed.get("verdicts")
+    if not isinstance(verdicts, list):
+        return False
+    for v in verdicts:
+        if not isinstance(v, dict):
+            return False
+        if "docid" not in v or "supported" not in v:
+            return False
+    return True
+
+
 ProviderName = Literal["anthropic", "ollama"]
 
 
@@ -316,13 +345,23 @@ class OllamaJudgeClient:
                     continue
                 try:
                     parsed = json.loads(match.group(0))
-                    return OllamaJudgeResult(parsed=parsed, attempts=attempt, raw_responses=raw_responses)
                 except json.JSONDecodeError:
                     log.warning(
                         "ollama_judge_json_decode_failed",
                         extra={"attempt": attempt, "snippet": match.group(0)[:120]},
                     )
                     continue
+                # Validate verdict shape — small models sometimes return
+                # well-formed JSON with the wrong keys (e.g. "id" instead of
+                # "docid"). Treat as a parse failure so the retry loop gets
+                # another chance with a stricter prompt.
+                if not _judge_payload_shape_valid(parsed):
+                    log.warning(
+                        "ollama_judge_shape_invalid",
+                        extra={"attempt": attempt, "snippet": match.group(0)[:160]},
+                    )
+                    continue
+                return OllamaJudgeResult(parsed=parsed, attempts=attempt, raw_responses=raw_responses)
         finally:
             if self._client is None:
                 client.close()

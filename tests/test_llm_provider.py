@@ -219,6 +219,43 @@ class TestOllamaJudgeClient:
         assert result.attempts == 3
         assert len(result.raw_responses) == 3
 
+    def test_retries_when_verdict_missing_docid_then_succeeds(self) -> None:
+        """Small models sometimes return well-formed JSON with verdicts that
+        omit ``docid`` (e.g. they emit ``"id"`` instead). That used to leak
+        through as a ``KeyError`` at the call site; now the retry loop treats
+        it as a parse failure and tries again with a stricter prompt."""
+        calls = {"n": 0}
+
+        def handler(req: httpx.Request) -> httpx.Response:
+            calls["n"] += 1
+            if calls["n"] == 1:
+                # Valid JSON, wrong shape — missing docid on the verdict.
+                return httpx.Response(
+                    200,
+                    json={"message": {"content": '{"verdicts": [{"id": "c1", "supported": true}]}'}},
+                )
+            return httpx.Response(
+                200,
+                json={"message": {"content": '{"verdicts": [{"docid": "c1", "supported": true}]}'}},
+            )
+
+        client = OllamaJudgeClient(client=_make_ollama_client_with_handler(handler), max_attempts=3)
+        result = client.complete_with_retry(system_prompt="s", user_message="u", max_tokens=200)
+        assert result.attempts == 2
+        assert result.parsed == {"verdicts": [{"docid": "c1", "supported": True}]}
+
+    def test_all_attempts_return_wrong_shape_yields_parsed_none(self) -> None:
+        """Every retry returns malformed-shape JSON → retries exhausted →
+        ``parsed=None`` so the caller surfaces ``judge_parse_failed=True``."""
+        handler = lambda r: httpx.Response(  # noqa: E731
+            200,
+            json={"message": {"content": '{"verdicts": [{"id": "c1"}]}'}},
+        )
+        client = OllamaJudgeClient(client=_make_ollama_client_with_handler(handler), max_attempts=3)
+        result = client.complete_with_retry(system_prompt="s", user_message="u", max_tokens=200)
+        assert result.parsed is None
+        assert result.attempts == 3
+
     def test_malformed_json_decode_failure_retries(self) -> None:
         """Unclosed JSON brackets → JSONDecodeError → retry."""
         calls = {"n": 0}
