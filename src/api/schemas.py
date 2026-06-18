@@ -25,7 +25,7 @@ class HealthResponse(BaseModel):
 
 class QueryRequest(BaseModel):
     query: str = Field(..., min_length=1, max_length=_MAX_QUERY_LEN)
-    collection: str = Field(..., min_length=1, max_length=128)
+    collection: str = Field(..., min_length=1, max_length=128, pattern=r"^[a-zA-Z0-9_-]+$")
     k: int = Field(_DEFAULT_K, ge=1, le=_MAX_K)
 
 

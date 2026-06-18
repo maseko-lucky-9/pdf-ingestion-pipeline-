@@ -30,6 +30,11 @@ data/
 # Claude Code local settings
 .claude/
 
+# Secrets — never commit
+.env
+*.env
+*.secret
+
 # Operational logs (audit log retained on each host, not in git)
 logs/
 

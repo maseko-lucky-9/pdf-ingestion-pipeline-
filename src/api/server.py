@@ -1,8 +1,10 @@
 """FastAPI app exposing the RAG pipeline over HTTP.
 
 Routes:
-    GET  /health        Liveness + list of collections currently on disk.
-    POST /query         Retrieve + synthesize a cited answer.
+    GET  /health                          Liveness + list of collections on disk.
+    POST /query                           Retrieve + synthesize a cited answer.
+    GET  /document/{collection}/{docid}   Serve source PDF for a cited chunk.
+    GET  /document/{collection}/{docid}/page  Return cited page number.
 
 Boot with:
     uvicorn src.api.server:app --reload --port 8000
@@ -10,6 +12,7 @@ Boot with:
 
 import logging
 import os
+import re
 import sqlite3
 import time
 from contextlib import asynccontextmanager
@@ -17,7 +20,7 @@ from pathlib import Path
 
 import anthropic
 import httpx
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -62,7 +65,12 @@ def _list_collections() -> list[str]:
 
 
 def _collection_db(collection: str) -> Path:
-    return _collections_dir() / collection / "index.db"
+    """Resolve the DB path and verify it stays inside the collections root."""
+    root = _collections_dir().resolve()
+    candidate = (root / collection / "index.db").resolve()
+    if not candidate.is_relative_to(root):
+        raise HTTPException(status_code=400, detail="Invalid collection name.")
+    return candidate
 
 
 configure_logging()
@@ -108,19 +116,31 @@ app = FastAPI(
     lifespan=_lifespan,
 )
 
-_cors_origins = os.environ.get("CORS_ORIGINS", "*").split(",")
-# `allow_credentials=True` is incompatible with `allow_origins=["*"]` per the
-# CORS spec (browsers refuse the combo). Only enable credentials when the
-# operator has narrowed origins explicitly via the env var.
-_cors_allow_credentials = _cors_origins != ["*"]
+_cors_origins_raw = os.environ.get("CORS_ORIGINS", "")
+_cors_origins = [o.strip() for o in _cors_origins_raw.split(",") if o.strip()]
+if _cors_origins:
+    # `allow_credentials=True` is incompatible with `allow_origins=["*"]` per
+    # the CORS spec. Only enable credentials when origins are explicitly listed.
+    _cors_allow_credentials = _cors_origins != ["*"]
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=_cors_origins,
+        allow_credentials=_cors_allow_credentials,
+        allow_methods=["GET", "POST"],
+        allow_headers=["Content-Type"],
+    )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=_cors_origins,
-    allow_credentials=_cors_allow_credentials,
-    allow_methods=["GET", "POST"],
-    allow_headers=["*"],
-)
+
+@app.middleware("http")
+async def _security_headers(request: Request, call_next) -> Response:  # type: ignore[no-untyped-def]
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["Referrer-Policy"] = "no-referrer"
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self'"
+    )
+    return response
 
 
 @app.get("/health", response_model=HealthResponse)
@@ -158,14 +178,14 @@ def query(req: QueryRequest) -> QueryResponse:
         answered: AnsweredQuery = synthesize_answer(req.query, results)
         synth_ms = (time.perf_counter() - t_synth) * 1000
     except EnvironmentError as exc:
-        # Misconfiguration (no ANTHROPIC_API_KEY etc.) — server-side failure
-        # under-the-hood but caller can retry once the operator fixes it.
+        # Misconfiguration (no ANTHROPIC_API_KEY etc.) — server-side failure;
+        # log detail internally but return a generic message to callers.
         latency_ms = (time.perf_counter() - t0) * 1000
         log_rag_request(
             request_id=request_id, collection=req.collection, query=req.query,
             k=req.k, status="503", latency_ms=latency_ms, error=str(exc),
         )
-        raise HTTPException(status_code=503, detail=str(exc)) from exc
+        raise HTTPException(status_code=503, detail="Service configuration error.") from exc
     except anthropic.RateLimitError as exc:
         latency_ms = (time.perf_counter() - t0) * 1000
         log_rag_request(
@@ -182,10 +202,9 @@ def query(req: QueryRequest) -> QueryResponse:
         raise HTTPException(status_code=504, detail="Upstream timed out.") from exc
     except anthropic.APIStatusError as exc:
         # Bad request, auth error, server error, etc. — mirror upstream status
-        # when reasonable, otherwise 502.
+        # when reasonable, otherwise 502. Never leak upstream body to callers.
         latency_ms = (time.perf_counter() - t0) * 1000
         upstream_status = getattr(exc, "status_code", None) or 502
-        # We never want to leak 5xx as 4xx (or vice versa) — clamp class.
         if upstream_status >= 500:
             our_status = 502
         elif upstream_status == 401 or upstream_status == 403:
@@ -196,7 +215,7 @@ def query(req: QueryRequest) -> QueryResponse:
             request_id=request_id, collection=req.collection, query=req.query,
             k=req.k, status=str(our_status), latency_ms=latency_ms, error=str(exc),
         )
-        raise HTTPException(status_code=our_status, detail=str(exc)) from exc
+        raise HTTPException(status_code=our_status, detail="Upstream service error.") from exc
     except anthropic.APIConnectionError as exc:
         latency_ms = (time.perf_counter() - t0) * 1000
         log_rag_request(
@@ -208,11 +227,13 @@ def query(req: QueryRequest) -> QueryResponse:
         # Ollama-path failures: the client already mapped httpx errors to a
         # status_code on the exception. Default to 502 when unknown so the
         # caller distinguishes "transient upstream" from a 4xx client error.
+        # Never leak internal Ollama error details to callers.
         latency_ms = (time.perf_counter() - t0) * 1000
         our_status = exc.status_code or 502
-        # Clamp into safe ranges — never expose a 4xx upstream as a 4xx here
-        # (treat upstream auth issues as our misconfig, like the Anthropic path).
-        if our_status in (401, 403):
+        # Clamp into safe ranges. 404 from Ollama means "model not pulled" —
+        # that is operator configuration, not a missing collection (which we
+        # already handled above), so remap to 503.
+        if our_status in (401, 403, 404):
             our_status = 503
         elif our_status >= 500 and our_status != 504 and our_status != 503:
             our_status = 502
@@ -220,7 +241,7 @@ def query(req: QueryRequest) -> QueryResponse:
             request_id=request_id, collection=req.collection, query=req.query,
             k=req.k, status=str(our_status), latency_ms=latency_ms, error=str(exc),
         )
-        raise HTTPException(status_code=our_status, detail=str(exc)) from exc
+        raise HTTPException(status_code=our_status, detail="Upstream service error.") from exc
     except httpx.TimeoutException as exc:
         # Should normally be caught by LlmProviderError; this is the safety net.
         latency_ms = (time.perf_counter() - t0) * 1000
@@ -273,22 +294,19 @@ def _resolve_pdf_for_docid(collection: str, docid: str) -> tuple[Path, int]:
     """Return (absolute_pdf_path, page_start) for the given chunk docid.
 
     Raises HTTPException 404 if the collection, chunk, or source PDF is
-    missing. Resolves the PDF path under the configured ``data/`` tree —
-    relative paths in the meta table are resolved against the project root.
+    missing. Validates the resolved path is a .pdf file so DB-stored paths
+    cannot be used to serve arbitrary files.
     """
     db_path = _collection_db(collection)
     if not db_path.exists():
         raise HTTPException(404, f"Collection {collection!r} not found.")
 
-    con = sqlite3.connect(str(db_path))
-    try:
+    with sqlite3.connect(str(db_path)) as con:
         cur = con.execute(
             "SELECT source_pdf, page_start FROM meta WHERE docid = ?",
             (docid,),
         )
         row = cur.fetchone()
-    finally:
-        con.close()
 
     if row is None:
         raise HTTPException(404, f"docid {docid!r} not found in {collection!r}.")
@@ -298,8 +316,12 @@ def _resolve_pdf_for_docid(collection: str, docid: str) -> tuple[Path, int]:
     candidate = Path(source_rel)
     if not candidate.is_absolute():
         candidate = Path.cwd() / candidate
+    candidate = candidate.resolve()
+
+    if candidate.suffix.lower() != ".pdf":
+        raise HTTPException(404, "Source document not available.")
     if not candidate.exists():
-        raise HTTPException(404, f"Source PDF missing on disk: {source_rel!r}")
+        raise HTTPException(404, "Source document not available.")
 
     return candidate, page_start
 
@@ -313,10 +335,11 @@ def document(collection: str, docid: str) -> FileResponse:
     job is just to deliver the right file.
     """
     pdf_path, _page = _resolve_pdf_for_docid(collection, docid)
+    safe_name = re.sub(r"[^A-Za-z0-9._-]", "_", pdf_path.name)
     return FileResponse(
         pdf_path,
         media_type="application/pdf",
-        headers={"Content-Disposition": f'inline; filename="{pdf_path.name}"'},
+        headers={"Content-Disposition": f'inline; filename="{safe_name}"'},
     )
 
 
