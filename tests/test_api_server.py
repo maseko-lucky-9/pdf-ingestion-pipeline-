@@ -12,6 +12,7 @@ from fastapi.testclient import TestClient
 
 from src.answer import _DEFAULT_MODEL, AnsweredQuery, Citation
 from src.api.server import _list_collections, app
+from src.llm_provider import LlmProviderError
 from src.pipeline.retriever import SearchResult
 
 
@@ -189,7 +190,8 @@ def test_query_returns_503_when_api_key_missing(tmp_path: Path, client: TestClie
         resp = client.post("/query", json={"query": "q", "collection": "test-corpus"})
 
     assert resp.status_code == 503
-    assert "ANTHROPIC_API_KEY" in resp.json()["detail"]
+    # Detail is generic — internal config error text must not leak to callers.
+    assert "ANTHROPIC_API_KEY" not in resp.json()["detail"]
 
 
 # ─── POST /query — Anthropic SDK error mapping ──────────────────────────────
@@ -319,3 +321,81 @@ def test_list_collections_returns_sorted(tmp_path: Path) -> None:
     with patch("src.api.server._collections_dir", return_value=root):
         cols = _list_collections()
     assert cols == sorted(cols)
+
+
+# ─── POST /query — LlmProviderError (Ollama) status mapping ─────────────────
+
+
+def test_query_returns_503_on_llm_provider_401(tmp_path: Path, client: TestClient) -> None:
+    """Ollama upstream 401 → our 503 (treated as server misconfig, not caller auth)."""
+    root = _setup_collection(tmp_path)
+    exc = LlmProviderError("auth", status_code=401)
+    patches = _patch_query_path(root, exc)
+    with patches[0], patches[1], patches[2], patches[3]:
+        resp = client.post("/query", json={"query": "q", "collection": "test-corpus"})
+    assert resp.status_code == 503
+    assert "ANTHROPIC" not in resp.json().get("detail", "")
+
+
+def test_query_returns_503_on_llm_provider_404(tmp_path: Path, client: TestClient) -> None:
+    """Ollama 404 = model not pulled (operator config error) → 503, not 404."""
+    root = _setup_collection(tmp_path)
+    exc = LlmProviderError("model not found", status_code=404)
+    patches = _patch_query_path(root, exc)
+    with patches[0], patches[1], patches[2], patches[3]:
+        resp = client.post("/query", json={"query": "q", "collection": "test-corpus"})
+    assert resp.status_code == 503
+
+
+def test_query_returns_502_on_llm_provider_500(tmp_path: Path, client: TestClient) -> None:
+    """Ollama 5xx (non-504/503) → clamped to 502."""
+    root = _setup_collection(tmp_path)
+    exc = LlmProviderError("internal error", status_code=500)
+    patches = _patch_query_path(root, exc)
+    with patches[0], patches[1], patches[2], patches[3]:
+        resp = client.post("/query", json={"query": "q", "collection": "test-corpus"})
+    assert resp.status_code == 502
+
+
+def test_query_returns_504_on_llm_provider_504(tmp_path: Path, client: TestClient) -> None:
+    """Ollama 504 (timeout) passes through unchanged."""
+    root = _setup_collection(tmp_path)
+    exc = LlmProviderError("timeout", status_code=504)
+    patches = _patch_query_path(root, exc)
+    with patches[0], patches[1], patches[2], patches[3]:
+        resp = client.post("/query", json={"query": "q", "collection": "test-corpus"})
+    assert resp.status_code == 504
+
+
+def test_query_returns_502_on_llm_provider_no_status(tmp_path: Path, client: TestClient) -> None:
+    """LlmProviderError with no status_code defaults to 502."""
+    root = _setup_collection(tmp_path)
+    exc = LlmProviderError("unknown", status_code=None)
+    patches = _patch_query_path(root, exc)
+    with patches[0], patches[1], patches[2], patches[3]:
+        resp = client.post("/query", json={"query": "q", "collection": "test-corpus"})
+    assert resp.status_code == 502
+
+
+def test_query_detail_does_not_leak_ollama_internals(tmp_path: Path, client: TestClient) -> None:
+    """LlmProviderError detail in response must not expose internal Ollama messages."""
+    root = _setup_collection(tmp_path)
+    exc = LlmProviderError("secret internal ollama message", status_code=500)
+    patches = _patch_query_path(root, exc)
+    with patches[0], patches[1], patches[2], patches[3]:
+        resp = client.post("/query", json={"query": "q", "collection": "test-corpus"})
+    assert "ollama" not in resp.json().get("detail", "").lower()
+
+
+# ─── POST /query — input validation (collection name) ───────────────────────
+
+
+def test_query_rejects_collection_with_path_traversal(client: TestClient) -> None:
+    """Collection names with path separators must be rejected at validation (422)."""
+    resp = client.post("/query", json={"query": "q", "collection": "../../etc"})
+    assert resp.status_code == 422
+
+
+def test_query_rejects_collection_with_slash(client: TestClient) -> None:
+    resp = client.post("/query", json={"query": "q", "collection": "foo/bar"})
+    assert resp.status_code == 422

@@ -7,7 +7,6 @@ from __future__ import annotations
 from unittest.mock import MagicMock
 
 import httpx
-import pytest
 
 from src.answer import AnsweredQuery, synthesize_answer
 from src.llm_provider import OllamaAnswerClient
@@ -67,12 +66,9 @@ class TestSynthesizeAnswerOllamaBranch:
         assert out.prompt_tokens == 0
         assert out.completion_tokens == 0
 
-    def test_resolver_picks_ollama_when_no_key_set(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        """No anthropic key, no explicit override → auto-fallback to ollama.
-        We confirm the path by passing an ollama_client and verifying it gets
-        used (no anthropic SDK call attempted)."""
-        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
-        monkeypatch.delenv("LLM_PROVIDER", raising=False)
+    def test_explicit_ollama_client_used_regardless_of_env(self) -> None:
+        """Explicit ollama_client param is used directly; env vars are irrelevant.
+        (Env-driven auto-fallback is tested in TestResolveLlmProvider.)"""
         client = _ollama_client_returning("local answer [doc-1].")
         out = synthesize_answer("q?", [_make_result()], ollama_client=client)
         assert out.model == "gpt-oss-20b"
