@@ -23,7 +23,6 @@ from __future__ import annotations
 
 import json
 import os
-import re
 from dataclasses import dataclass
 
 import anthropic
@@ -66,7 +65,24 @@ Cited chunks:
 Judge each citation strictly per the rules. Output JSON only.
 """
 
-_JSON_RE = re.compile(r"\{.*\}", re.DOTALL)
+def _extract_json_object(text: str) -> str | None:
+    """Find the first top-level JSON object by tracking brace depth.
+
+    More robust than a greedy `{.*}` regex: handles prose before/after the
+    object and nested objects correctly without undermatching on `{.*?}`.
+    """
+    depth = 0
+    start: int | None = None
+    for i, ch in enumerate(text):
+        if ch == "{":
+            if depth == 0:
+                start = i
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0 and start is not None:
+                return text[start : i + 1]
+    return None
 
 
 @dataclass
@@ -109,13 +125,14 @@ def _build_chunks_block(citations: list[Citation]) -> str:
 def _parse_judge_response(raw: str) -> tuple[float | None, list[FaithfulnessVerdict]]:
     """Pull the first JSON object out of the judge's response and parse it.
 
-    Tolerant of judge models that wrap the JSON in a code-fence — the regex
-    grabs the first ``{...}`` span and feeds it to ``json.loads``.
+    Tolerant of judge models that wrap the JSON in a code-fence or prepend
+    prose before the object. Uses a brace-depth walker rather than a greedy
+    regex so nested objects and prose-before-JSON cases are handled correctly.
     """
-    match = _JSON_RE.search(raw)
-    if not match:
+    obj_str = _extract_json_object(raw)
+    if not obj_str:
         raise ValueError(f"Judge produced no JSON object: {raw[:200]!r}")
-    payload = json.loads(match.group(0))
+    payload = json.loads(obj_str)
     verdicts = [
         FaithfulnessVerdict(
             docid=v["docid"],
@@ -212,7 +229,14 @@ def _judge_anthropic(
     )
 
     raw = response.content[0].text if response.content else ""
-    overall, verdicts = _parse_judge_response(raw)
+    try:
+        overall, verdicts = _parse_judge_response(raw)
+    except ValueError:
+        return FaithfulnessScore(
+            overall=None, verdicts=[],
+            judge_model=resolved_model, raw_response=raw,
+            attempts=1, judge_parse_failed=True,
+        )
 
     return FaithfulnessScore(
         overall=overall, verdicts=verdicts,
